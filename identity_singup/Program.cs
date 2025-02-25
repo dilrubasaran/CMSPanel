@@ -1,6 +1,7 @@
 using identity_singup.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +15,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 // Identity servisini ekle
-builder.Services.AddIdentity<AppUser, IdentityRole>()
+builder.Services.AddIdentity<AppUser, AppRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+// IFileProvider servisini ekle
+builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
+    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+
 
 // Cookie yönetimi
 builder.Services.ConfigureApplicationCookie(opt =>
@@ -38,7 +43,11 @@ builder.Services.ConfigureApplicationCookie(opt =>
 var app = builder.Build();
 
 // Middleware'ler
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage(); // Geliþtirme ortamýnda detaylý hata sayfasý
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();

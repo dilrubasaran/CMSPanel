@@ -26,7 +26,7 @@ namespace identity_singup.ViewModels
 
         [DataType(DataType.Password)]
         [Compare(nameof(Password), ErrorMessage = "Şifre aynı değildir.")]
-        [Required(ErrorMessage = "şifre alanı boş bırakılamaz.")]
+        [Required(ErrorMessage = "şifre tekrar alanı boş bırakılamaz.")]
         [Display(Name = "Şifre Tekrarı:")]
         public string PasswordConfirm { get; set; }
 
