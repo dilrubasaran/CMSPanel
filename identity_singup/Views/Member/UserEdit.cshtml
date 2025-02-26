@@ -1,7 +1,72 @@
-﻿namespace identity_signup.Views.Member
-{
-    public class UserEdit
-    {
-
-    }
+﻿@{
+    ViewData["Title"] = "Profil Güncelleme ";
 }
+@model identity_signup.ViewModels.UserEditViewModel
+
+@section Scripts
+{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="text-center">Profil Bilgileri</h2>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <form asp-controller="Member" asp-action="UserEdit" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label asp-for="UserName" class="form-label"></label>
+                <input asp-for="UserName" class="form-control" disabled>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" type="email" class="form-control">
+                <span class="text-danger" asp-validation-for="Email"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Phone" class="form-label"></label>
+                <input asp-for="Phone" type="tel" class="form-control">
+                <span class="text-danger" asp-validation-for="Phone"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="BirthDate" class="form-label"></label>
+                <input asp-for="BirthDate" class="form-control">
+                <span class="text-danger" asp-validation-for="BirthDate"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="City" class="form-label"></label>
+                <input asp-for="City" class="form-control">
+                <span class="text-danger" asp-validation-for="City"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Gender" class="form-label"></label>
+                <select asp-for="Gender" class="form-select" asp-items="Html.GetEnumSelectList<Gender>()">
+                    <option value="">Seçiniz</option>
+                </select>
+                <span class="text-danger" asp-validation-for="Gender"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Picture" class="form-label"></label>
+                <input asp-for="Picture" type="file" class="form-control">
+                <span class="text-danger" asp-validation-for="Picture"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Güncelle</button>
+        </form>
+    </div>
+</div>

@@ -8,44 +8,51 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Veritabanı bağlantısını ekle
+// VeritabanÄ± baÄŸlantÄ±sÄ±nÄ± ekle
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-// Identity servisini ekle
-builder.Services.AddIdentity<AppUser, AppRole>()
+// Identity servisini AppUser ile dÃ¼zelt
+builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
 // IFileProvider servisini ekle
 builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
     Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
-
-// Cookie yönetimi
+// Cookie yÃ¶netimi
 builder.Services.ConfigureApplicationCookie(opt =>
 {
     var cookieBuilder = new CookieBuilder
     {
-        Name = "IdentityDeneme"
+        Name = "IdentityDeneme" // Ã‡erez adÄ± belirleniyor.
     };
 
-    opt.LoginPath = new PathString("/Home/Signin"); // Kullanıcı giriş sayfası
-    opt.LogoutPath = new PathString("/Member/logout"); // Çıkış yapılınca yönlendirilecek sayfa
-    //opt.AccessDeniedPath = new PathString("/Member/AccessDenied"); // Yetkisiz erişimde yönlendirme
+    opt.LoginPath = new PathString("/Home/Signin"); // KullanÄ±cÄ± giriÅŸ sayfasÄ±
+    opt.LogoutPath = new PathString("/Member/logout"); // Ã‡Ä±kÄ±ÅŸ yapÄ±lÄ±nca yÃ¶nlendirilecek sayfa
+    opt.AccessDeniedPath = new PathString("/Member/AccessDenied"); // Yetkisiz eriÅŸimde yÃ¶nlendirme
 
     opt.Cookie = cookieBuilder;
-    opt.ExpireTimeSpan = TimeSpan.FromDays(60); // Çerez 60 gün geçerli olacak.
-    opt.SlidingExpiration = true; // Kullanıcı aktif oldukça süre uzayacak.
+    opt.ExpireTimeSpan = TimeSpan.FromDays(60); // Ã‡erez 60 gÃ¼n geÃ§erli olacak.
+    opt.SlidingExpiration = true; // KullanÄ±cÄ± aktif oldukÃ§a sÃ¼re uzayacak.
 });
 
 var app = builder.Build();
 
+// wwwroot/userpictures klasÃ¶rÃ¼nÃ¼ oluÅŸtur
+var picturesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "userpictures");
+if (!Directory.Exists(picturesDirectory))
+{
+    Directory.CreateDirectory(picturesDirectory);
+}
+
 // Middleware'ler
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage(); // Geliştirme ortamında detaylı hata sayfası
+    app.UseDeveloperExceptionPage(); // GeliÅŸtirme ortamÄ±nda detaylÄ± hata sayfasÄ±
 }
 else
 {
@@ -54,17 +61,11 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(); 
+app.UseStaticFiles(); // HatalÄ± olan "app.MapStaticAssets()" yerine bunu ekledim.
 
 app.UseRouting();
-app.UseAuthentication();
+app.UseAuthentication(); // Kimlik doÄŸrulama mekanizmasÄ±nÄ± ekledim.
 app.UseAuthorization();
-
-
-
-app.MapControllerRoute(
-    name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

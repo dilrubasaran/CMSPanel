@@ -16,11 +16,13 @@ namespace identity_singup.ViewModels
 
         [DataType(DataType.PhoneNumber)]
         [Required(ErrorMessage = "Telefon alanı boş bırakılamaz.")]
+        [RegularExpression(@"^(05\d{9})$", ErrorMessage = "Geçerli bir telefon numarası giriniz. Örnek: 05XXXXXXXXX")]
         [Display(Name = "Telefon :")]
         public string Phone { get; set;}
 
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "şifre alanı boş bırakılamaz.")]
+        [MinLength(6, ErrorMessage = "Şifreniz en az 6 karakter olmalıdır.")]
         [Display(Name = "Şifre :")]
         public string Password { get; set; }
 

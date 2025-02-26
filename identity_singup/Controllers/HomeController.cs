@@ -44,7 +44,12 @@ public class HomeController : Controller
             return View();
         }
 
-        var identityResult = await _userManager.CreateAsync(new() { UserName = request.UserName, Email= request.Email, PhoneNumber= request.Phone,}, request.PasswordConfirm);
+        var identityResult = await _userManager.CreateAsync(new() 
+        { 
+            UserName = request.UserName, 
+            Email = request.Email, 
+            PhoneNumber = request.Phone
+        }, request.PasswordConfirm);
 
         if (!identityResult.Succeeded)
         {
@@ -55,9 +60,8 @@ public class HomeController : Controller
             return View();
         }
 
-        TempData["Succeeded Message"] = "Üyelik kaydýnýz baþarýlý bir þekilde oluþturulmuþtur.";
-
-        return RedirectToAction(nameof(HomeController.Index), "Home");
+        TempData["SuccessMessage"] = "Ãœyelik kaydÄ±nÄ±z baÅŸarÄ±lÄ± bir ÅŸekilde oluÅŸturulmuÅŸtur.";
+        return RedirectToAction(nameof(HomeController.Index));
     }
 
     public IActionResult SignIn()
@@ -75,28 +79,24 @@ public class HomeController : Controller
         var user = await _userManager.FindByNameAsync(model.UserName);
         if (user == null)
         {
-            ModelState.AddModelError(string.Empty, "kullanýcý adý  veya þifre yanlýþ");
+            ModelState.AddModelError(string.Empty, "KullanÄ±cÄ± adÄ± veya ÅŸifre yanlÄ±ÅŸ");
+            return View();
         }
+
         var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
 
         if (!result.Succeeded)
         {
-             ModelState.AddModelError(string.Empty, "Kullanýcý adý veya þifre yanlýþ");
-        return View();
+            ModelState.AddModelError(string.Empty, "KullanÄ±cÄ± adÄ± veya ÅŸifre yanlÄ±ÅŸ");
+            return View();
         }
 
       
     
-    TempData["Succeeded Message"] = "Baþarýlý bir þekilde giriþ yaptýnýz.";
+    TempData["Succeeded Message"] = "Baï¿½arï¿½lï¿½ bir ï¿½ekilde giriï¿½ yaptï¿½nï¿½z.";
         return RedirectToAction(nameof(HomeController.Index), "Home");
     }
-
-
-
-  
-
-
-
+     
 
 
 
@@ -105,4 +105,6 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+   
 }

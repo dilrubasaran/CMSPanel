@@ -6,7 +6,9 @@
 				@User.Identity.Name
 			</a>
 			<ul class="dropdown-menu dropdown-menu-end">
-				<li><a class="dropdown-item" asp-controller="Member" asp-action="Index">Profil</a></li>
+				<li><a class="dropdown-item" asp-controller="Member" asp-action="Index">Kullanıcı Listesi</a></li>
+				<li><hr class="dropdown-divider"></li>
+				<li><a class="dropdown-item" asp-controller="Member" asp-action="UserEdit">Kullanıcı Profili</a></li>
 				<li><hr class="dropdown-divider"></li>
 				<li><a class="dropdown-item" asp-controller="Member" asp-action="Logout">Çıkış Yap</a></li>
 			</ul>
