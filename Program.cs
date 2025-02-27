@@ -14,12 +14,23 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-// Identity servisini AppUser ile düzelt
-builder.Services.AddIdentity<AppUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddIdentity<AppUser, AppRole>(options =>
+{
+    // Şifre gereksinimleri
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequiredLength = 6;
 
-// IFileProvider servisini ekle
+    // Kullanıcı gereksinimleri
+    options.User.RequireUniqueEmail = true;
+    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+})
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
+
+// IFileProvider servisi
 builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
     Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
@@ -41,6 +52,22 @@ builder.Services.ConfigureApplicationCookie(opt =>
 });
 
 var app = builder.Build();
+
+// Rolleri otomatik oluştur
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+
+    var roles = new[] { "admin", "egitimci", "ogrenci" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new AppRole { Name = role });
+        }
+    }
+}
 
 // wwwroot/userpictures klasörünü oluştur
 var picturesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "userpictures");
@@ -66,6 +93,12 @@ app.UseStaticFiles(); // Hatalı olan "app.MapStaticAssets()" yerine bunu ekledi
 app.UseRouting();
 app.UseAuthentication(); // Kimlik doğrulama mekanizmasını ekledim.
 app.UseAuthorization();
+
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
 
 app.MapControllerRoute(
     name: "default",

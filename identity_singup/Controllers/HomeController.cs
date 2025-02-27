@@ -82,7 +82,6 @@ public class HomeController : Controller
             ModelState.AddModelError(string.Empty, "Kullanıcı adı veya şifre yanlış");
             return View();
         }
-
         var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
 
         if (!result.Succeeded)

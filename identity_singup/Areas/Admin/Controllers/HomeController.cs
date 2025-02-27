@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace identity_signup.Areas.Admin.Controllers
 {
-    //[Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     [Area("Admin")]
     public class HomeController : Controller
     {

@@ -12,49 +12,18 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Identity Learn</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+            <div class="container">
+                <a class="navbar-brand" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Panel</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link " asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Anasayfa</a>
+                            <a class="nav-link text-light" asp-area="Admin" asp-controller="Home" asp-action="UserList">Kullanıcılar</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="Admin" asp-controller="Home" asp-action="UserList">Üye liste</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="Home" asp-action="INdex">Ana Sayfaya dön</a>
-                        </li>
-
-
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Roller
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-area="admin" asp-controller="Roles" asp-action="Index">Tüm roller</a></li>
-
-                            </ul>
-                        </li>
-
-
-
-
-
-
-
-
-
-
-
-
                     </ul>
+                    <a class="btn btn-outline-light" asp-area="" asp-controller="Home" asp-action="Index">Siteye Dön</a>
                 </div>
             </div>
         </nav>
@@ -74,7 +43,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - identity_singup - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year - Admin Panel
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

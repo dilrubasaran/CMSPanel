@@ -1,8 +1,8 @@
 @{
 	ViewData["Title"] = "UserList";
 }
-@model List<identity_signup.Areas.Admin.Models.UserListViewModel>
-<h1>Üye Liste</h1>
+@model List< UserListViewModel>
+<h1>Ãœye Liste</h1>
 
 
 
@@ -11,10 +11,10 @@
 	<thead>
 	<tr>
 		<th>Id</th>
-		<th>Kullanýcý Adý</th>
+		<th>KullanÄ±cÄ± AdÄ±</th>
 		<th>Email</th>
 		<th>Roller</th>
-		<th>Rol Ýþlemleri</th>
+		<th>Rol Ä°ÅŸlemleri</th>
 	</tr>
 	</thead>
 
@@ -32,7 +32,7 @@
 				<user-role-names user-id="@item.Id"></user-role-names>
 			</td>
 			<td>
-				<a asp-controller="Roles" asp-action="AssignRoleToUser" asp-route-id="@item.Id">Rol ata</a>
+				<a class="btn btn-primary btn-sm" asp-area="Admin" asp-controller="Role" asp-action="AssignRoleToUser" asp-route-id="@item.Id">Rol Ata</a>
 			</td>
 		</tr>
 	}
