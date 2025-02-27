@@ -1,9 +1,9 @@
-using identity_singup.Models;
+﻿using identity_singup.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Text;
 
-namespace identity_singup.TagHelpers
+namespace identity_signup.TagHelpers
 {
     public class UserRoleNamesTagHelper : TagHelper
     {

@@ -8,15 +8,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace identity_signup.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "admin")]
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class HomeController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
 
-        public HomeController(UserManager<AppUser> userManager)
+        public HomeController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
@@ -26,16 +28,21 @@ namespace identity_signup.Areas.Admin.Controllers
 
         public async Task<IActionResult> UserList()
         {
-            var userList = await _userManager.Users.ToListAsync();
+            var users = await _userManager.Users.ToListAsync();
+            var userViewModels = new List<UserListViewModel>();
 
-            var userListViewModelList = userList.Select(x => new UserListViewModel()
+            foreach (var user in users)
             {
-                Id = x.Id,
-                Email = x.Email,
-                Name = x.UserName
-            }).ToList();
+                var userViewModel = new UserListViewModel
+                {
+                    Id = user.Id,
+                    Name = user.UserName!,
+                    Email = user.Email!
+                };
+                userViewModels.Add(userViewModel);
+            }
 
-            return View(userListViewModelList);
+            return View(userViewModels);
         }
     }
 }
