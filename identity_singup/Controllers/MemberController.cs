@@ -1,9 +1,11 @@
-﻿using identity_signup.ViewModels;
+﻿using identity_signup.Extensions;
+using identity_signup.ViewModels;
 using identity_singup.Controllers;
 using identity_singup.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.FileProviders;
 using System.Security.Claims;
 
@@ -50,21 +52,22 @@ namespace identity_signup.Controllers
 
         }
 
-        [HttpGet]
         public async Task<IActionResult> UserEdit()
         {
-            var currentUser = await _userManager.FindByNameAsync(User.Identity!.Name!);
-            
+            ViewBag.genderList = new SelectList(Enum.GetNames(typeof(Gender)));
+            var currentUser = await _userManager.FindByNameAsync(User.Identity!.Name!)!;
+
             var userEditViewModel = new UserEditViewModel()
             {
-                UserName = currentUser.UserName!,
-                Email = currentUser.Email!,
-                Phone = currentUser.PhoneNumber!,
+                UserName = currentUser.UserName,
+                Email = currentUser.Email,
+                Phone = currentUser.PhoneNumber,
                 BirthDate = currentUser.BirthDate,
                 City = currentUser.City,
-                Gender = currentUser.Gender
-            };
+                Gender = currentUser.Gender,
 
+
+            };
             return View(userEditViewModel);
         }
 
@@ -73,71 +76,46 @@ namespace identity_signup.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(request);
+                return View();
             }
 
             var currentUser = await _userManager.FindByNameAsync(User.Identity!.Name!);
 
-            if (currentUser == null)
-            {
-                ModelState.AddModelError(string.Empty, "Kullanıcı bulunamadı");
-                return View(request);
-            }
-
+            currentUser.UserName = request.UserName;
             currentUser.Email = request.Email;
             currentUser.PhoneNumber = request.Phone;
             currentUser.BirthDate = request.BirthDate;
             currentUser.City = request.City;
             currentUser.Gender = request.Gender;
 
-            if (request.Picture != null && request.Picture.Length > 0)
+            //if (request.Picture != null && request.Picture.Length > 0)
+            //{
+            //    var wwwrootFolder = _fileProvider.GetDirectoryContents("wwwroot");
+
+            //    string randomFileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(request.Picture.FileName)}";
+
+            //    var newPicturePath = Path.Combine(wwwrootFolder!.First(x => x.Name == "userpictures").PhysicalPath!, randomFileName);
+
+            //    using var stream = new FileStream(newPicturePath, FileMode.Create);
+
+            //    await request.Picture.CopyToAsync(stream);
+
+            //    currentUser.Picture = randomFileName;
+            //}
+
+            var updateToUserResult = await _userManager.UpdateAsync(currentUser);
+
+            if (!updateToUserResult.Succeeded)
             {
-                try 
-                {
-                    var wwwrootFolder = _fileProvider.GetDirectoryContents("wwwroot");
-                    string randomFileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(request.Picture.FileName)}";
-
-                    var newPicturePath = Path.Combine(wwwrootFolder.First(x => x.Name == "userpictures").PhysicalPath!, randomFileName);
-
-                    using var stream = new FileStream(newPicturePath, FileMode.Create);
-                    await request.Picture.CopyToAsync(stream);
-
-                    currentUser.Picture = randomFileName;
-                }
-                catch (Exception)
-                {
-                    ModelState.AddModelError(string.Empty, "Profil resmi yüklenirken bir hata oluştu");
-                    return View(request);
-                }
+                ModelState.AddModelErrorList(updateToUserResult.Errors);
+                return View();
             }
 
-            var updateResult = await _userManager.UpdateAsync(currentUser);
-
-            if (!updateResult.Succeeded)
-            {
-                foreach (var error in updateResult.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-                return View(request);
-            }
-
-            // Güvenlik damgasını güncelle ve oturumu yenile
             await _userManager.UpdateSecurityStampAsync(currentUser);
             await _signInManager.SignOutAsync();
+            await _signInManager.SignInAsync(currentUser, true);
 
-            // Doğum tarihi varsa claim olarak ekle
-            if (request.BirthDate.HasValue)
-            {
-                await _signInManager.SignInWithClaimsAsync(currentUser, true, 
-                    new[] { new Claim("birthdate", currentUser.BirthDate.Value.ToString()) });
-            }
-            else
-            {
-                await _signInManager.SignInAsync(currentUser, true);
-            }
-
-            TempData["SuccessMessage"] = "Üye bilgileri başarıyla güncellendi.";
+            TempData["SuccessMessage"] = "Üye bilgileri başarıyla değiştirilmiştir";
 
             var userEditViewModel = new UserEditViewModel()
             {
@@ -146,12 +124,14 @@ namespace identity_signup.Controllers
                 Phone = currentUser.PhoneNumber!,
                 BirthDate = currentUser.BirthDate,
                 City = currentUser.City,
-                Gender = currentUser.Gender
+                Gender = currentUser.Gender,
             };
 
             return View(userEditViewModel);
         }
 
-    }
 
+
+
+    }
 }
