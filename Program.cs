@@ -91,14 +91,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles(); // Hatalı olan "app.MapStaticAssets()" yerine bunu ekledim.
 
 app.UseRouting();
-app.UseAuthentication(); // Kimlik doğrulama mekanizmasını ekledim.
+app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
 
 app.MapControllerRoute(
     name: "default",

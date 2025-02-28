@@ -81,7 +81,7 @@ namespace identity_signup.Controllers
 
             var currentUser = await _userManager.FindByNameAsync(User.Identity!.Name!);
 
-            currentUser.UserName = request.UserName;
+           
             currentUser.Email = request.Email;
             currentUser.PhoneNumber = request.Phone;
             currentUser.BirthDate = request.BirthDate;

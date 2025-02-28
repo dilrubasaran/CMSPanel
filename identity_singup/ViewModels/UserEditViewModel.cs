@@ -5,7 +5,7 @@ namespace identity_signup.ViewModels
 {
     public class UserEditViewModel
     {
-        [Required(ErrorMessage = "Kullanıcı Adı Boş Bırakılamaz!")]
+      
         [Display(Name = "Kullanıcı Adı")]
         public string UserName { get; set; }
 

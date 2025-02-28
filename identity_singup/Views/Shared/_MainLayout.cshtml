@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,9 +11,9 @@
 
     <style>
         body {
+            padding-top: 56px;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            overflow-x: hidden;
         }
 
         /* Navbar stili */
@@ -22,40 +22,29 @@
             top: 0;
             right: 0;
             left: 0;
-            height: 56px;
             z-index: 1030;
-            background-color: #fff;
-        }
-
-        /* Ana container stili */
-        .page-container {
-            display: flex;
-            margin-top: 56px;
-            min-height: calc(100vh - 56px);
         }
 
         /* Sidebar stili */
         .sidebar {
-            width: 250px;
-            background-color: #343a40;
             position: fixed;
             top: 56px;
             left: 0;
             bottom: 0;
+            width: 250px;
+            background-color: #343a40;
+            padding-top: 1rem;
+            transition: all 0.3s;
+            z-index: 1020;
             display: flex;
             flex-direction: column;
-            z-index: 1020;
-            transition: transform 0.3s ease;
         }
 
-        /* Sidebar içerik */
-        .sidebar-content {
-            flex: 1;
+        .sidebar-menu {
+            flex-grow: 1;
             overflow-y: auto;
-            padding-top: 1rem;
         }
 
-        /* Sidebar footer */
         .sidebar-footer {
             padding: 1rem;
             border-top: 1px solid rgba(255,255,255,0.1);
@@ -63,16 +52,16 @@
 
         /* Ana içerik alanı */
         .main-content {
-            flex: 1;
             margin-left: 250px;
             padding: 20px;
-            width: calc(100% - 250px);
-            transition: margin-left 0.3s ease, width 0.3s ease;
+            margin-top: 56px;
+            min-height: calc(100vh - 56px);
+            transition: margin-left 0.3s;
         }
 
-        .main-content-full {
-            margin-left: 0;
-            width: 100%;
+        .container-auth {
+            margin-top: 56px;
+            padding: 20px;
         }
 
         /* Sidebar link stilleri */
@@ -109,13 +98,6 @@
             transform: rotate(180deg);
         }
 
-        /* Footer stili */
-        .footer {
-            margin-top: auto;
-            background-color: #f8f9fa;
-            padding: 1rem 0;
-        }
-
         /* Responsive tasarım */
         @@media (max-width: 768px) {
             .sidebar {
@@ -128,70 +110,71 @@
 
             .main-content {
                 margin-left: 0;
-                width: 100%;
             }
+        }
+
+        /* Footer stili */
+        .footer {
+            position: relative;
+            margin-top: 2rem;
+            padding: 1rem 0;
+            background-color: #f8f9fa;
         }
     </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow">
-        <div class="container-fluid">
-            @if (User.Identity.IsAuthenticated)
-            {
-                <button class="navbar-toggler border-0 me-2" type="button" id="sidebar-toggle">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow">
+            <div class="container-fluid">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <button class="navbar-toggler border-0 me-2" type="button" id="sidebar-toggle">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                }
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Identity Learn</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-            }
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Identity Learn</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbarContent">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
-                    </li>
-                </ul>
-                <partial name="_NavbarLogin" />
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbarContent">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                        </li>
+                    </ul>
+                    <partial name="_NavbarLogin" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Sidebar -->
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="sidebar">
+            <div class="sidebar-menu">
+                @await Component.InvokeAsync("Sidebar")
+            </div>
+            <div class="sidebar-footer">
+                <a class="btn btn-danger w-100" asp-area="" asp-controller="Member" asp-action="Logout">
+                    <i class="bi bi-box-arrow-right"></i> Çıkış Yap
+                </a>
             </div>
         </div>
-    </nav>
+    }
 
-    <div class="page-container">
-        <!-- Sidebar -->
-        @if (User.Identity.IsAuthenticated)
+    <!-- Ana İçerik -->
+    <div class="@(User.Identity.IsAuthenticated ? "main-content" : "container-auth")">
+        @if (TempData["SuccessMessage"] != null)
         {
-            <div class="sidebar">
-                <div class="sidebar-content">
-                    @await Component.InvokeAsync("Sidebar")
-                </div>
-                <div class="sidebar-footer">
-                    <a class="btn btn-danger w-100" asp-area="" asp-controller="Member" asp-action="Logout">
-                        <i class="bi bi-box-arrow-right"></i> Çıkış Yap
-                    </a>
-                </div>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-2"></i>
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         }
-
-        <!-- Ana İçerik -->
-        <div class="@(User.Identity.IsAuthenticated ? "main-content" : "main-content-full")">
-            @if (TempData["SuccessMessage"] != null)
-            {
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle me-2"></i>
-                    @TempData["SuccessMessage"]
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
-            @RenderBody()
-
-            <footer class="footer border-top text-muted">
-                <div class="container">
-                    &copy; 2025 - Identity Learn
-                </div>
-            </footer>
-        </div>
+        @RenderBody()
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -223,4 +206,4 @@
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-</html>
+</html> 

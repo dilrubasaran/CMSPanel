@@ -74,26 +74,44 @@ public class HomeController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return View();
-        }
-        var user = await _userManager.FindByNameAsync(model.UserName);
-        if (user == null)
-        {
-            ModelState.AddModelError(string.Empty, "Kullanıcı adı veya şifre yanlış");
-            return View();
-        }
-        var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
-
-        if (!result.Succeeded)
-        {
-            ModelState.AddModelError(string.Empty, "Kullanıcı adı veya şifre yanlış");
-            return View();
+            return View(model);
         }
 
-      
-    
-    TempData["Succeeded Message"] = "Ba�ar�l� bir �ekilde giri� yapt�n�z.";
-        return RedirectToAction(nameof(HomeController.Index), "Home");
+        var hasUser = await _userManager.FindByNameAsync(model.UserName);
+
+        if (hasUser == null)
+        {
+            ModelState.AddModelError(string.Empty, "Kullanıcı adı veya şifre yanlış");
+            return View(model);
+        }
+
+        var signInResult = await _signInManager.PasswordSignInAsync(hasUser, model.Password, model.RememberMe, true);
+
+        if (signInResult.Succeeded)
+        {
+            // Kullanıcının rollerini al
+            var roles = await _userManager.GetRolesAsync(hasUser);
+
+            // Rolüne göre yönlendir
+            if (roles.Contains("admin"))
+            {
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
+            }
+            else if (roles.Contains("instructor"))
+            {
+                return RedirectToAction("Index", "Home", new { area = "Instructor" });
+            }
+            else if (roles.Contains("student"))
+            {
+                return RedirectToAction("Index", "Home", new { area = "Student" });
+            }
+
+            TempData["SuccessMessage"] = "Başarılı bir şekilde giriş yaptınız.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        ModelState.AddModelError(string.Empty, "Kullanıcı adı veya şifre yanlış");
+        return View(model);
     }
      
 
