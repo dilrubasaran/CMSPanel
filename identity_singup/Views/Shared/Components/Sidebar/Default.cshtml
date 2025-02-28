@@ -1,8 +1,20 @@
 @model List<MenuItem>
+@{
+    var userRole = User.IsInRole("admin") ? "admin" : 
+                  User.IsInRole("instructor") ? "instructor" : 
+                  User.IsInRole("student") ? "student" : "";
+}
 
-<div class="sidebar-container">
+<div class="sidebar-container @userRole-sidebar">
     <div class="sidebar-header p-3">
-        <h5 class="mb-0 text-white">Yönetim Paneli</h5>
+        <h5 class="mb-0 text-white">
+            @(userRole switch {
+                "admin" => "Yönetim Paneli",
+                "instructor" => "Eğitmen Paneli",
+                "student" => "Öğrenci Paneli",
+                _ => "Panel"
+            })
+        </h5>
     </div>
     
     <div class="sidebar-menu">
@@ -17,7 +29,7 @@
                             @item.Title
                             <i class="bi bi-chevron-down ms-auto"></i>
                         </a>
-                        <div class="collapse" id="@item.Title.Replace(" ", "")">
+                        <div class="collapse show" id="@item.Title.Replace(" ", "")">
                             <ul class="nav flex-column ms-3">
                                 @foreach (var subItem in item.SubItems)
                                 {
@@ -44,8 +56,6 @@
             }
         </ul>
     </div>
-
- 
 </div>
 
 <style>
@@ -55,21 +65,28 @@
         height: 100%;
     }
 
+    /* Role-based sidebar colors */
+    .admin-sidebar {
+        background-color: #212529 !important;
+    }
+
+    .instructor-sidebar {
+        background-color: rgb(32, 101, 38) !important;
+    }
+
+    .student-sidebar {
+        background-color: #6497e3 !important;
+    }
+
     .sidebar-menu {
         flex: 1;
         overflow-y: auto;
     }
 
-    .sidebar-footer {
-        padding: 1rem;
-        border-top: 1px solid rgba(255,255,255,0.1);
-        margin-top: auto;
-    }
-
     .nav-link {
         color: rgba(255,255,255,.8);
         padding: 0.8rem 1rem;
-        transition: all 0.3s;
+        transition: all 0.2s;
     }
 
     .nav-link:hover {
@@ -79,7 +96,7 @@
 
     .nav-link.active {
         color: #fff;
-        background: #0d6efd;
+        background: rgba(255,255,255,.2);
     }
 
     .collapse .nav-link {
@@ -93,10 +110,29 @@
     .nav-link[data-bs-toggle="collapse"] .bi-chevron-down {
         position: absolute;
         right: 1rem;
-        transition: transform .2s;
+        transform: rotate(0deg);
     }
 
     .nav-link[data-bs-toggle="collapse"][aria-expanded="true"] .bi-chevron-down {
         transform: rotate(180deg);
     }
-</style> 
+
+    /* Instructor specific styles */
+    .instructor-sidebar .nav-link {
+        color: #212529;
+    }
+
+    .instructor-sidebar .nav-link:hover,
+    .instructor-sidebar .nav-link.active {
+        color: #000;
+        background: rgba(0,0,0,.1);
+    }
+
+    .instructor-sidebar .sidebar-header {
+        color: #cb2020 !important;
+    }
+
+    .instructor-sidebar .sidebar-header h5 {
+        color: #212529 !important;
+    }
+</style>
