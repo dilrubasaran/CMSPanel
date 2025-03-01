@@ -51,6 +51,8 @@ builder.Services.ConfigureApplicationCookie(opt =>
     opt.SlidingExpiration = true; // Kullanıcı aktif oldukça süre uzayacak.
 });
 
+builder.Services.AddScoped<IEducationServices, EducationService>();
+
 var app = builder.Build();
 
 // Rolleri otomatik oluştur

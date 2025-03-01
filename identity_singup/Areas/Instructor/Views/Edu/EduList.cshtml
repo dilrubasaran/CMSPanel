@@ -1,0 +1,45 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<identity_signup.Areas.Instructor.ViewModels.EduListViewModel>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Eğitimlerim</h3>
+        <div class="card-tools">
+            <a asp-action="EduCreate" class="btn btn-primary">
+                <i class="bi bi-plus"></i> Yeni Eğitim
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Başlık</th>
+                    <th>Kategori</th>
+                    <th>Fiyat</th>
+                    <th>Oluşturulma Tarihi</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.EduName</td>
+                        <td>@item.EduType</td> 
+                        <td>@item.EduPrice.ToString("C")</td>
+                        @* <td>@item.CreatedDate.ToShortDateString()</td> *@
+                        <td>
+                            <a asp-action="EduUpdate" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            @* <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger"> *@
+                            @*     <i class="bi bi-trash"></i> *@
+                            @* </a> *@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> 

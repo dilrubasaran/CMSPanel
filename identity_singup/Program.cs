@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using System.Security;
+using identity_signup.Areas.Instructor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Veritabaný baðlantýsýný ekle
+// Veritabanï¿½ baï¿½lantï¿½sï¿½nï¿½ ekle
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -22,9 +23,9 @@ builder.Services.AddIdentity<AppUser, AppRole>()
 // IFileProvider servisini ekle
 builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
     Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+builder.Services.AddScoped<IEducationServices, EducationService>();
 
-
-// Cookie yönetimi
+// Cookie yï¿½netimi
 builder.Services.ConfigureApplicationCookie(opt =>
 {
     var cookieBuilder = new CookieBuilder
@@ -32,13 +33,13 @@ builder.Services.ConfigureApplicationCookie(opt =>
         Name = "IdentityDeneme"
     };
 
-    opt.LoginPath = new PathString("/Home/Signin"); // Kullanýcý giriþ sayfasý
-    opt.LogoutPath = new PathString("/Member/logout"); // Çýkýþ yapýlýnca yönlendirilecek sayfa
-    //opt.AccessDeniedPath = new PathString("/Member/AccessDenied"); // Yetkisiz eriþimde yönlendirme
+    opt.LoginPath = new PathString("/Home/Signin"); // Kullanï¿½cï¿½ giriï¿½ sayfasï¿½
+    opt.LogoutPath = new PathString("/Member/logout"); // ï¿½ï¿½kï¿½ï¿½ yapï¿½lï¿½nca yï¿½nlendirilecek sayfa
+    //opt.AccessDeniedPath = new PathString("/Member/AccessDenied"); // Yetkisiz eriï¿½imde yï¿½nlendirme
 
     opt.Cookie = cookieBuilder;
-    opt.ExpireTimeSpan = TimeSpan.FromDays(60); // Çerez 60 gün geçerli olacak.
-    opt.SlidingExpiration = true; // Kullanýcý aktif oldukça süre uzayacak.
+    opt.ExpireTimeSpan = TimeSpan.FromDays(60); // ï¿½erez 60 gï¿½n geï¿½erli olacak.
+    opt.SlidingExpiration = true; // Kullanï¿½cï¿½ aktif oldukï¿½a sï¿½re uzayacak.
 });
 
 var app = builder.Build();
@@ -52,7 +53,7 @@ using (var scope = app.Services.CreateScope())
 // Middleware'ler
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage(); // Geliþtirme ortamýnda detaylý hata sayfasý
+    app.UseDeveloperExceptionPage(); // Geliï¿½tirme ortamï¿½nda detaylï¿½ hata sayfasï¿½
 }
 else
 {

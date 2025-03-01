@@ -1,0 +1,66 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model identity_signup.Areas.Instructor.ViewModels.EduCreateViewModel
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Yeni Eğitim Oluştur</h3>
+    </div>
+    <div class="card-body">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+        }
+
+        <form asp-action="EduCreate" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="EduName" class="form-label"></label>
+                <input asp-for="EduName" class="form-control" />
+                <span asp-validation-for="EduName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="EduPrice" class="form-label"></label>
+                <input asp-for="EduPrice" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="EduPrice" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="EduDuration" class="form-label"></label>
+                <input asp-for="EduDuration" class="form-control" placeholder="Örn: 2 Saat, 4 Hafta" />
+                <span asp-validation-for="EduDuration" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="EduType" class="form-label">Eğitim Tipi</label>
+                <select asp-for="EduType" class="form-select" asp-items="@ViewBag.EduTypes">
+                    <option value="">Eğitim Tipini Seçin</option>
+                </select>
+                <span asp-validation-for="EduType" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+            <a asp-action="EduList" class="btn btn-secondary">İptal</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 

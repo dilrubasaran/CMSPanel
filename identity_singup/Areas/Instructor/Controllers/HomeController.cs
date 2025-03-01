@@ -11,5 +11,7 @@ namespace identity_singup.Areas.Instructor.Controllers
         {
             return View();
         }
+
+      
     }
 } 

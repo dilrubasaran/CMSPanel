@@ -51,7 +51,7 @@ namespace identity_singup.ViewComponents
                 menuItems.AddRange(new[]
                 {
                     new MenuItem { Title = "Dashboard", Icon = "bi bi-speedometer2", Url = "/Admin/Home/Index" },
-                    new MenuItem { Title = "Rol Yönetimi", Icon = "bi bi-shield-lock", Url = "/Admin/Role/Index" },
+                    
                     // 1. Kullanıcı Yönetimi
                     new MenuItem 
                     { 
@@ -76,9 +76,9 @@ namespace identity_singup.ViewComponents
                         Icon = "bi bi-mortarboard",
                         SubItems = new List<MenuItem>
                         {
-                            new MenuItem { Title = "Eğitim Listesi", Icon = "bi bi-list-ul", Url = "/Admin/Course/List" },
-                            new MenuItem { Title = "Eğitim Ekle", Icon = "bi bi-plus-circle", Url = "/Admin/Course/Create" },
-                            new MenuItem { Title = "Eğitim Güncelle", Icon = "bi bi-pencil-square", Url = "/Admin/Course/Update" }
+                            new MenuItem { Title = "Eğitim Listesi", Icon = "bi bi-list-ul", Url = "/Instructor/Edu/EduList" },
+                            new MenuItem { Title = "Eğitim Ekle", Icon = "bi bi-plus-circle", Url = "/Instructor/Edu/EduCreate" },
+                            new MenuItem { Title = "Eğitim Güncelle", Icon = "bi bi-pencil-square", Url = "/Instructor/Edu/EduUpdate" }
                         }
                     },
 
@@ -204,11 +204,10 @@ namespace identity_singup.ViewComponents
                         Icon = "bi bi-mortarboard",
                         SubItems = new List<MenuItem>
                         {
-                            new MenuItem { Title = "Eğitimlerim", Icon = "bi bi-collection-play", Url = "/Instructor/Course/MyCourses" },
-                            new MenuItem { Title = "Yeni Eğitim", Icon = "bi bi-plus-circle", Url = "/Instructor/Course/Create" },
-                            new MenuItem { Title = "Eğitim Güncelle", Icon = "bi bi-pencil", Url = "/Instructor/Course/Edit" },
-                            new MenuItem { Title = "İçerik Yönetimi", Icon = "bi bi-file-earmark-text", Url = "/Instructor/Course/Content" },
-                            new MenuItem { Title = "Öğrenci Etkileşimleri", Icon = "bi bi-people", Url = "/Instructor/Course/StudentInteractions" }
+                            new MenuItem { Title = "Eğitimlerim", Icon = "bi bi-collection-play", Url = "/Instructor/Edu/EduList" },
+                            new MenuItem { Title = "Yeni Eğitim", Icon = "bi bi-plus-circle", Url = "/Instructor/Edu/EduCreate" },
+                            new MenuItem { Title = "İçerik Yönetimi", Icon = "bi bi-file-earmark-text", Url = "/Instructor/Edu/Content" },
+                            new MenuItem { Title = "Öğrenci Etkileşimleri", Icon = "bi bi-people", Url = "/Instructor/Edu/StudentInteractions" }
                         }
                     },
 
