@@ -1,5 +1,6 @@
 ﻿using identity_signup.Areas.Instructor.Models;
 using identity_signup.Areas.Instructor.ViewModels;
+using identity_singup.Areas.Admin.Services;
 using identity_singup.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using identity_signup.Areas.Instructor.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace identity_signup.Areas.Instructor.Controllers
 {
@@ -16,11 +18,19 @@ namespace identity_signup.Areas.Instructor.Controllers
     {
         private readonly IEducationServices _educationService;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IAuthorizationService _authorizationService;
+        private readonly IPermissionRequestService _permissionService;
 
-        public EduController(IEducationServices educationService, UserManager<AppUser> userManager)
+        public EduController(
+            IEducationServices educationService, 
+            UserManager<AppUser> userManager,
+            IAuthorizationService authorizationService,
+            IPermissionRequestService permissionService)
         {
             _educationService = educationService;
             _userManager = userManager;
+            _authorizationService = authorizationService;
+            _permissionService = permissionService;
         }
 
         private void LoadEduTypes()
@@ -97,15 +107,20 @@ namespace identity_signup.Areas.Instructor.Controllers
         [HttpGet]
         public async Task<IActionResult> EduUpdate(int id)
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return NotFound();
-
             var education = await _educationService.GetEducationById(id);
             if (education == null) return NotFound();
 
-            // Admin değilse ve eğitim kendisine ait değilse erişimi engelle
-            if (!User.IsInRole("admin") && education.CreatedBy != user.Id)
+            var authResult = await _authorizationService.AuthorizeAsync(
+                User, education, "CanEditEducation");
+
+            if (!authResult.Succeeded)
+            {
+                if (User.IsInRole("instructor"))
+                {
+                    return RedirectToAction(nameof(RequestPermission), new { id = education.Id });
+                }
                 return Forbid();
+            }
 
             var viewModel = new EduUpdateViewModel
             {
@@ -172,6 +187,49 @@ namespace identity_signup.Areas.Instructor.Controllers
                 TempData["ErrorMessage"] = $"Beklenmeyen bir hata oluştu: {ex.Message}";
                 return RedirectToAction(nameof(EduList));
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RequestPermission(int id)
+        {
+            var education = await _educationService.GetEducationById(id);
+            if (education == null) return NotFound();
+
+            var viewModel = new PermissionRequestViewModel
+            {
+                EducationId = education.Id,
+                EduName = education.EduName
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RequestPermission(PermissionRequestViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
+            var request = new PermissionRequest
+            {
+                EducationId = model.EducationId,
+                RequestedBy = user.Id,
+                Reason = model.Reason,
+                RequestDate = DateTime.Now
+            };
+
+            var result = await _permissionService.CreateRequest(request);
+            if (result)
+            {
+                TempData["SuccessMessage"] = "Güncelleme talebiniz admin'e iletildi.";
+                return RedirectToAction(nameof(EduList));
+            }
+
+            ModelState.AddModelError("", "Talep gönderilirken bir hata oluştu.");
+            return View(model);
         }
     }
 }

@@ -78,6 +78,7 @@ namespace identity_singup.ViewComponents
                         {
                             new MenuItem { Title = "Eğitim Listesi", Icon = "bi bi-list-ul", Url = "/Instructor/Edu/EduList" },
                             new MenuItem { Title = "Eğitim Ekle", Icon = "bi bi-plus-circle", Url = "/Instructor/Edu/EduCreate" },
+                            new MenuItem { Title = "Eğitmen Onay İşlemleri", Icon = "bi bi-check-circle", Url = "/Admin/Permission/PendingRequests" },
                         }
                     },
 

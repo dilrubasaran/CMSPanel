@@ -9,14 +9,19 @@ namespace identity_singup.Models
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Education> Education { get; set; }
+        public DbSet<PermissionRequest> PermissionRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<PermissionRequest>()
+                .Property(p => p.RequestDate)
+                .HasDefaultValueSql("GETDATE()");
+
             modelBuilder.Entity<Education>()
                 .Property(e => e.EduPrice)
-                .HasPrecision(9, 2);  // 18 toplam basamak, 2 ondalık basamak
+                .HasPrecision(9, 2);  // 9 toplam basamak, 2 ondalık basamak
         }
     }
 }

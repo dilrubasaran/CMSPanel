@@ -1,0 +1,42 @@
+@model PermissionRequestViewModel
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Eğitim Güncelleme İzni Talebi</h3>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            Bu eğitimin düzenleme süresi dolmuştur. Güncelleme yapabilmek için admin onayı gereklidir.
+        </div>
+
+        <form asp-action="RequestPermission" method="post">
+            <input type="hidden" asp-for="EducationId" />
+            
+            <div class="mb-3">
+                <label class="form-label">Eğitim Adı</label>
+                <input class="form-control" asp-for="EduName" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Güncelleme Nedeni</label>
+                <textarea class="form-control" asp-for="Reason" rows="4" 
+                    placeholder="Lütfen eğitimi neden güncellemek istediğinizi açıklayın..."></textarea>
+                <span asp-validation-for="Reason" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a asp-action="EduList" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Geri Dön
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-send"></i> Talep Gönder
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

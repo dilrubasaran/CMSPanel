@@ -1,0 +1,71 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<identity_singup.Areas.Admin.ViewModels.PendingRequestViewModel>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Bekleyen Güncelleme Talepleri</h3>
+    </div>
+    <div class="card-body">
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> Bekleyen güncelleme talebi bulunmamaktadır.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Eğitmen</th>
+                            <th>Eğitim</th>
+                            <th>Talep Tarihi</th>
+                            <th>Nedeni</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var request in Model)
+                        {
+                            <tr>
+                                <td>@request.InstructorName</td>
+                                <td>@request.EduName</td>
+                                <td>@request.RequestDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>@request.Reason</td>
+                                <td>
+                                    <form asp-action="ApproveRequest" method="post" style="display: inline;">
+                                        <input type="hidden" name="requestId" value="@request.RequestId" />
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="bi bi-check-circle"></i> Onayla
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Başarı mesajı varsa göster
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+            toastr.success('@TempData["SuccessMessage"]');
+            </text>
+        }
+
+        // Hata mesajı varsa göster
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <text>
+            toastr.error('@TempData["ErrorMessage"]');
+            </text>
+        }
+    </script>
+} 

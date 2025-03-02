@@ -4,13 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using System.Security;
 using identity_signup.Areas.Instructor.Services;
+using identity_singup.Areas.Admin.Services;
+using identity_singup.Infrastructure.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using Identity.Infrastructure.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Veritaban� ba�lant�s�n� ekle
+// Veritabanı bağlantısını ekle
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -25,6 +29,18 @@ builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
     Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 builder.Services.AddScoped<IEducationServices, EducationService>();
 
+builder.Services.AddScoped<IEducationServices, EducationService>();
+builder.Services.AddScoped<IPermissionRequestService, PermissionRequestService>();
+
+// Authorization policy'sini ekle
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("CanEditEducation", policy =>
+        policy.AddRequirements(new CanEditEducationPolicy(1))); // 1 dakika
+});
+
+// Authorization handler'ı ekle
+builder.Services.AddScoped<IAuthorizationHandler, EducationAuthorizationHandler>();
 // Cookie y�netimi
 builder.Services.ConfigureApplicationCookie(opt =>
 {
@@ -39,7 +55,7 @@ builder.Services.ConfigureApplicationCookie(opt =>
 
     opt.Cookie = cookieBuilder;
     opt.ExpireTimeSpan = TimeSpan.FromDays(60); // �erez 60 g�n ge�erli olacak.
-    opt.SlidingExpiration = true; // Kullan�c� aktif olduk�a s�re uzayacak.
+    opt.SlidingExpiration = true; // Kullanıcı aktif oldukça s�re uzayacak.
 });
 
 var app = builder.Build();
