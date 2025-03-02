@@ -141,5 +141,37 @@ namespace identity_signup.Areas.Instructor.Controllers
             ModelState.AddModelError("", "Eğitim güncellenirken bir hata oluştu.");
             return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> EduDelete(int id)
+        {
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null) return NotFound();
+
+                var education = await _educationService.GetEducationById(id);
+                if (education == null) return NotFound();
+
+                // Admin değilse ve eğitim kendisine ait değilse erişimi engelle
+                if (!User.IsInRole("admin") && education.CreatedBy != user.Id)
+                    return Forbid();
+
+                var result = await _educationService.DeleteEducation(id);
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "Eğitim başarıyla silindi.";
+                    return RedirectToAction(nameof(EduList));
+                }
+
+                TempData["ErrorMessage"] = "Eğitim silinirken bir hata oluştu.";
+                return RedirectToAction(nameof(EduList));
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Beklenmeyen bir hata oluştu: {ex.Message}";
+                return RedirectToAction(nameof(EduList));
+            }
+        }
     }
 }
