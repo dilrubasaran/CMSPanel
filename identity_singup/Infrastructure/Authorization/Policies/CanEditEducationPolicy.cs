@@ -4,13 +4,12 @@ namespace identity_singup.Infrastructure.Authorization
 {
     public class CanEditEducationPolicy : IAuthorizationRequirement
     {
-        public int AllowedMinutesForEdit { get; }
-// public CanEditEducationPolicy(int allowedDaysForEdit = 7)
-//     {
-        // AllowedDaysForEdit = allowedDaysForEdit;
-        public CanEditEducationPolicy(int allowedMinutesForEdit = 1)
+        public int AllowedDaysForEdit { get; }
+
+    
+        public CanEditEducationPolicy(int allowedDaysForEdit = 7) // 7 gün
         {
-            AllowedMinutesForEdit = allowedMinutesForEdit;
+            AllowedDaysForEdit = allowedDaysForEdit;
         }
     }
 } 

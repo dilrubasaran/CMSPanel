@@ -39,10 +39,11 @@ namespace Identity.Infrastructure.Authorization
 
             if (resource.CreatedBy != user.Id) return;
 
-            var minutesSinceCreation = (DateTime.Now - resource.CreatedAt).TotalMinutes;
-            if (minutesSinceCreation <= requirement.AllowedMinutesForEdit)
+            var daysSinceCreation = (DateTime.Now - resource.CreatedAt).Days;
+            if (daysSinceCreation <= requirement.AllowedDaysForEdit)
             {
                 context.Succeed(requirement);
+                return;
             }
 
             var hasExtendedPermission = await _permissionService

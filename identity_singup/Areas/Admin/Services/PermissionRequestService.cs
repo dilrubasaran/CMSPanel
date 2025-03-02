@@ -23,10 +23,11 @@ namespace identity_singup.Areas.Admin.Services
 
             if (request == null || !request.ApprovedDate.HasValue) 
                 return false;
+              
 
-            // Onay verildikten sonra 1 dakika süre tanı
-            var minutesSinceApproval = (DateTime.Now - request.ApprovedDate.Value).TotalMinutes;
-            return minutesSinceApproval <= 1; // 1 dakika
+            // Onay verildikten sonra 7 gün süre tanı
+            var daysSinceApproval = (DateTime.Now - request.ApprovedDate.Value).Days;
+            return daysSinceApproval <= 7; // 7 gün
         }
 
         public async Task<List<PermissionRequest>> GetPendingRequests()
