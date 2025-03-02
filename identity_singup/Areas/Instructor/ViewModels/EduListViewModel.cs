@@ -12,6 +12,7 @@ namespace identity_signup.Areas.Instructor.ViewModels
         public string EduDuration { get; set; }
         public decimal EduPrice { get; set; }
         public string CreatedBy { get; set; }
+        public string CreatorName { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 } 

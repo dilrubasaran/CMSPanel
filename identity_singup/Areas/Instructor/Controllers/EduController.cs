@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace identity_signup.Areas.Instructor.Controllers
 {
     [Area("Instructor")]
-    [Authorize(Roles = "instructor")]
+    [Authorize(Roles = "instructor,admin")]
     public class EduController : Controller
     {
         private readonly IEducationServices _educationService;
@@ -39,15 +39,26 @@ namespace identity_signup.Areas.Instructor.Controllers
 
         public async Task<IActionResult> EduList()
         {
-            var educations = await _educationService.GetAllEducations();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
+            var educations = User.IsInRole("admin") 
+                ? await _educationService.GetAllEducations()
+                : await _educationService.GetInstructorEducations(user.Id);
+
             return View(educations);
         }
 
         public IActionResult EduCreate()
         {
-            //ne dememk bak 
+            var user = _userManager.GetUserAsync(User).Result;
+            var model = new EduCreateViewModel
+            {
+                CreatedBy = user.UserName // Kullanıcı adını otomatik set et
+            };
+            //alternatif ne kullanılabiir
             LoadEduTypes();
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -83,11 +94,18 @@ namespace identity_signup.Areas.Instructor.Controllers
             }
         }
 
+        [HttpGet]
         public async Task<IActionResult> EduUpdate(int id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
             var education = await _educationService.GetEducationById(id);
-            if (education == null)
-                return NotFound();
+            if (education == null) return NotFound();
+
+            // Admin değilse ve eğitim kendisine ait değilse erişimi engelle
+            if (!User.IsInRole("admin") && education.CreatedBy != user.Id)
+                return Forbid();
 
             var viewModel = new EduUpdateViewModel
             {

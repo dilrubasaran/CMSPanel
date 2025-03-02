@@ -206,6 +206,7 @@ namespace identity_singup.ViewComponents
                         {
                             new MenuItem { Title = "Eğitimlerim", Icon = "bi bi-collection-play", Url = "/Instructor/Edu/EduList" },
                             new MenuItem { Title = "Yeni Eğitim", Icon = "bi bi-plus-circle", Url = "/Instructor/Edu/EduCreate" },
+                            new MenuItem { Title = "Eğitim Güncelle", Icon = "bi bi-pencil", Url = "/Instructor/Edu/EduUpdate" },
                             new MenuItem { Title = "İçerik Yönetimi", Icon = "bi bi-file-earmark-text", Url = "/Instructor/Edu/Content" },
                             new MenuItem { Title = "Öğrenci Etkileşimleri", Icon = "bi bi-people", Url = "/Instructor/Edu/StudentInteractions" }
                         }

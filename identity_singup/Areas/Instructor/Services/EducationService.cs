@@ -46,25 +46,44 @@ namespace identity_signup.Areas.Instructor.Services
         public async Task<List<EduListViewModel>> GetAllEducations()
         {
             return await _context.Education
-                .Select(x => new EduListViewModel
-                {
-                    Id = x.Id,
-                    EduName = x.EduName,
-                    Description = x.Description,
-                    EduType = x.EduType,
-                    EduDuration = x.EduDuration,
-                    EduPrice = x.EduPrice,
-                    CreatedBy = x.CreatedBy,
-                    CreatedAt = x.CreatedAt
-                })
+                .Join(_context.Users,
+                    edu => edu.CreatedBy,
+                    user => user.Id,
+                    (edu, user) => new EduListViewModel
+                    {
+                        Id = edu.Id,
+                        EduName = edu.EduName,
+                        Description = edu.Description,
+                        EduType = edu.EduType,
+                        EduDuration = edu.EduDuration,
+                        EduPrice = edu.EduPrice,
+                        CreatedBy = edu.CreatedBy,
+                        CreatorName = user.UserName,
+                        CreatedAt = edu.CreatedAt
+                    })
                 .OrderByDescending(x => x.CreatedAt)
                 .ToListAsync();
         }
 
-        public async Task<List<Education>> GetInstructorEducations(string createdBy)
+        public async Task<List<EduListViewModel>> GetInstructorEducations(string createdBy)
         {
             return await _context.Education
                 .Where(x => x.CreatedBy == createdBy)
+                .Join(_context.Users,
+                    edu => edu.CreatedBy,
+                    user => user.Id,
+                    (edu, user) => new EduListViewModel
+                    {
+                        Id = edu.Id,
+                        EduName = edu.EduName,
+                        Description = edu.Description,
+                        EduType = edu.EduType,
+                        EduDuration = edu.EduDuration,
+                        EduPrice = edu.EduPrice,
+                        CreatedBy = edu.CreatedBy,
+                        CreatorName = user.UserName,
+                        CreatedAt = edu.CreatedAt
+                    })
                 .OrderByDescending(x => x.CreatedAt)
                 .ToListAsync();
         }

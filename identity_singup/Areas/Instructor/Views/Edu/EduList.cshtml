@@ -27,7 +27,16 @@
                                 <strong>Fiyat:</strong> @item.EduPrice.ToString("C")
                             </p>
                             <p class="card-text">
-                                <small class="text-muted">Oluşturulma: @item.CreatedAt.ToShortDateString()</small>
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <small class="text-muted">
+                                        <i class="bi bi-person"></i> Eğitmen: @item.CreatorName
+                                    </small>
+                                }
+                                <br />
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar"></i> Oluşturulma: @item.CreatedAt.ToShortDateString()
+                                </small>
                             </p>
                         </div>
                         <div class="card-footer bg-transparent border-top-0">
