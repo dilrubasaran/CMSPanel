@@ -32,5 +32,8 @@ namespace identity_singup.ViewModels
         [Display(Name = "Şifre Tekrarı:")]
         public string PasswordConfirm { get; set; }
 
+        [Required(ErrorMessage = "Rol seçimi zorunludur")]
+        [Display(Name = "Rol")]
+        public string Role { get; set; }
     }
 }

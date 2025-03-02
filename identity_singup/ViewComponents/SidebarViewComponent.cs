@@ -50,7 +50,7 @@ namespace identity_singup.ViewComponents
             {
                 menuItems.AddRange(new[]
                 {
-                    new MenuItem { Title = "Dashboard", Icon = "bi bi-speedometer2", Url = "/Admin/Home/Index" },
+                    new MenuItem { Title = "**Dashboard", Icon = "bi bi-speedometer2", Url = "/Admin/Home/Index" },
                     
                     // 1. Kullanıcı Yönetimi
                     new MenuItem 
@@ -59,15 +59,15 @@ namespace identity_singup.ViewComponents
                         Icon = "bi bi-people",
                         SubItems = new List<MenuItem>
                         {
-                            new MenuItem { Title = "Kullanıcı Listesi", Icon = "bi bi-person-lines-fill", Url = "/Admin/Home/UserList" },
+                            new MenuItem { Title = "**Kullanıcı Listesi", Icon = "bi bi-person-lines-fill", Url = "/Admin/Home/UserList" },
                             new MenuItem { Title = "Kullanıcı Ekleme", Icon = "bi bi-person-plus", Url = "/Admin/User/Create" },
                             new MenuItem { Title = "Onay Bekleyenler", Icon = "bi bi-person-check", Url = "/Admin/User/PendingApprovals" },
-                            new MenuItem { Title = "Aktif/Pasif Kullanıcılar", Icon = "bi bi-toggle-on", Url = "/Admin/User/UserStatus" },
+                            new MenuItem { Title = "**Aktif/Pasif Kullanıcılar", Icon = "bi bi-toggle-on", Url = "/Admin/User/UserStatus" },
                             
                         }
                     },
 
-                    new MenuItem { Title = "Rol Yönetimi", Icon = "bi bi-shield-lock", Url = "/Admin/Role/Index" },
+                    new MenuItem { Title = "**Rol Yönetimi", Icon = "bi bi-shield-lock", Url = "/Admin/Role/Index" },
 
                     // 2. Eğitim Yönetimi
                     new MenuItem 
@@ -76,9 +76,9 @@ namespace identity_singup.ViewComponents
                         Icon = "bi bi-mortarboard",
                         SubItems = new List<MenuItem>
                         {
-                            new MenuItem { Title = "Eğitim Listesi", Icon = "bi bi-list-ul", Url = "/Instructor/Edu/EduList" },
-                            new MenuItem { Title = "Eğitim Ekle", Icon = "bi bi-plus-circle", Url = "/Instructor/Edu/EduCreate" },
-                            new MenuItem { Title = "Eğitmen Onay İşlemleri", Icon = "bi bi-check-circle", Url = "/Admin/Permission/PendingRequests" },
+                            new MenuItem { Title = "**Eğitim Listesi", Icon = "bi bi-list-ul", Url = "/Instructor/Edu/EduList" },
+                            new MenuItem { Title = "**Eğitim Ekle", Icon = "bi bi-plus-circle", Url = "/Instructor/Edu/EduCreate" },
+                            new MenuItem { Title = "**Eğitmen Onay İşlemleri", Icon = "bi bi-check-circle", Url = "/Admin/Permission/PendingRequests" },
                         }
                     },
 
@@ -192,7 +192,7 @@ namespace identity_singup.ViewComponents
                         Icon = "bi bi-person-circle",
                         SubItems = new List<MenuItem>
                         {
-                            new MenuItem { Title = "Profil Bilgileri", Icon = "bi bi-person-lines-fill", Url = "/Member/UserEdit" },
+                            new MenuItem { Title = "**Profil Bilgileri", Icon = "bi bi-person-lines-fill", Url = "/Member/UserEdit" },
                             new MenuItem { Title = "Şifre Değiştir", Icon = "bi bi-key", Url = "/Instructor/Profile/ChangePassword" }
                         }
                     },
@@ -204,8 +204,8 @@ namespace identity_singup.ViewComponents
                         Icon = "bi bi-mortarboard",
                         SubItems = new List<MenuItem>
                         {
-                            new MenuItem { Title = "Eğitimlerim", Icon = "bi bi-collection-play", Url = "/Instructor/Edu/EduList" },
-                            new MenuItem { Title = "Yeni Eğitim", Icon = "bi bi-plus-circle", Url = "/Instructor/Edu/EduCreate" },
+                            new MenuItem { Title = "**Eğitimlerim", Icon = "bi bi-collection-play", Url = "/Instructor/Edu/EduList" },
+                            new MenuItem { Title = "**Yeni Eğitim", Icon = "bi bi-plus-circle", Url = "/Instructor/Edu/EduCreate" },
                             new MenuItem { Title = "İçerik Yönetimi", Icon = "bi bi-file-earmark-text", Url = "/Instructor/Edu/Content" },
                             new MenuItem { Title = "Öğrenci Etkileşimleri", Icon = "bi bi-people", Url = "/Instructor/Edu/StudentInteractions" }
                         }
@@ -267,7 +267,7 @@ namespace identity_singup.ViewComponents
                         Icon = "bi bi-person-circle",
                         SubItems = new List<MenuItem>
                         {
-                            new MenuItem { Title = "Profil Bilgileri", Icon = "bi bi-person-lines-fill", Url = "/Member/UserEdit" },
+                            new MenuItem { Title = "**Profil Bilgileri", Icon = "bi bi-person-lines-fill", Url = "/Member/UserEdit" },
                             new MenuItem { Title = "Şifre Değiştir", Icon = "bi bi-key", Url = "/Student/Profile/ChangePassword" }
                         }
                     },
