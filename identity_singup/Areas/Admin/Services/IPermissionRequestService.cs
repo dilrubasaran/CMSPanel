@@ -10,6 +10,6 @@ namespace identity_singup.Areas.Admin.Services
         Task<List<PermissionRequest>> GetPendingRequests();
         Task<bool> ApproveRequest(int requestId, string approverId);
         Task<bool> CreateRequest(PermissionRequest request);
-        Task<PermissionRequest> GetLatestApprovedPermission(int educationId, string userId);
+
     }
 } 

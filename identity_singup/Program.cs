@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using System.Security;
 using identity_signup.Areas.Instructor.Services;
+using identity_signup.Infrastructure;
 using identity_singup.Areas.Admin.Services;
 using identity_singup.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Identity.Infrastructure.Authorization;
+using identity_singup.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +33,7 @@ builder.Services.AddScoped<IEducationServices, EducationService>();
 
 builder.Services.AddScoped<IEducationServices, EducationService>();
 builder.Services.AddScoped<IPermissionRequestService, PermissionRequestService>();
+builder.Services.AddScoped<SignInManager<AppUser>, CustomSignInManager>();
 
 // Authorization policy'sini ekle
 builder.Services.AddAuthorization(options =>
@@ -41,7 +44,7 @@ builder.Services.AddAuthorization(options =>
 
 // Authorization handler'ı ekle
 builder.Services.AddScoped<IAuthorizationHandler, EducationAuthorizationHandler>();
-// Cookie y�netimi
+// Cookie yönetimi
 builder.Services.ConfigureApplicationCookie(opt =>
 {
     var cookieBuilder = new CookieBuilder
@@ -49,9 +52,9 @@ builder.Services.ConfigureApplicationCookie(opt =>
         Name = "IdentityDeneme"
     };
 
-    opt.LoginPath = new PathString("/Home/Signin"); // Kullan�c� giri� sayfas�
-    opt.LogoutPath = new PathString("/Member/logout"); // ��k�� yap�l�nca y�nlendirilecek sayfa
-    //opt.AccessDeniedPath = new PathString("/Member/AccessDenied"); // Yetkisiz eri�imde y�nlendirme
+    opt.LoginPath = new PathString("/Home/Signin"); 
+    opt.LogoutPath = new PathString("/Member/logout"); 
+    opt.AccessDeniedPath = new PathString("/Member/AccessDenied"); 
 
     opt.Cookie = cookieBuilder;
     opt.ExpireTimeSpan = TimeSpan.FromDays(60); // �erez 60 g�n ge�erli olacak.

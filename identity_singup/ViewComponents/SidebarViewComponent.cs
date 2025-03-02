@@ -62,7 +62,7 @@ namespace identity_singup.ViewComponents
                             new MenuItem { Title = "Kullanıcı Listesi", Icon = "bi bi-person-lines-fill", Url = "/Admin/Home/UserList" },
                             new MenuItem { Title = "Kullanıcı Ekleme", Icon = "bi bi-person-plus", Url = "/Admin/User/Create" },
                             new MenuItem { Title = "Onay Bekleyenler", Icon = "bi bi-person-check", Url = "/Admin/User/PendingApprovals" },
-                            new MenuItem { Title = "Aktif/Pasif Kullanıcılar", Icon = "bi bi-toggle-on", Url = "/Admin/User/Status" },
+                            new MenuItem { Title = "Aktif/Pasif Kullanıcılar", Icon = "bi bi-toggle-on", Url = "/Admin/User/UserStatus" },
                             
                         }
                     },

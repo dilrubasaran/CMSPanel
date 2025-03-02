@@ -12,6 +12,7 @@ namespace identity_singup.Areas.Admin.Services
             _context = context;
         }
 
+        // Kullanıcıya verilen iznin geçerli olup olmadığını kontrol et
         public async Task<bool> HasValidPermission(int educationId, string userId)
         {
             var request = await _context.PermissionRequests
@@ -27,9 +28,11 @@ namespace identity_singup.Areas.Admin.Services
 
             // Onay verildikten sonra 7 gün süre tanı
             var daysSinceApproval = (DateTime.Now - request.ApprovedDate.Value).Days;
-            return daysSinceApproval <= 7; // 7 gün
+            return daysSinceApproval <= 7; 
         }
 
+
+        // Adminin onaylaması gereken bekleyen izin taleplerini getirir
         public async Task<List<PermissionRequest>> GetPendingRequests()
         {
             return await _context.PermissionRequests
@@ -37,6 +40,7 @@ namespace identity_singup.Areas.Admin.Services
                 .ToListAsync();
         }
 
+        //Admin, bekleyen bir izin talebini onayladığında bu metot çalışır
         public async Task<bool> ApproveRequest(int requestId, string approverId)
         {
             var request = await _context.PermissionRequests.FindAsync(requestId);
@@ -49,15 +53,13 @@ namespace identity_singup.Areas.Admin.Services
             return await _context.SaveChangesAsync() > 0;
         }
 
+        // İzin talebi oluştur
         public async Task<bool> CreateRequest(PermissionRequest request)
         {
             await _context.PermissionRequests.AddAsync(request);
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task<PermissionRequest> GetLatestApprovedPermission(int educationId, string userId)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 } 

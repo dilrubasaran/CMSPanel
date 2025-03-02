@@ -22,7 +22,7 @@ namespace Identity.Infrastructure.Authorization
             _userManager = userManager;
             _permissionService = permissionService;
         }
-
+        //Yetki sahibi mi ve eðitimi düzenleyen kiþi mi kontrol eder 
         protected override async Task HandleRequirementAsync(
             AuthorizationHandlerContext context,
             CanEditEducationPolicy requirement,

@@ -65,6 +65,7 @@ namespace identity_signup.Areas.Instructor.Services
                 .ToListAsync();
         }
 
+        // Belirli bir kullanıcı tarafından oluşturulan tüm eğitimleri getirir
         public async Task<List<EduListViewModel>> GetInstructorEducations(string createdBy)
         {
             return await _context.Education
@@ -87,7 +88,7 @@ namespace identity_signup.Areas.Instructor.Services
                 .OrderByDescending(x => x.CreatedAt)
                 .ToListAsync();
         }
-
+        // Belirli bir eğitimi getirir
         public async Task<Education> GetEducationById(int id)
         {
             return await _context.Education

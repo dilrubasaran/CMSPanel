@@ -8,7 +8,7 @@ public class PermissionRequest
     public string Reason { get; set; }
     public DateTime RequestDate { get; set; }
     public bool IsApproved { get; set; }
-    public DateTime? ApprovedDate { get; set; }
+    public DateTime? ApprovedDate { get; set; }  //Onaylama tarihi
     public string? ApprovedBy { get; set; }
 } 
 }

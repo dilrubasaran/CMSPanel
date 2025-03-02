@@ -77,37 +77,16 @@ public class HomeController : Controller
             return View(model);
         }
 
-        var hasUser = await _userManager.FindByNameAsync(model.UserName);
+        var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, true);
 
-        if (hasUser == null)
+        if (result.Succeeded)
         {
-            ModelState.AddModelError(string.Empty, "Kullanıcı adı veya şifre yanlış");
-            return View(model);
+            return RedirectToAction("Index", "Home");
         }
-
-        var signInResult = await _signInManager.PasswordSignInAsync(hasUser, model.Password, model.RememberMe, true);
-
-        if (signInResult.Succeeded)
+        else if (result.IsNotAllowed)
         {
-            // Kullanıcının rollerini al
-            var roles = await _userManager.GetRolesAsync(hasUser);
-
-            // Rolüne göre yönlendir
-            if (roles.Contains("admin"))
-            {
-                return RedirectToAction("Index", "Home", new { area = "Admin" });
-            }
-            else if (roles.Contains("instructor"))
-            {
-                return RedirectToAction("Index", "Home", new { area = "Instructor" });
-            }
-            else if (roles.Contains("student"))
-            {
-                return RedirectToAction("Index", "Home", new { area = "Student" });
-            }
-
-            TempData["SuccessMessage"] = "Başarılı bir şekilde giriş yaptınız.";
-            return RedirectToAction(nameof(Index));
+            ModelState.AddModelError("", "Hesabınız pasif durumdadır. Lütfen yönetici ile iletişime geçin.");
+            return View(model);
         }
 
         ModelState.AddModelError(string.Empty, "Kullanıcı adı veya şifre yanlış");
