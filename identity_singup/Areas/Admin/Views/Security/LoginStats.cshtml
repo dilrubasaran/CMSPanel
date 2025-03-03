@@ -1,0 +1,87 @@
+@model LoginStatsViewModel
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Giriş İstatistikleri</h3>
+                    <div class="btn-group float-end">
+                        <a asp-action="LoginStats" asp-route-timeRange="12hours" 
+                           class="btn btn-sm @(Model.TimeRange == "12hours" ? "btn-primary" : "btn-outline-primary")">
+                            Son 12 Saat
+                        </a>
+                        <a asp-action="LoginStats" asp-route-timeRange="daily" 
+                           class="btn btn-sm @(Model.TimeRange == "daily" ? "btn-primary" : "btn-outline-primary")">
+                            Günlük
+                        </a>
+                        <a asp-action="LoginStats" asp-route-timeRange="weekly" 
+                           class="btn btn-sm @(Model.TimeRange == "weekly" ? "btn-primary" : "btn-outline-primary")">
+                            Haftalık
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body">
+                                    <h5>Toplam Giriş</h5>
+                                    <h2>@Model.TotalLogins</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-success text-white">
+                                <div class="card-body">
+                                    <h5>Başarılı Giriş</h5>
+                                    <h2>@Model.SuccessfulLogins</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-danger text-white">
+                                <div class="card-body">
+                                    <h5>Başarısız Giriş</h5>
+                                    <h2>@Model.FailedLogins</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Rol</th>
+                                    <th>Başarılı Giriş</th>
+                                    <th>Başarısız Giriş</th>
+                                    <th>Toplam</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var role in Model.Stats.Select(x => x.UserRole).Distinct())
+                                {
+                                    var successful = Model.Stats.FirstOrDefault(x => x.UserRole == role && x.IsSuccess)?.Count ?? 0;
+                                    var failed = Model.Stats.FirstOrDefault(x => x.UserRole == role && !x.IsSuccess)?.Count ?? 0;
+                                    var total = successful + failed;
+
+                                    <tr>
+                                        <td>@role</td>
+                                        <td>
+                                            <span class="text-success">@successful</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-danger">@failed</span>
+                                        </td>
+                                        <td>@total</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

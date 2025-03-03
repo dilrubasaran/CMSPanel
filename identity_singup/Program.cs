@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using System.Security;
 using identity_signup.Areas.Instructor.Services;
-using identity_signup.Infrastructure;
 using identity_singup.Areas.Admin.Services;
 using identity_singup.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Identity.Infrastructure.Authorization;
 using identity_singup.Infrastructure;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,8 +57,24 @@ builder.Services.ConfigureApplicationCookie(opt =>
     opt.AccessDeniedPath = new PathString("/Member/AccessDenied"); 
 
     opt.Cookie = cookieBuilder;
-    opt.ExpireTimeSpan = TimeSpan.FromDays(60); // �erez 60 g�n ge�erli olacak.
-    opt.SlidingExpiration = true; // Kullanıcı aktif oldukça s�re uzayacak.
+    opt.ExpireTimeSpan = TimeSpan.FromDays(60); // Cookie 60 gün geçerli olacak.
+    opt.SlidingExpiration = true; // Kullanıcı aktif oldukça süre uzayacak.
+});
+
+// Proxy ve forwarded headers ayarları
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
+// Diğer servislerden önce
+builder.Services.AddLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.AddConsole();
+    logging.AddDebug();
 });
 
 var app = builder.Build();
@@ -72,7 +88,7 @@ using (var scope = app.Services.CreateScope())
 // Middleware'ler
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage(); // Geli�tirme ortam�nda detayl� hata sayfas�
+    app.UseDeveloperExceptionPage(); // Geliştirme ortamında detaylı hata sayfası
 }
 else
 {
@@ -80,6 +96,7 @@ else
     app.UseHsts();
 }
 
+app.UseForwardedHeaders(); // En üstte olmalı
 app.UseHttpsRedirection();
 app.UseStaticFiles(); 
 

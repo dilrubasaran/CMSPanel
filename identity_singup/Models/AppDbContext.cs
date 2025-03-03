@@ -10,6 +10,7 @@ namespace identity_singup.Models
 
         public DbSet<Education> Education { get; set; }
         public DbSet<PermissionRequest> PermissionRequests { get; set; }
+        public DbSet<LoginAudit> LoginAudits { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +23,10 @@ namespace identity_singup.Models
             modelBuilder.Entity<Education>()
                 .Property(e => e.EduPrice)
                 .HasPrecision(9, 2);  // 9 toplam basamak, 2 ondalık basamak
+
+            modelBuilder.Entity<LoginAudit>()
+                .Property(l => l.LoginTime)
+                .HasDefaultValueSql("GETDATE()");
         }
     }
 }

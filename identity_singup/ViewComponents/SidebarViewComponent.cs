@@ -103,9 +103,9 @@ namespace identity_singup.ViewComponents
                         Icon = "bi bi-shield-check",
                         SubItems = new List<MenuItem>
                         {
-                            new MenuItem { Title = "Giriş İstatistikleri", Icon = "bi bi-graph-up", Url = "/Admin/Security/LoginStats" },
+                            new MenuItem { Title = "**Giriş İstatistikleri", Icon = "bi bi-graph-up", Url = "/Admin/Security/LoginStats" },
                             new MenuItem { Title = "Tehdit İçeren Giriş İşlemler", Icon = "bi bi-exclamation-triangle", Url = "/Admin/Security/Threats" },
-                            new MenuItem { Title = "İşlem Logları", Icon = "bi bi-activity", Url = "/Admin/Security/ActivityLogs" }
+                            new MenuItem { Title = "**İşlem Logları", Icon = "bi bi-activity", Url = "/Admin/Security/LoginAttempts" }
                         }
                     },
 
