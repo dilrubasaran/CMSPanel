@@ -5,6 +5,6 @@ namespace identity_singup.Models
 {
     public class AppRole:IdentityRole
     {
-
+        public int PermissionLevel { get; set; }
     }
 }

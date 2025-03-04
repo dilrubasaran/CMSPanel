@@ -50,10 +50,11 @@
 									<user-role-names user-id="@item.Id"></user-role-names>
 								</td>
 								<td class="text-end px-4">
-									<a class="btn btn-primary btn-sm" asp-area="Admin" asp-controller="Role" asp-action="AssignRoleToUser" asp-route-id="@item.Id">
-										<i class="bi bi-person-fill-gear"></i>
-										Rol Ata
-									</a>
+									<a asp-area="Admin" 
+									   asp-controller="Role" 
+									   asp-action="AssignRoleToUser" 
+									   asp-route-id="@item.Id"
+									   class="btn btn-primary">Rol Ata</a>
 								</td>
 							</tr>
 						}

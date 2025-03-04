@@ -1,0 +1,76 @@
+@model List<RoleViewModel>
+@{
+    ViewData["Title"] = "Root Admin Panel";
+}
+
+<div class="container">
+    <h2>Root Admin Yönetim Paneli</h2>
+    
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    
+    <div class="mb-3">
+        <a asp-action="RoleCreate" class="btn btn-primary">Yeni Rol Oluştur</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Rol Adı</th>
+                <th>Yetki Seviyesi</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model)
+            {
+                <tr>
+                    <td>@role.Name</td>
+                    <td>
+                        @if (role.Name != "root admin")
+                        {
+                            <form asp-action="UpdateRolePermission" method="post" class="d-flex align-items-center">
+                                <input type="hidden" name="roleId" value="@role.Id" />
+                                <input type="number" name="permissionLevel" value="@role.PermissionLevel" 
+                                       class="form-control form-control-sm" style="width: 80px;" />
+                                <button type="submit" class="btn btn-sm btn-primary ms-2">Güncelle</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span>@role.PermissionLevel (Değiştirilemez)</span>
+                        }
+                    </td>
+                    <td>
+                        @if (role.Name != "root admin")
+                        {
+                            <a asp-action="RoleUpdate" asp-route-id="@role.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                            <a asp-action="RoleDelete" asp-route-id="@role.Id" class="btn btn-danger btn-sm"
+                               onclick="return confirm('Bu rolü silmek istediğinize emin misiniz?')">Sil</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">İşlem Yapılamaz</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="mt-4">
+        <h3>Kullanıcı Rolleri</h3>
+        <a asp-controller="Home" asp-action="UserList" class="btn btn-info">Kullanıcı Listesine Git</a>
+    </div>
+</div> 
