@@ -88,7 +88,7 @@ builder.Services.AddLogging(logging =>
     logging.AddDebug();
 });
 
-builder.Services.AddScoped<RoleService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 var app = builder.Build();
 

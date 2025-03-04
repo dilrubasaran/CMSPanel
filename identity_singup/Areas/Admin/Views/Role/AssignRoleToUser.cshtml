@@ -3,6 +3,20 @@
 	ViewData["Title"] = "Kullanıcıya Rol Atama";
 }
 
+@if (TempData["ErrorMessage"] != null)
+{
+	<div class="alert alert-danger">
+		@TempData["ErrorMessage"]
+	</div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+	<div class="alert alert-success">
+		@TempData["SuccessMessage"]
+	</div>
+}
+
 <div class="row">
 	<div class="col-md-6 offset-md-3">
 		<h2>Kullanıcıya Rol Atama</h2>
@@ -23,7 +37,7 @@
 						<input type="checkbox" class="form-check-input" asp-for="@Model[i].Exist">
 						<label class="form-check-label">
 							@Model[i].Name 
-							<span class="text-muted">(Yetki Seviyesi: @Model[i].PermissionLevel)</span>
+							
 						</label>
 						<input type="hidden" asp-for="@Model[i].Name">
 						<input type="hidden" asp-for="@Model[i].Id">

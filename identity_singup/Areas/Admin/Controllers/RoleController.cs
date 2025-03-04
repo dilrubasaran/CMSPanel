@@ -1,168 +1,177 @@
-using identity_signup.Areas.Admin.Models;
-using identity_singup.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using identity_singup.Models;
+using identity_signup.Areas.Admin.Models;
+using identity_signup.Extensions;
+using identity_signup.Areas.Admin.Controllers;
 using identity_signup.Areas.Admin.Services;
 
-namespace identity_signup.Areas.Admin.Controllers
+namespace identity_signup.Areas
 {
-    [Area("Admin")]
     [Authorize(Roles = "admin, Root Admin")]
+    [Area("Admin")]
     public class RoleController : Controller
     {
-        private readonly RoleManager<AppRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
-        private readonly RoleService _roleService;
+        private readonly RoleManager<AppRole> _roleManager;
+        private readonly IRoleService _roleService;
 
-        public RoleController(RoleManager<AppRole> roleManager, UserManager<AppUser> userManager, RoleService roleService)
+        public RoleController(
+            RoleManager<AppRole> roleManager, 
+            UserManager<AppUser> userManager,
+            IRoleService roleService)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _roleService = roleService;
         }
-        //INDEX
+    
         public async Task<IActionResult> Index()
         {
-            var roles = await _roleManager.Roles
-                .Where(x => x.Name != "Root Admin") // Root Admin'i listeden çıkar
-                .Select(x => new RoleViewModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name!,
-                    PermissionLevel = x.PermissionLevel
-                }).ToListAsync();
+           
+            var role = await _roleManager.Roles.Select(x => new RoleViewModel()
+            {
+                Id = x.Id,
+                Name = x.Name!
+            }).ToListAsync();
 
-            return View(roles);
+
+
+            return View(role);
         }
 
-        //ROLECREATE
+
+      
         public IActionResult RoleCreate()
         {
             return View();
         }
 
+
+      
         [HttpPost]
         public async Task<IActionResult> RoleCreate(RoleCreateViewModel request)
         {
-            var result = await _roleManager.CreateAsync(new AppRole() { Name = request.Name });
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+                return Unauthorized();
+
+            // Root Admin kontrolü
+            if (!await _roleService.IsRootAdmin(currentUser))
+            {
+                return RedirectToAction("AccessDenied", "Role" );
+            }
+
+            var result = await _roleManager.CreateAsync(new AppRole 
+            { 
+                Name = request.Name,
+                PermissionLevel = request.PermissionLevel 
+            });
 
             if (!result.Succeeded)
             {
-                ModelState.AddModelError(string.Empty, "Rol oluşturulurken bir hata oluştu");
+                ModelState.AddModelErrorList(result.Errors);
                 return View();
             }
 
-            TempData["SuccessMessage"] = "Rol oluşturuldu";
-            return RedirectToAction(nameof(RoleController.Index));
+            TempData["SuccessMessage"] = "Rol oluşturulmuştur.";
+            return RedirectToAction(nameof(Index));
         }
-
-        //ROLEUPDATE
         public async Task<IActionResult> RoleUpdate(string id)
         {
             var roleToUpdate = await _roleManager.FindByIdAsync(id);
 
             if (roleToUpdate == null)
             {
-                throw new Exception("Güncellenecek rol bulunamadı");
+                throw new Exception("Güncellenecek rol bulunamamıştır.");
             }
 
-            return View(new RoleUpdateViewModel() { Id = roleToUpdate.Id, Name = roleToUpdate.Name! });
+
+            return View(new RoleUpdateViewModel() { Id = roleToUpdate.Id, Name = roleToUpdate!.Name! });
         }
 
+      
         [HttpPost]
         public async Task<IActionResult> RoleUpdate(RoleUpdateViewModel request)
         {
+
             var roleToUpdate = await _roleManager.FindByIdAsync(request.Id);
 
             if (roleToUpdate == null)
             {
-                throw new Exception("Güncellenecek rol bulunamadı");
+                throw new Exception("Güncellenecek rol bulunamamıştır.");
             }
 
             roleToUpdate.Name = request.Name;
+
             await _roleManager.UpdateAsync(roleToUpdate);
 
-            TempData["SuccessMessage"] = "Rol güncellendi";
-            return RedirectToAction(nameof(RoleController.Index));
+
+            ViewData["SuccessMessage"] = "Rol bilgisi güncellenmiştir";
+
+            return View();
         }
 
-        //ROLEDELETE
+      
         public async Task<IActionResult> RoleDelete(string id)
         {
             var roleToDelete = await _roleManager.FindByIdAsync(id);
 
             if (roleToDelete == null)
             {
-                throw new Exception("Silinecek rol bulunamadı");
+                throw new Exception("Silinecek rol bulunamamıştır.");
             }
 
             var result = await _roleManager.DeleteAsync(roleToDelete);
 
             if (!result.Succeeded)
             {
-                throw new Exception("Rol silinemedi");
+                throw new Exception(result.Errors.Select(x => x.Description).First());
             }
 
-            TempData["SuccessMessage"] = "Rol silindi";
+            TempData["SuccessMessage"] = "Rol silinmiştir";
             return RedirectToAction(nameof(RoleController.Index));
+
+
+
+
         }
 
-        //ASSIGNROLETTOUSER
 
         public async Task<IActionResult> AssignRoleToUser(string id)
         {
-            var targetUser = await _userManager.FindByIdAsync(id);
             var currentUser = await _userManager.GetUserAsync(User);
+            var targetUser = await _userManager.FindByIdAsync(id);
             
-            if (targetUser == null || currentUser == null)
-            {
-                throw new Exception("Kullanıcı bulunamadı");
-            }
-
+            if (currentUser == null || targetUser == null)
+                return NotFound();
+            
             ViewBag.userId = id;
-            ViewBag.UserName = targetUser.UserName;
-
-            // Mevcut kullanıcının rollerini al
-            var currentUserRoles = await _userManager.GetRolesAsync(currentUser);
-            var currentUserHighestPermission = 0;
-
-            // En yüksek yetki seviyesini bul
-            foreach (var roleName in currentUserRoles)
-            {
-                var userRole = await _roleManager.FindByNameAsync(roleName);
-                if (userRole != null && userRole.PermissionLevel > currentUserHighestPermission)
-                {
-                    currentUserHighestPermission = userRole.PermissionLevel;
-                }
-            }
-
-            // Hedef kullanıcının mevcut rollerini al
-            var targetUserRoles = await _userManager.GetRolesAsync(targetUser);
-
-            // Admin için özel kontrol
-            var isAdmin = await _userManager.IsInRoleAsync(currentUser, "admin");
-            
-            // Rolleri getir
-            var availableRoles = await _roleManager.Roles
-                .Where(r => isAdmin ? 
-                    (r.Name != "Root Admin" && r.Name != "admin") : // Admin sadece kendinden düşük rolleri görebilir
-                    r.PermissionLevel < currentUserHighestPermission)
-                .OrderByDescending(r => r.PermissionLevel)
-                .ToListAsync();
-
+            var roles = await _roleManager.Roles.ToListAsync();
+            var userRoles = await _userManager.GetRolesAsync(targetUser);
             var roleViewModelList = new List<AssignRoleToUserViewModel>();
+            
+            bool isCurrentUserRootAdmin = await _roleService.IsRootAdmin(currentUser);
 
-            foreach (var role in availableRoles)
+            foreach (var roleItem in roles)
             {
+                // Root Admin rolünü listeleme koşulu
+                if (roleItem.Name == "Root Admin")
+                    continue;
+                    
                 var assignRoleToUserViewModel = new AssignRoleToUserViewModel()
                 {
-                    Id = role.Id,
-                    Name = role.Name!,
-                    Exist = targetUserRoles.Contains(role.Name!),
-                    PermissionLevel = role.PermissionLevel
+                    Id = roleItem.Id,
+                    Name = roleItem.Name!,
+                    PermissionLevel = roleItem.PermissionLevel
                 };
+
+                if (userRoles.Contains(roleItem.Name!))
+                {
+                    assignRoleToUserViewModel.Exist = true;
+                }
 
                 roleViewModelList.Add(assignRoleToUserViewModel);
             }
@@ -173,103 +182,132 @@ namespace identity_signup.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> AssignRoleToUser(string userId, List<AssignRoleToUserViewModel> requestList)
         {
-            var targetUser = await _userManager.FindByIdAsync(userId);
             var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+                return Unauthorized();
+
+            var userToAssignRole = await _userManager.FindByIdAsync(userId);
+            if (userToAssignRole == null)
+                return NotFound();
             
-            if (targetUser == null || currentUser == null)
+            // Hedef kullanıcının Admin veya Root Admin olup olmadığını kontrol et
+            bool isTargetAdmin = await _userManager.IsInRoleAsync(userToAssignRole, "admin");
+            bool isTargetRootAdmin = await _userManager.IsInRoleAsync(userToAssignRole, "Root Admin");
+            
+            // Eğer hedef kullanıcı Admin veya Root Admin ise ve kullanıcı Root Admin değilse
+            if ((isTargetAdmin || isTargetRootAdmin) && !await _roleService.IsRootAdmin(currentUser))
             {
-                throw new Exception("Kullanıcı bulunamadı");
+                return RedirectToAction("AccessDenied", "Role");
             }
+            
+            bool anyError = false;
+            bool anySuccess = false;
+            bool adminRoleAttempt = false;
 
-            // Root Admin kontrolü
-            if (await _userManager.IsInRoleAsync(targetUser, "Root Admin"))
+            foreach (var roleRequest in requestList)
             {
-                TempData["ErrorMessage"] = "Root Admin rolü değiştirilemez";
-                return RedirectToAction(nameof(HomeController.UserList), "Home");
-            }
-
-            // Admin kontrolü
-            var isAdmin = await _userManager.IsInRoleAsync(currentUser, "admin");
-            if (isAdmin)
-            {
-                // Admin, diğer adminlerin rollerini değiştiremez
-                if (await _userManager.IsInRoleAsync(targetUser, "admin"))
-                {
-                    TempData["ErrorMessage"] = "Admin rolündeki kullanıcıların rollerini değiştiremezsiniz";
-                    return RedirectToAction(nameof(HomeController.UserList), "Home");
-                }
-            }
-
-            foreach (var roleViewModel in requestList)
-            {
-                var role = await _roleManager.FindByNameAsync(roleViewModel.Name);
+                var role = await _roleManager.FindByIdAsync(roleRequest.Id);
                 if (role == null) continue;
-
-                // Admin için özel kontrol
-                if (isAdmin && (role.Name == "Root Admin" || role.Name == "admin"))
+                
+                var userRoles = await _userManager.GetRolesAsync(userToAssignRole);
+                bool userHasRole = userRoles.Contains(role.Name);
+                
+                // Rol durumu değişmediyse işlem yapma
+                if ((userHasRole && roleRequest.Exist) || (!userHasRole && !roleRequest.Exist))
+                    continue;
+                
+                // Admin rolü atamaya çalışıyor mu kontrol et
+                if (role.Name == "admin" && roleRequest.Exist && !await _roleService.IsRootAdmin(currentUser))
                 {
+                    adminRoleAttempt = true;
+                    continue;
+                }
+                
+                var canModify = await _roleService.CanModifyUserRole(currentUser.Id, userId, role.Id);
+                
+                if (!canModify)
+                {
+                    anyError = true;
                     continue;
                 }
 
-                var hasRole = await _userManager.IsInRoleAsync(targetUser, role.Name!);
-
-                if (roleViewModel.Exist && !hasRole)
+                IdentityResult result;
+                if (roleRequest.Exist)
                 {
-                    await _userManager.AddToRoleAsync(targetUser, role.Name!);
+                    result = await _userManager.AddToRoleAsync(userToAssignRole, role.Name);
                 }
-                else if (!roleViewModel.Exist && hasRole)
+                else
                 {
-                    await _userManager.RemoveFromRoleAsync(targetUser, role.Name!);
+                    result = await _userManager.RemoveFromRoleAsync(userToAssignRole, role.Name);
+                }
+                
+                if (result.Succeeded)
+                {
+                    anySuccess = true;
+                }
+                else
+                {
+                    anyError = true;
                 }
             }
-
-            TempData["SuccessMessage"] = "Roller başarıyla güncellendi";
+            
+            if (adminRoleAttempt)
+            {
+                TempData["ErrorMessage"] = "Admin rolünü atama yetkiniz bulunmamaktadır.";
+            }
+            else if (anyError)
+            {
+                TempData["ErrorMessage"] = "Bazı roller güncellenirken hata oluştu.";
+            }
+            
+            if (anySuccess)
+            {
+                TempData["SuccessMessage"] = "Roller başarıyla güncellendi.";
+            }
+            
             return RedirectToAction(nameof(HomeController.UserList), "Home");
         }
 
         [Authorize(Roles = "Root Admin")]
         public async Task<IActionResult> RootAdminPanel()
         {
-            var roles = await _roleManager.Roles
-                .Select(x => new RoleViewModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name!,
-                    PermissionLevel = x.PermissionLevel
-                }).ToListAsync();
+            var roles = await _roleService.GetAllRoles();
+            var viewModel = roles.Select(x => new RoleViewModel()
+            {
+                Id = x.Id,
+                Name = x.Name!,
+                PermissionLevel = x.PermissionLevel
+            }).ToList();
 
-            return View(roles);
+            return View(viewModel);
         }
 
+        [HttpPost]
         [Authorize(Roles = "Root Admin")]
-        public async Task<IActionResult> ManageUserRoles(string id)
+        public async Task<IActionResult> UpdateRolePermission(string roleId, int permissionLevel)
         {
-            var currentUser = await _userManager.FindByIdAsync(id);
-            
+            var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null)
+                return Unauthorized();
+
+            var result = await _roleService.UpdateRolePermissionLevel(roleId, permissionLevel, currentUser.Id);
+            
+            if (result)
             {
-                throw new Exception("Kullanıcı bulunamadı");
+                TempData["SuccessMessage"] = "Rol yetki seviyesi başarıyla güncellendi.";
             }
-
-            ViewBag.userId = id;
-
-            var roles = await _roleManager.Roles.ToListAsync();
-            var userRoles = await _userManager.GetRolesAsync(currentUser);
-            var roleViewModelList = new List<AssignRoleToUserViewModel>();
-
-            foreach (var role in roles)
+            else
             {
-                var assignRoleToUserViewModel = new AssignRoleToUserViewModel()
-                {
-                    Id = role.Id,
-                    Name = role.Name!,
-                    Exist = userRoles.Contains(role.Name!)
-                };
-
-                roleViewModelList.Add(assignRoleToUserViewModel);
+                TempData["ErrorMessage"] = "Rol yetki seviyesi güncellenirken bir hata oluştu.";
             }
+            
+            return RedirectToAction(nameof(RootAdminPanel));
+        }
 
-            return View("AssignRoleToUser", roleViewModelList);
+        // AccessDenied sayfası için action metodu ekleyelim
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
