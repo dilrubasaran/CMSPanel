@@ -22,6 +22,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+//? Testdb için olan veritabanı eklentisi
+//var isTesting = Environment.GetEnvironmentVariable("USE_TEST_DB") == "true";
+//Console.WriteLine($"Using TestDB: {isTesting}");
+
+//var connectionString = builder.Configuration.GetConnectionString(isTesting ? "TestConnection" : "DefaultConnection");
+//Console.WriteLine($"Bağlanılan veritabanı: {connectionString}");
+
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseSqlServer(connectionString));
+
 // Identity servisini ekle
 builder.Services.AddIdentity<AppUser, AppRole>()
     .AddEntityFrameworkStores<AppDbContext>()
