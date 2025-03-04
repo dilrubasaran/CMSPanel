@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace identity_signup.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin,Root Admin")]
     public class HomeController : Controller
     {
         private readonly UserManager<AppUser> _userManager;

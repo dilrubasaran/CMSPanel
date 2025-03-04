@@ -10,5 +10,6 @@ namespace identity_singup.Models
     
         public DateTime? BirthDate { get; set; }
         public Gender? Gender { get; set; }
+        public bool IsRootAdmin { get; set; }
     }
 }

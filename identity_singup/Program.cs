@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Identity.Infrastructure.Authorization;
 using identity_singup.Infrastructure;
 using Microsoft.AspNetCore.HttpOverrides;
+using identity_signup.Areas.Admin.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,12 +88,57 @@ builder.Services.AddLogging(logging =>
     logging.AddDebug();
 });
 
+builder.Services.AddScoped<RoleService>();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
+    // Önce rolleri oluştur
+    var roles = new[]
+    {
+        new { Name = "Root Admin", Level = 100 },
+        new { Name = "Admin", Level = 50 },
+        new { Name = "Instructor", Level = 10 },
+        new { Name = "Student", Level = 1 }
+    };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role.Name))
+        {
+            await roleManager.CreateAsync(new AppRole 
+            { 
+                Name = role.Name, 
+                PermissionLevel = role.Level 
+            });
+        }
+    }
+
+    // Root Admin kullanıcısını oluştur
+    var rootAdminUsername = "rootadmin";
+    var rootAdminEmail = "rootadmin@gmail.com";
+    var rootAdmin = await userManager.FindByNameAsync(rootAdminUsername);
+
+    if (rootAdmin == null)
+    {
+        rootAdmin = new AppUser
+        {
+            UserName = rootAdminUsername,
+            Email = rootAdminEmail,
+            EmailConfirmed = true,
+            IsRootAdmin = true
+        };
+
+        var result = await userManager.CreateAsync(rootAdmin, "Password12*"); 
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(rootAdmin, "Root Admin");
+        }
+    }
 }
 
 // Middleware'ler

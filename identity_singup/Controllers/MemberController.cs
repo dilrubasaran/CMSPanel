@@ -130,8 +130,10 @@ namespace identity_signup.Controllers
             return View(userEditViewModel);
         }
 
-
-
-
+        public IActionResult AccessDenied(string ReturnUrl)
+        {
+            ViewBag.ReturnUrl = ReturnUrl;
+            return View();
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -37,7 +37,7 @@
         /* Sidebar stili */
         .sidebar {
             width: 250px;
-            background-color: #343a40;
+            background-color: #42474d;
             position: fixed;
             top: 56px;
             left: 0;
@@ -152,6 +152,12 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
                     </li>
+                    @if (User.IsInRole("Root Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Role" asp-action="RootAdminPanel">Root Admin Panel</a>
+                        </li>
+                    }
                 </ul>
                 <partial name="_NavbarLogin" />
             </div>

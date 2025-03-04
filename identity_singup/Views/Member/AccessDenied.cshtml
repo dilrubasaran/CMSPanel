@@ -1,0 +1,23 @@
+@{
+    ViewData["Title"] = "Erişim Reddedildi";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <h1 class="display-4 text-danger">
+                <i class="bi bi-exclamation-triangle"></i>
+            </h1>
+            <h2>Erişim Reddedildi</h2>
+            <p class="lead">Bu sayfaya erişim yetkiniz bulunmamaktadır.</p>
+            <hr />
+            <p>
+                @if (!string.IsNullOrEmpty(ViewBag.ReturnUrl))
+                {
+                    <a href="@ViewBag.ReturnUrl" class="btn btn-primary">Geri Dön</a>
+                }
+                <a href="/" class="btn btn-secondary">Ana Sayfaya Git</a>
+            </p>
+        </div>
+    </div>
+</div> 
