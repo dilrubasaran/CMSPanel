@@ -49,6 +49,8 @@ namespace identity_signup.Areas.Admin.Services
             return highestPermission;
         }
 
+
+        //kullanıcının bir rolü değiştirme yetkisi olup olmadığını kontrol eder
         public async Task<bool> HasPermissionToModifyRole(string currentUserId, string roleId)
         {
             var currentUserPermissionLevel = await GetUserHighestPermissionLevel(currentUserId);
@@ -59,6 +61,7 @@ namespace identity_signup.Areas.Admin.Services
             return currentUserPermissionLevel > role.PermissionLevel;
         }
 
+        //bir kullanıcının başka bir kullanıcının rolünü değiştirme yetkisine sahip olup olmadığını kontrol eder
         public async Task<bool> CanModifyUserRole(string currentUserId, string targetUserId, string roleId)
         {
             var currentUser = await _userManager.FindByIdAsync(currentUserId);
