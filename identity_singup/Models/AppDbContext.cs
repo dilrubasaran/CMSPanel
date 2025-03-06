@@ -11,6 +11,7 @@ namespace identity_singup.Models
         public DbSet<Education> Education { get; set; }
         public DbSet<PermissionRequest> PermissionRequests { get; set; }
         public DbSet<LoginAudit> LoginAudits { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +28,12 @@ namespace identity_singup.Models
             modelBuilder.Entity<LoginAudit>()
                 .Property(l => l.LoginTime)
                 .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<MenuItem>()
+                .HasOne(m => m.Parent)
+                .WithMany(m => m.Children)
+                .HasForeignKey(m => m.ParentId);
         }
+
     }
 }

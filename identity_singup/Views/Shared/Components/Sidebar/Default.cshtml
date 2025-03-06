@@ -1,14 +1,17 @@
 @model List<MenuItem>
+@using identity_singup.Areas.Admin.Services
+@inject IMenuService _menuService
 @{
-    var userRole = User.IsInRole("admin") ? "admin" : 
-                  User.IsInRole("instructor") ? "instructor" : 
+    var userRole = User.IsInRole("admin") ? "admin" :
+                  User.IsInRole("instructor") ? "instructor" :
                   User.IsInRole("student") ? "student" : "";
 }
 
 <div class="sidebar-container @userRole-sidebar">
     <div class="sidebar-header p-3">
         <h5 class="mb-0 text-white">
-            @(userRole switch {
+            @(userRole switch
+            {
                 "admin" => "Yönetim Paneli",
                 "instructor" => "Eğitmen Paneli",
                 "student" => "Öğrenci Paneli",
@@ -16,27 +19,27 @@
             })
         </h5>
     </div>
-    
+
     <div class="sidebar-menu">
         <ul class="nav flex-column">
             @foreach (var item in Model)
             {
-                if (item.SubItems.Any())
+                if (item.SubMenuItems.Any())
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-white" data-bs-toggle="collapse" href="#@item.Title.Replace(" ", "")" role="button">
+                        <a class="nav-link text-white @(item.IsActive ? "active" : "")" data-bs-toggle="collapse" href="#@item.Name.Replace(" ", "")" role="button">
                             <i class="@item.Icon me-2"></i>
-                            @item.Title
+                            @item.Name
                             <i class="bi bi-chevron-down ms-auto"></i>
                         </a>
-                        <div class="collapse show" id="@item.Title.Replace(" ", "")">
+                        <div class="collapse @(item.IsActive || item.SubMenuItems.Any(sm => sm.IsActive) ? "show" : "")" id="@item.Name.Replace(" ", "")">
                             <ul class="nav flex-column ms-3">
-                                @foreach (var subItem in item.SubItems)
+                                @foreach (var subItem in item.SubMenuItems)
                                 {
                                     <li class="nav-item">
-                                        <a class="nav-link text-white" href="@subItem.Url">
+                                        <a class="nav-link text-white @(subItem.IsActive ? "active" : "")" href="@_menuService.GetMenuUrl(subItem)">
                                             <i class="@subItem.Icon me-2"></i>
-                                            @subItem.Title
+                                            @subItem.Name
                                         </a>
                                     </li>
                                 }
@@ -47,9 +50,9 @@
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-white @(item.IsActive ? "active" : "")" href="@item.Url">
+                        <a class="nav-link text-white @(item.IsActive ? "active" : "")" href="@_menuService.GetMenuUrl(item)">
                             <i class="@item.Icon me-2"></i>
-                            @item.Title
+                            @item.Name
                         </a>
                     </li>
                 }
@@ -89,15 +92,15 @@
         transition: all 0.2s;
     }
 
-    .nav-link:hover {
-        color: #fff;
-        background: rgba(255,255,255,.1);
-    }
+        .nav-link:hover {
+            color: #fff;
+            background: rgba(255,255,255,.1);
+        }
 
-    .nav-link.active {
-        color: #fff;
-        background: rgba(255,255,255,.2);
-    }
+        .nav-link.active {
+            color: #fff;
+            background: rgba(255,255,255,.2);
+        }
 
     .collapse .nav-link {
         padding-left: 3rem;
@@ -107,32 +110,32 @@
         position: relative;
     }
 
-    .nav-link[data-bs-toggle="collapse"] .bi-chevron-down {
-        position: absolute;
-        right: 1rem;
-        transform: rotate(0deg);
-    }
+        .nav-link[data-bs-toggle="collapse"] .bi-chevron-down {
+            position: absolute;
+            right: 1rem;
+            transform: rotate(0deg);
+        }
 
-    .nav-link[data-bs-toggle="collapse"][aria-expanded="true"] .bi-chevron-down {
-        transform: rotate(180deg);
-    }
+        .nav-link[data-bs-toggle="collapse"][aria-expanded="true"] .bi-chevron-down {
+            transform: rotate(180deg);
+        }
 
     /* Instructor specific styles */
     .instructor-sidebar .nav-link {
         color: #212529;
     }
 
-    .instructor-sidebar .nav-link:hover,
-    .instructor-sidebar .nav-link.active {
-        color: #000;
-        background: rgba(0,0,0,.1);
-    }
+        .instructor-sidebar .nav-link:hover,
+        .instructor-sidebar .nav-link.active {
+            color: #000;
+            background: rgba(0,0,0,.1);
+        }
 
     .instructor-sidebar .sidebar-header {
         color: #cb2020 !important;
     }
 
-    .instructor-sidebar .sidebar-header h5 {
-        color: #212529 !important;
-    }
+        .instructor-sidebar .sidebar-header h5 {
+            color: #212529 !important;
+        }
 </style>

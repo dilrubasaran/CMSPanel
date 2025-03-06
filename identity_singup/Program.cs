@@ -11,6 +11,8 @@ using Identity.Infrastructure.Authorization;
 using identity_singup.Infrastructure;
 using Microsoft.AspNetCore.HttpOverrides;
 using identity_signup.Areas.Admin.Services;
+using identity_singup.Areas.Admin.Repositories;
+using identity_singup.Areas.Admin.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -89,55 +91,86 @@ builder.Services.AddLogging(logging =>
 });
 
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IMenuService, MenuService>();
+builder.Services.AddScoped<ClaimsService>();
+
+// Menü ve Claims servislerini kaydet
+builder.Services.AddScoped<IMenuRepository, MenuRepository>();
+builder.Services.AddScoped<IMenuService, MenuService>();
+builder.Services.AddScoped<IClaimsService, ClaimsService>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
+// Veritabanı ve seed işlemleri için scope oluştur
 using (var scope = app.Services.CreateScope())
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
-
-    // Önce rolleri oluştur
-    var roles = new[]
+    try
     {
-        new { Name = "Root Admin", Level = 100 },
-        new { Name = "Admin", Level = 50 },
-        new { Name = "Instructor", Level = 10 },
-        new { Name = "Student", Level = 1 }
-    };
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        
+        // Veritabanını oluştur
+        Console.WriteLine("Veritabanı oluşturuluyor...");
+        await context.Database.EnsureCreatedAsync();
+        Console.WriteLine("Veritabanı oluşturuldu.");
 
-    foreach (var role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role.Name))
+        // Menü verilerini seed et
+        Console.WriteLine("Menü verileri yükleniyor...");
+        await MenuSeedData.SeedMenuItemsAsync(app.Services);
+        
+        // Rolleri ve admin kullanıcısını oluştur
+        Console.WriteLine("Roller ve admin kullanıcısı oluşturuluyor...");
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+
+        // Rolleri oluştur
+        var roles = new[]
         {
-            await roleManager.CreateAsync(new AppRole 
-            { 
-                Name = role.Name, 
-                PermissionLevel = role.Level 
-            });
-        }
-    }
-
-    // Root Admin kullanıcısını oluştur
-    var rootAdminUsername = "rootadmin";
-    var rootAdminEmail = "rootadmin@gmail.com";
-    var rootAdmin = await userManager.FindByNameAsync(rootAdminUsername);
-
-    if (rootAdmin == null)
-    {
-        rootAdmin = new AppUser
-        {
-            UserName = rootAdminUsername,
-            Email = rootAdminEmail,
-            EmailConfirmed = true,
-            IsRootAdmin = true
+            new { Name = "Root Admin", Level = 100 },
+            new { Name = "Admin", Level = 50 },
+            new { Name = "Instructor", Level = 10 },
+            new { Name = "Student", Level = 1 }
         };
 
-        var result = await userManager.CreateAsync(rootAdmin, "Password12*"); 
-        if (result.Succeeded)
+        foreach (var role in roles)
         {
-            await userManager.AddToRoleAsync(rootAdmin, "Root Admin");
+            if (!await roleManager.RoleExistsAsync(role.Name))
+            {
+                await roleManager.CreateAsync(new AppRole 
+                { 
+                    Name = role.Name, 
+                    PermissionLevel = role.Level 
+                });
+            }
         }
+
+        // Root Admin kullanıcısını oluştur
+        var rootAdminUsername = "rootadmin";
+        var rootAdminEmail = "rootadmin@gmail.com";
+        var rootAdmin = await userManager.FindByNameAsync(rootAdminUsername);
+
+        if (rootAdmin == null)
+        {
+            rootAdmin = new AppUser
+            {
+                UserName = rootAdminUsername,
+                Email = rootAdminEmail,
+                EmailConfirmed = true,
+                IsRootAdmin = true
+            };
+
+            var result = await userManager.CreateAsync(rootAdmin, "Password12*"); 
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(rootAdmin, "Root Admin");
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Uygulama başlatılırken hata oluştu: {ex.Message}");
+        Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+        throw;
     }
 }
 
@@ -154,15 +187,11 @@ else
 
 app.UseForwardedHeaders(); // En üstte olmalı
 app.UseHttpsRedirection();
-app.UseStaticFiles(); 
+app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
-
-  
-
 
 app.MapControllerRoute(
     name: "areas",
