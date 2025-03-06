@@ -7,12 +7,7 @@ using identity_singup.Models;
 
 namespace identity_singup.Areas.Admin.Services
 {
-    public interface IMenuService
-    {
-        Task<List<MenuItem>> GetMenuItemsByClaims(IEnumerable<Claim> claims);
-        Task<List<MenuItem>> GetMenuItemsByRole(string role);
-        string GetMenuUrl(MenuItem menuItem);
-    }
+ 
 
     public class MenuService : IMenuService
     {

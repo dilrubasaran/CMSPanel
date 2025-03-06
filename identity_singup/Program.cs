@@ -91,8 +91,6 @@ builder.Services.AddLogging(logging =>
 });
 
 builder.Services.AddScoped<IRoleService, RoleService>();
-builder.Services.AddScoped<IMenuService, MenuService>();
-builder.Services.AddScoped<ClaimsService>();
 
 // Menü ve Claims servislerini kaydet
 builder.Services.AddScoped<IMenuRepository, MenuRepository>();
@@ -105,21 +103,16 @@ var app = builder.Build();
 // Veritabanı ve seed işlemleri için scope oluştur
 using (var scope = app.Services.CreateScope())
 {
-    try
-    {
+   
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         
         // Veritabanını oluştur
-        Console.WriteLine("Veritabanı oluşturuluyor...");
+       
         await context.Database.EnsureCreatedAsync();
-        Console.WriteLine("Veritabanı oluşturuldu.");
-
-        // Menü verilerini seed et
-        Console.WriteLine("Menü verileri yükleniyor...");
+    
         await MenuSeedData.SeedMenuItemsAsync(app.Services);
         
         // Rolleri ve admin kullanıcısını oluştur
-        Console.WriteLine("Roller ve admin kullanıcısı oluşturuluyor...");
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
@@ -165,13 +158,8 @@ using (var scope = app.Services.CreateScope())
                 await userManager.AddToRoleAsync(rootAdmin, "Root Admin");
             }
         }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Uygulama başlatılırken hata oluştu: {ex.Message}");
-        Console.WriteLine($"Stack Trace: {ex.StackTrace}");
-        throw;
-    }
+    
+   
 }
 
 // Middleware'ler
