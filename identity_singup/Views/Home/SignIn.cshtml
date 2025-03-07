@@ -25,150 +25,233 @@
     </script>
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <!-- Üst kısımdaki tab menüsü -->
-            <ul class="nav nav-pills nav-fill mb-4" id="loginTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="instructor-tab" data-bs-toggle="pill" 
-                            data-bs-target="#instructor-login" type="button" role="tab">
-                        <i class="bi bi-person-video3"></i> Eğitmen Girişi
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="student-tab" data-bs-toggle="pill" 
-                            data-bs-target="#student-login" type="button" role="tab">
-                        <i class="bi bi-mortarboard"></i> Öğrenci Girişi
-                    </button>
-                </li>
-            </ul>
-
-            <!-- Tab içerikleri -->
-            <div class="tab-content" id="loginTabContent">
-                <!-- Eğitmen Giriş Formu -->
-                <div class="tab-pane fade show active" id="instructor-login" role="tabpanel">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h3 class="card-title text-center mb-4">Eğitmen Girişi</h3>
-                            <form asp-controller="Home" asp-action="SignIn" method="post">
-                                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-
-                                <div class="form-floating mb-3">
-                                    <input asp-for="UserName" class="form-control" placeholder="Kullanıcı Adı">
-                                    <label asp-for="UserName">Kullanıcı Adı</label>
-                                    <span asp-validation-for="UserName" class="text-danger"></span>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input asp-for="Password" type="password" class="form-control" placeholder="Şifre">
-                                    <label asp-for="Password">Şifre</label>
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-
-                                <div class="form-check mb-3">
-                                    <input asp-for="RememberMe" class="form-check-input" type="checkbox">
-                                    <label asp-for="RememberMe" class="form-check-label">Beni Hatırla</label>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary w-100">
-                                    <i class="bi bi-box-arrow-in-right"></i> Giriş Yap
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Öğrenci Giriş Formu -->
-                <div class="tab-pane fade" id="student-login" role="tabpanel">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h3 class="card-title text-center mb-4">Öğrenci Girişi</h3>
-                            <form asp-controller="Home" asp-action="SignIn" method="post">
-                                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-
-                                <div class="form-floating mb-3">
-                                    <input asp-for="UserName" class="form-control" placeholder="Kullanıcı Adı">
-                                    <label asp-for="UserName">Kullanıcı Adı</label>
-                                    <span asp-validation-for="UserName" class="text-danger"></span>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input asp-for="Password" type="password" class="form-control" placeholder="Şifre">
-                                    <label asp-for="Password">Şifre</label>
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-
-                                <div class="form-check mb-3">
-                                    <input asp-for="RememberMe" class="form-check-input" type="checkbox">
-                                    <label asp-for="RememberMe" class="form-check-label">Beni Hatırla</label>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary w-100">
-                                    <i class="bi bi-box-arrow-in-right"></i> Giriş Yap
-                                </button>
-                            </form>
-                        </div>
+<body>
+    <div class="container">
+        <div class="row min-vh-100">
+            <!-- Sol taraf - Resim ve Slogan -->
+            <div class="col-lg-8 d-none d-lg-flex bg-primary position-relative overflow-hidden sign-in-left">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                    <div class="position-absolute top-50 start-50 translate-middle text-white text-center">
+                        <h1 class="display-4 fw-bold mb-4 animate__animated animate__fadeInDown">Identity Learn'e Hoş Geldiniz</h1>
+                        <p class="lead animate__animated animate__fadeInUp">Size özel role bazlı menüler</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Alt kısımdaki linkler -->
-            <div class="text-center mt-3">
-                <a href="#" class="text-decoration-none">Şifremi Unuttum</a> |
-                <a asp-controller="Home" asp-action="SignUp" class="text-decoration-none">Yeni Hesap Oluştur</a>
+            <!-- Sağ taraf - Giriş Formu -->
+            <div class="col-lg-4 d-flex align-items-center sign-in-right">
+                <div class="w-100 px-4">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show animate__animated animate__fadeIn" role="alert">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show animate__animated animate__fadeIn" role="alert">
+                            <i class="bi bi-exclamation-circle-fill me-2"></i>
+                            @TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <h2 class="text-center mb-4 animate__animated animate__fadeInDown">Giriş Yap</h2>
+                    
+                    <!-- Üst kısımdaki tab menüsü -->
+                    <ul class="nav nav-pills nav-fill mb-4" id="loginTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="instructor-tab" data-bs-toggle="pill" 
+                                    data-bs-target="#instructor-login" type="button" role="tab">
+                                <i class="bi bi-person-video3"></i> Eğitmen Girişi
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="student-tab" data-bs-toggle="pill" 
+                                    data-bs-target="#student-login" type="button" role="tab">
+                                <i class="bi bi-mortarboard"></i> Öğrenci Girişi
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Tab içerikleri -->
+                    <div class="tab-content" id="loginTabContent">
+                        <!-- Eğitmen Giriş Formu -->
+                        <div class="tab-pane fade show active" id="instructor-login" role="tabpanel">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center mb-4">Eğitmen Girişi</h3>
+                                    <form asp-controller="Home" asp-action="SignIn" method="post">
+                                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                                        <div class="form-floating mb-3">
+                                            <input asp-for="UserName" class="form-control" placeholder="Kullanıcı Adı">
+                                            <label asp-for="UserName">Kullanıcı Adı</label>
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-floating mb-3">
+                                            <input asp-for="Password" type="password" class="form-control" placeholder="Şifre">
+                                            <label asp-for="Password">Şifre</label>
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-check mb-3">
+                                            <input asp-for="RememberMe" class="form-check-input" type="checkbox">
+                                            <label asp-for="RememberMe" class="form-check-label">Beni Hatırla</label>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="bi bi-box-arrow-in-right"></i> Giriş Yap
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Öğrenci Giriş Formu -->
+                        <div class="tab-pane fade" id="student-login" role="tabpanel">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center mb-4">Öğrenci Girişi</h3>
+                                    <form asp-controller="Home" asp-action="SignIn" method="post">
+                                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                                        <div class="form-floating mb-3">
+                                            <input asp-for="UserName" class="form-control" placeholder="Kullanıcı Adı">
+                                            <label asp-for="UserName">Kullanıcı Adı</label>
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-floating mb-3">
+                                            <input asp-for="Password" type="password" class="form-control" placeholder="Şifre">
+                                            <label asp-for="Password">Şifre</label>
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-check mb-3">
+                                            <input asp-for="RememberMe" class="form-check-input" type="checkbox">
+                                            <label asp-for="RememberMe" class="form-check-label">Beni Hatırla</label>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="bi bi-box-arrow-in-right"></i> Giriş Yap
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alt kısımdaki linkler -->
+                    <div class="text-center mt-3">
+                        <a href="#" class="text-decoration-none">Şifremi Unuttum</a> |
+                        <a asp-controller="Home" asp-action="SignUp" class="text-decoration-none">Yeni Hesap Oluştur</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<style>
-    .nav-pills .nav-link {
-        color: #6c757d;
-        background-color: #f8f9fa;
-        border: 1px solid #dee2e6;
-        margin: 0 4px;
-    }
+    <style>
+        .nav-pills .nav-link {
+            color: #6c757d;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            margin: 0 4px;
+        }
 
-    .nav-pills .nav-link.active {
-        background-color: #935ac1; /* Ana mor renk */
-    }
+        .nav-pills .nav-link.active {
+            background-color: #935ac1; /* Ana mor renk */
+        }
 
-    .nav-pills .nav-link:hover:not(.active) {
-        background-color: #a66ed0; /* Daha açık mor */
-    }
+        .nav-pills .nav-link:hover:not(.active) {
+            background-color: #a66ed0; /* Daha açık mor */
+        }
 
-    .card {
-        border: none;
-        border-radius: 10px;
-    }
+        .card {
+            border: none;
+            border-radius: 10px;
+        }
 
-    .form-floating > .form-control:focus ~ label,
-    .form-floating > .form-control:not(:placeholder-shown) ~ label {
-        color: #935ac1;
-    }
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label {
+            color: #935ac1;
+        }
 
-    .btn-primary {
-        background-color: #935ac1;
-        border-color: #935ac1;
-    }
+        .btn-primary {
+            background-color: #935ac1;
+            border-color: #935ac1;
+        }
 
-    .btn-primary:hover {
-        background-color: #7a4ba3; /* Daha koyu mor */
-        border-color: #7a4ba3;
-    }
+        .btn-primary:hover {
+            background-color: #7a4ba3; /* Daha koyu mor */
+            border-color: #7a4ba3;
+        }
 
-    .text-primary {
-        color: #935ac1 !important;
-    }
+        .text-primary {
+            color: #935ac1 !important;
+        }
 
-    .btn-success {
-        background-color: #935ac1;
-        border-color: #935ac1;
-    }
+        .btn-success {
+            background-color: #935ac1;
+            border-color: #935ac1;
+        }
 
-    .btn-success:hover {
-        background-color: #7a4ba3;
-        border-color: #7a4ba3;
-    }
-</style>
+        .btn-success:hover {
+            background-color: #7a4ba3;
+            border-color: #7a4ba3;
+        }
+
+        /* Animasyon Stilleri */
+        .sign-in-left {
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .sign-in-right {
+            animation: slideInRight 1s ease-out;
+        }
+
+        @@keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @@keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .input-field {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</body>

@@ -18,12 +18,14 @@ namespace identity_singup.Areas.Admin.Services
             _menuRepository = menuRepository;
         }
 
+        //Kullanýcýnýn sahip olduðu claims bilgilerine göre eriþebileceði menüleri getirir
         public async Task<List<MenuItem>> GetMenuItemsByClaims(IEnumerable<Claim> claims)
         {
             var allMenuItems = await _menuRepository.GetAllMenusAsync();
             return allMenuItems.Where(menu => claims.Any(claim => claim.Type == "MenuAccess" && claim.Value == menu.Id.ToString())).ToList();
         }
 
+        // Kullanýcýnýn rolüne göre menüleri getirir
         public async Task<List<MenuItem>> GetMenuItemsByRole(string role)
         {
             return await _menuRepository.GetMenusByRoleAsync(role);
