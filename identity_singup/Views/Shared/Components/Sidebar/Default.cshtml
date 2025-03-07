@@ -59,6 +59,12 @@
             }
         </ul>
     </div>
+
+     <div class="sidebar-footer">
+                    <a class="btn btn-danger w-100" asp-area="" asp-controller="Member" asp-action="Logout">
+                        <i class="bi bi-box-arrow-right"></i> Çıkış Yap
+                    </a>
+                </div>
 </div>
 
 <style>
@@ -102,9 +108,7 @@
             background: rgba(255,255,255,.2);
         }
 
-    .collapse .nav-link {
-        padding-left: 3rem;
-    }
+    
 
     .nav-link[data-bs-toggle="collapse"] {
         position: relative;
@@ -138,4 +142,41 @@
         .instructor-sidebar .sidebar-header h5 {
             color: #212529 !important;
         }
+
+    /* Active menu item styles for each role */
+    .admin-sidebar .nav-link.active {
+        color: #fff;
+        background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(33,37,41,0) 100%);
+        border-left: 4px solid #fff;
+    }
+
+    .instructor-sidebar .nav-link.active {
+        color: #fff !important;
+        background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(32,101,38,0) 100%);
+        border-left: 4px solid #fff;
+    }
+
+    .student-sidebar .nav-link.active {
+        color: #fff;
+        background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(100,151,227,0) 100%);
+        border-left: 4px solid #fff;
+    }
+
+    /* Hover effects */
+    .nav-link:hover {
+        color: #fff;
+        background: rgba(255,255,255,.1);
+        border-left: 4px solid rgba(255,255,255,0.5);
+        padding-left: calc(0.8rem - 4px); /* Compensate for border */
+    }
+
+    .nav-link {
+        border-left: 4px solid transparent;
+        padding-left: calc(0.8rem - 4px);
+        margin: 2px 0;
+    }
+
+  
+
+    
 </style>

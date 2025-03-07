@@ -27,7 +27,7 @@ namespace identity_singup.Areas.Admin.Repositories
                 .Where(m => m.ParentId == null)
                 .ToList();
 
-            // Her bir kök menü için alt menüleri ekle
+            // Her bir ana menü için alt menüleri ekle
             foreach (var menuItem in rootMenuItems)
             {
                 BuildMenuHierarchy(menuItem, allMenuItems);
@@ -49,7 +49,7 @@ namespace identity_singup.Areas.Admin.Repositories
                 .Where(m => m.ParentId == null)
                 .ToList();
 
-            // Her bir kök menü için alt menüleri ekle
+            // Her bir ana menü için alt menüleri ekle
             foreach (var menuItem in rootMenuItems)
             {
                 BuildMenuHierarchy(menuItem, menuItems);
