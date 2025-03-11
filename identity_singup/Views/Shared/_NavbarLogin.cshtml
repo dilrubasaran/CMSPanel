@@ -1,4 +1,4 @@
-﻿@using System.Security.Claims
+﻿﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @if (User.Identity.IsAuthenticated)
 {
@@ -14,12 +14,12 @@
 				</a>
 			</li>
 			<li>
-				
+
 			<li>
 				<a class="dropdown-item text-white" asp-controller="Member" asp-action="LogOut">
 					<i class="bi bi-box-arrow-right me-2"></i>Çıkış Yap
 				</a>
-				 
+
 			</li>
 		</ul>
 	</li>

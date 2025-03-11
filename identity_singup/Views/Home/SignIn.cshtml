@@ -26,130 +26,55 @@
 }
 
 <body>
-    <div class="container">
-        <div class="row min-vh-100">
-            <!-- Sol taraf - Resim ve Slogan -->
-            <div class="col-lg-8 d-none d-lg-flex bg-primary position-relative overflow-hidden sign-in-left">
-                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
-                    <div class="position-absolute top-50 start-50 translate-middle text-white text-center">
-                        <h1 class="display-4 fw-bold mb-4 animate__animated animate__fadeInDown">Identity Learn'e Hoş Geldiniz</h1>
-                        <p class="lead animate__animated animate__fadeInUp">Size özel role bazlı menüler</p>
-                    </div>
-                </div>
-            </div>
+    <div class="min-vh-100 d-flex align-items-center justify-content-center py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                        <div class="row g-0">
+                            <!-- Sol Panel -->
+                            <div class="col-lg-5 bg-gradient-purple text-white p-4 p-lg-5 text-center d-flex flex-column justify-content-center">
+                                <h2 class="mb-4">Hoş Geldiniz!</h2>
+                                <p class="mb-4">Hesabınız yok mu? Hemen yeni bir hesap oluşturun.</p>
+                                <a asp-action="SignUp" class="btn btn-outline-light rounded-pill px-4 py-2">
+                                    KAYIT OL
+                                    <i class="bi bi-arrow-right ms-2"></i>
+                                </a>
+                            </div>
 
-            <!-- Sağ taraf - Giriş Formu -->
-            <div class="col-lg-4 d-flex align-items-center sign-in-right">
-                <div class="w-100 px-4">
-                    @if (TempData["SuccessMessage"] != null)
-                    {
-                        <div class="alert alert-success alert-dismissible fade show animate__animated animate__fadeIn" role="alert">
-                            <i class="bi bi-check-circle-fill me-2"></i>
-                            @TempData["SuccessMessage"]
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    }
+                            <!-- Sağ Panel -->
+                            <div class="col-lg-7 p-4 p-lg-5">
+                                <h2 class="text-center mb-4">Giriş Yap</h2>
+                                
+                                <form asp-action="SignIn" method="post">
+                                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
-                    @if (TempData["ErrorMessage"] != null)
-                    {
-                        <div class="alert alert-danger alert-dismissible fade show animate__animated animate__fadeIn" role="alert">
-                            <i class="bi bi-exclamation-circle-fill me-2"></i>
-                            @TempData["ErrorMessage"]
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    }
+                                    <div class="form-floating mb-3 position-relative">
+	                                    <input asp-for="UserName" class="form-control ps-5" placeholder="Kullanıcı Adı">
+	                                    <label asp-for="UserName">Kullanıcı Adı</label>
+	                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                    </div>
+									
+                               
 
-                    <h2 class="text-center mb-4 animate__animated animate__fadeInDown">Giriş Yap</h2>
-                    
-                    <!-- Üst kısımdaki tab menüsü -->
-                    <ul class="nav nav-pills nav-fill mb-4" id="loginTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="instructor-tab" data-bs-toggle="pill" 
-                                    data-bs-target="#instructor-login" type="button" role="tab">
-                                <i class="bi bi-person-video3"></i> Eğitmen Girişi
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="student-tab" data-bs-toggle="pill" 
-                                    data-bs-target="#student-login" type="button" role="tab">
-                                <i class="bi bi-mortarboard"></i> Öğrenci Girişi
-                            </button>
-                        </li>
-                    </ul>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Password" type="password" class="form-control ps-5" placeholder="Şifre">
+                                        <label asp-for="Password">Şifre</label>
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
 
-                    <!-- Tab içerikleri -->
-                    <div class="tab-content" id="loginTabContent">
-                        <!-- Eğitmen Giriş Formu -->
-                        <div class="tab-pane fade show active" id="instructor-login" role="tabpanel">
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <h3 class="card-title text-center mb-4">Eğitmen Girişi</h3>
-                                    <form asp-controller="Home" asp-action="SignIn" method="post">
-                                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                                    <div class="form-check mb-4">
+                                        <input asp-for="RememberMe" type="checkbox" class="form-check-input">
+                                        <label asp-for="RememberMe" class="form-check-label">Beni Hatırla</label>
+                                    </div>
 
-                                        <div class="form-floating mb-3">
-                                            <input asp-for="UserName" class="form-control" placeholder="Kullanıcı Adı">
-                                            <label asp-for="UserName">Kullanıcı Adı</label>
-                                            <span asp-validation-for="UserName" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="form-floating mb-3">
-                                            <input asp-for="Password" type="password" class="form-control" placeholder="Şifre">
-                                            <label asp-for="Password">Şifre</label>
-                                            <span asp-validation-for="Password" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="form-check mb-3">
-                                            <input asp-for="RememberMe" class="form-check-input" type="checkbox">
-                                            <label asp-for="RememberMe" class="form-check-label">Beni Hatırla</label>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary w-100">
-                                            <i class="bi bi-box-arrow-in-right"></i> Giriş Yap
-                                        </button>
-                                    </form>
-                                </div>
+                                    <button type="submit" class="btn btn-purple w-100 py-3 rounded-3">
+                                        <i class="bi bi-box-arrow-in-right me-2"></i>
+                                        GİRİŞ YAP
+                                    </button>
+                                </form>
                             </div>
                         </div>
-
-                        <!-- Öğrenci Giriş Formu -->
-                        <div class="tab-pane fade" id="student-login" role="tabpanel">
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <h3 class="card-title text-center mb-4">Öğrenci Girişi</h3>
-                                    <form asp-controller="Home" asp-action="SignIn" method="post">
-                                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-
-                                        <div class="form-floating mb-3">
-                                            <input asp-for="UserName" class="form-control" placeholder="Kullanıcı Adı">
-                                            <label asp-for="UserName">Kullanıcı Adı</label>
-                                            <span asp-validation-for="UserName" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="form-floating mb-3">
-                                            <input asp-for="Password" type="password" class="form-control" placeholder="Şifre">
-                                            <label asp-for="Password">Şifre</label>
-                                            <span asp-validation-for="Password" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="form-check mb-3">
-                                            <input asp-for="RememberMe" class="form-check-input" type="checkbox">
-                                            <label asp-for="RememberMe" class="form-check-label">Beni Hatırla</label>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary w-100">
-                                            <i class="bi bi-box-arrow-in-right"></i> Giriş Yap
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Alt kısımdaki linkler -->
-                    <div class="text-center mt-3">
-                        <a href="#" class="text-decoration-none">Şifremi Unuttum</a> |
-                        <a asp-controller="Home" asp-action="SignUp" class="text-decoration-none">Yeni Hesap Oluştur</a>
                     </div>
                 </div>
             </div>
@@ -157,99 +82,19 @@
     </div>
 
     <style>
-        .nav-pills .nav-link {
-            color: #6c757d;
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            margin: 0 4px;
+        .bg-gradient-purple {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
         }
-
-        .nav-pills .nav-link.active {
-            background-color: #935ac1; /* Ana mor renk */
-        }
-
-        .nav-pills .nav-link:hover:not(.active) {
-            background-color: #a66ed0; /* Daha açık mor */
-        }
-
-        .card {
-            border: none;
-            border-radius: 10px;
-        }
-
-        .form-floating > .form-control:focus ~ label,
-        .form-floating > .form-control:not(:placeholder-shown) ~ label {
-            color: #935ac1;
-        }
-
-        .btn-primary {
+        
+        .btn-purple {
             background-color: #935ac1;
             border-color: #935ac1;
+            color: white;
         }
-
-        .btn-primary:hover {
-            background-color: #7a4ba3; /* Daha koyu mor */
-            border-color: #7a4ba3;
-        }
-
-        .text-primary {
-            color: #935ac1 !important;
-        }
-
-        .btn-success {
-            background-color: #935ac1;
-            border-color: #935ac1;
-        }
-
-        .btn-success:hover {
-            background-color: #7a4ba3;
-            border-color: #7a4ba3;
-        }
-
-        /* Animasyon Stilleri */
-        .sign-in-left {
-            animation: slideInLeft 1s ease-out;
-        }
-
-        .sign-in-right {
-            animation: slideInRight 1s ease-out;
-        }
-
-        @@keyframes slideInLeft {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @@keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .input-field {
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @@keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .btn-purple:hover {
+            background-color: #8347b4;
+            border-color: #8347b4;
+            color: white;
         }
     </style>
 

@@ -15,14 +15,16 @@ namespace identity_singup.Models
         public int SortNumber { get; set; }
         public string? Description { get; set; }
         public string Role { get; set; }
-        
+
+        // TODO: is active yi güncelle veribanaına eklenecek şuan notmapped
+        public bool IsActive { get; set; }
+
+
         // Navigation properties for parent-child relationship
         public MenuItem Parent { get; set; }
         public List<MenuItem> Children { get; set; } = new List<MenuItem>();
         
-        // Aktif menü durumu (veritabanında saklanmaz)
-        [NotMapped]
-        public bool IsActive { get; set; }
+       
         
         // Alt menü öğeleri (veritabanında saklanmaz)
         [NotMapped]
