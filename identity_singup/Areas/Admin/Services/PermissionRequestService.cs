@@ -12,6 +12,13 @@ namespace identity_singup.Areas.Admin.Services
             _context = context;
         }
 
+        // İzin talebi oluştur
+        public async Task<bool> CreateRequest(PermissionRequest request)
+        {
+            await _context.PermissionRequests.AddAsync(request);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
         // Kullanıcıya verilen iznin geçerli olup olmadığını kontrol et
         public async Task<bool> HasValidPermission(int educationId, string userId)
         {
@@ -53,12 +60,7 @@ namespace identity_singup.Areas.Admin.Services
             return await _context.SaveChangesAsync() > 0;
         }
 
-        // İzin talebi oluştur
-        public async Task<bool> CreateRequest(PermissionRequest request)
-        {
-            await _context.PermissionRequests.AddAsync(request);
-            return await _context.SaveChangesAsync() > 0;
-        }
+       
 
       
     }

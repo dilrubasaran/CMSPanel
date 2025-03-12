@@ -6,7 +6,6 @@
     <title>@ViewData["Title"] - Identity Learn</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/identity_singup.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/sccs/_variables.scss" asp-append-version="true" />
 
@@ -42,13 +41,13 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <div class="row" style="margin-top: 56px;">
+    <div class="container">
+        <div class="row" >
             <!-- Sidebar -->
             @if (User.Identity.IsAuthenticated)
             {
                 <div class="col-md-3 col-lg-2 px-0 position-fixed h-100 bg-light border-end d-none d-md-block" 
-                     style="top: 56px; width: 280px;">
+                     style="top: 70px; width: 10px;">
                     @await Component.InvokeAsync("Sidebar")
                 </div>
                 <!-- Boşluk bırakma -->

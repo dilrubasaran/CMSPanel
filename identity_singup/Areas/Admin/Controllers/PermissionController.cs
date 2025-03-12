@@ -29,7 +29,7 @@ namespace identity_singup.Areas.Admin.Controllers
         }
 
 
-        //Onay bekleyen izin taleplerini alır ve bunları bir liste halinde (View) gönderir.
+        //Onay bekleyen izin taleplerini alır ve bunları bir liste halinde (View) gönderir
         public async Task<IActionResult> PendingRequests()
         {
             var requests = await _permissionService.GetPendingRequests();
@@ -53,7 +53,7 @@ namespace identity_singup.Areas.Admin.Controllers
             return View(viewModels);
         }
 
-        // Belirtilen izin talebini onaylar ve sonucu yönlendirme (Redirect) ile geri döndürür.
+        // Belirtilen izin talebini onaylar
         [HttpPost]
         public async Task<IActionResult> ApproveRequest(int requestId)
         {
