@@ -72,5 +72,40 @@ namespace identity_singup.Areas.Admin.Repositories
                 BuildMenuHierarchy(child, allMenuItems);
             }
         }
+
+        //Menu controller ve action var mı kontol edn metot
+        public async Task<bool> MenuItemValid(MenuItem menuItem)
+        {
+
+            var validController = await _context.MenuItems.AnyAsync(c => c.Name == menuItem.ControllerName);
+            var validAction = await   _context.MenuItems.AnyAsync(c =>c.Name == menuItem.ActionName );
+            return validAction && validController;
+        }
+
+        public async Task MenuAdd(MenuItem menuItem)
+        {
+            var isValid = await MenuItemValid(menuItem);
+
+            menuItem.IsActive = isValid;
+            if (menuItem.Id == 0)
+            {
+                _context.MenuItems.Add(menuItem);
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task MenuUpdate(MenuItem menuItem)
+        {
+            var isValid = await MenuItemValid(menuItem);
+
+            menuItem.IsActive = isValid;
+            if (menuItem.Id != null)
+            {
+                _context.MenuItems.Update(menuItem);
+            }
+            await _context.SaveChangesAsync();
+        }
+
+
     }
 } 

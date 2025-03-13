@@ -16,16 +16,19 @@ namespace identity_singup.Models
         public string? Description { get; set; }
         public string Role { get; set; }
 
-        // TODO: is active yi güncelle veribanaına eklenecek şuan notmapped
+        // Todo: bu şuan menunun seçılme durumundan bahsediyor aktif  pasif durumu değil
         public bool IsActive { get; set; }
 
 
         // Navigation properties for parent-child relationship
         public MenuItem Parent { get; set; }
         public List<MenuItem> Children { get; set; } = new List<MenuItem>();
-        
-       
-        
+
+         
+        //Menu seçilimi 
+        [NotMapped]
+        public bool IsSelected { get; set; }
+
         // Alt menü öğeleri (veritabanında saklanmaz)
         [NotMapped]
         public List<MenuItem> SubMenuItems { get; set; } = new List<MenuItem>();

@@ -13,6 +13,8 @@ namespace identity_singup.Areas.Admin.Repositories
         // Belirli bir role ait menü öğelerini getir
         Task<List<MenuItem>> GetMenusByRoleAsync(string role);
         
-       
+        Task MenuAdd(MenuItem menuItem);
+        Task MenuUpdate(MenuItem menuItem);
+        
     }
 }
