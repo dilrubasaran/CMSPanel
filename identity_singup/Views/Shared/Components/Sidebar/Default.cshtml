@@ -3,7 +3,9 @@
 @{
     var userRole = User.IsInRole("admin") ? "admin" :
                   User.IsInRole("instructor") ? "instructor" :
-                  User.IsInRole("student") ? "student" : "";
+                  User.IsInRole("student") ? "student":
+                  User.IsInRole("Root Admin") ? "Root Admin" : "";
+
 }
 
 @* Kullanıcı rolüne göre sidebar sınıfı belirleme *@
@@ -13,6 +15,7 @@
         "admin" => "bg-dark text-white",
         "instructor" => "bg-success text-white",
         "student" => "bg-primary text-white",
+		"Root Admin" => "bg-info text-white",
         _ => "bg-secondary text-white"
     };
 }
@@ -29,6 +32,7 @@
 				"admin" => "Yönetim Paneli",
 				"instructor" => "Eğitmen Paneli",
 				"student" => "Öğrenci Paneli",
+				"Root Admin" => "Root Admin Paneli",
 				_ => "Panel"
 			}
 			)
@@ -41,6 +45,7 @@
 				"admin" => "Yönetim Paneli",
 				"instructor" => "Eğitmen Paneli",
 				"student" => "Öğrenci Paneli",
+				"Root Admin" => "Root Admin Paneli",
 				_ => "Panel"
 			})
 		</h5>
@@ -54,17 +59,17 @@
                 if (item.SubMenuItems.Any())
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-white-50 position-relative py-3 px-3 @(item.IsActive ? "active bg-primary" : "")"
+                        <a class="nav-link text-white-50 position-relative py-3 px-3 @(item.IsSelected ? "active bg-primary" : "")"
                            data-bs-toggle="collapse" href="#@item.Name.Replace(" ", "")" role="button">
                             <i class="@item.Icon me-2"></i> @item.Name
                             <i class="bi bi-chevron-down position-absolute end-0 me-3 transition-transform"></i>
                         </a>
-                        <div class="collapse @(item.IsActive || item.SubMenuItems.Any(sm => sm.IsActive) ? "show" : "")" id="@item.Name.Replace(" ", "")">
+                        <div class="collapse @(item.IsSelected || item.SubMenuItems.Any(sm => sm.IsSelected) ? "show" : "")" id="@item.Name.Replace(" ", "")">
                             <ul class="nav flex-column ms-3">
                                 @foreach (var subItem in item.SubMenuItems)
                                 {
                                     <li class="nav-item">
-                                        <a class="nav-link text-white-50 py-3 px-3 @(subItem.IsActive ? "active bg-primary" : "")" href="@_menuService.GetMenuUrl(subItem)">
+                                        <a class="nav-link text-white-50 py-3 px-3 @(subItem.IsSelected ? "active bg-primary" : "")" href="@_menuService.GetMenuUrl(subItem)">
                                             <i class="@subItem.Icon me-2"></i> @subItem.Name
                                         </a>
                                     </li>
@@ -76,7 +81,7 @@
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-white-50 py-3 px-3 @(item.IsActive ? "active bg-primary" : "")" href="@_menuService.GetMenuUrl(item)">
+                        <a class="nav-link text-white-50 py-3 px-3 @(item.IsSelected ? "active bg-primary" : "")" href="@_menuService.GetMenuUrl(item)">
                             <i class="@item.Icon me-2"></i> @item.Name
                         </a>
                     </li>
@@ -84,8 +89,9 @@
             }
         </ul>
     </div>
-
-    <div class="sidebar-footer p-3 border-top border-light-subtle mt-auto">
+	
+	
+	<div class="sidebar-footer p-3 border-top border-light-subtle mt-auto">
         <div class="btn-group dropup w-100">
             <a class="btn btn-danger w-100" asp-controller="Member" asp-action="Logout">
                 <i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap

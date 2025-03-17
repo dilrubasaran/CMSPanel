@@ -52,7 +52,7 @@ builder.Services.AddScoped<SignInManager<AppUser>, CustomSignInManager>();
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("CanEditEducation", policy =>
-        policy.AddRequirements(new CanEditEducationPolicy(1))); // 1 dakika
+        policy.AddRequirements(new CanEditEducationPolicy())); 
 });
 
 // Authorization handler'ı ekle

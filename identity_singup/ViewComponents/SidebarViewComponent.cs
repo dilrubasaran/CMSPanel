@@ -67,7 +67,7 @@ namespace identity_singup.ViewComponents
                 var menuUrl = _menuService.GetMenuUrl(item);
                 
                 // Aktif menü kontrolü
-                item.IsActive = menuUrl.Equals(currentUrl.ToString(), StringComparison.OrdinalIgnoreCase);
+                item.IsSelected = menuUrl.Equals(currentUrl.ToString(), StringComparison.OrdinalIgnoreCase);
                 
                 // Alt menüler için de kontrol et
                 if (item.SubMenuItems?.Any() == true)
@@ -75,9 +75,9 @@ namespace identity_singup.ViewComponents
                     SetActiveMenuItem(item.SubMenuItems, currentUrl);
                     
                     // Eğer alt menülerden biri aktifse, üst menüyü de aktif yap
-                    if (item.SubMenuItems.Any(sm => sm.IsActive))
+                    if (item.SubMenuItems.Any(sm => sm.IsSelected))
                     {
-                        item.IsActive = true;
+                        item.IsSelected = true;
                     }
                 }
             }
