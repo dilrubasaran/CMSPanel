@@ -1,45 +1,46 @@
 ﻿<!DOCTYPE html>
+
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-<meta name="description" content="CoreUI - Bootstrap Admin Panel">
-<meta name="author" content="Senin Adın">
-<meta name="keyword" content="Bootstrap, Admin, Dashboard, .NET">
-<title>Admin Panel</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<meta name="description" content="CoreUI - Bootstrap Admin Panel">
+	<meta name="author" content="Senin Adın">
+	<meta name="keyword" content="Bootstrap, Admin, Dashboard, .NET">
+	<title>CMS Panel</title>
 
-<!-- Favicon -->
-<link rel="apple-touch-icon" sizes="57x57" href="assets/favicon/apple-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="60x60" href="assets/favicon/apple-icon-60x60.png">
-<link rel="apple-touch-icon" sizes="72x72" href="assets/favicon/apple-icon-72x72.png">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
-<link rel="manifest" href="assets/favicon/manifest.json">
-<meta name="theme-color" content="#ffffff">
+	<!-- Favicon -->
+	<link rel="apple-touch-icon" sizes="57x57" href="assets/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="assets/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="assets/favicon/apple-icon-72x72.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+	<link rel="manifest" href="assets/favicon/manifest.json">
+	<meta name="theme-color" content="#ffffff">
 
-<!-- CSS Dosyaları -->
-<link rel="stylesheet" href="css/vendors/simplebar.css">
-<link rel="stylesheet" href="css/simplebar.css">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/site.css">
-<link rel="stylesheet" href="css/examples.css">
+	<!-- CSS Dosyaları -->
+	<link rel="stylesheet" href="css/vendors/simplebar.css">
+	<link rel="stylesheet" href="css/simplebar.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/site.css">
+	<link rel="stylesheet" href="css/examples.css">
 
-<!-- JavaScript Dosyaları -->
-<script src="js/config.js"></script>
-<script src="js/color-modes.js"></script>
-<style>
-	body, .main-container {
-		padding-top: 0 !important;
-		margin-top: 0 !important;
-	}
-
-</style>
+	<!-- JavaScript Dosyaları -->
+	<script src="js/config.js"></script>
+	<script src="js/color-modes.js"></script>
+	<style>
+		body, .main-container {
+			padding-top: 0 !important;
+			margin-top: 0 !important;
+		}
+	</style>
 </head>
 <body>
 
-	<div class="wrapper d-flex flex-column min-vh-100">
+	@* //todo:  header *@
 
-		@* // todo:  header *@
+	<div class="wrapper d-flex flex-column min-vh-100">
 		<header class="header header-sticky p-0 mb-4">
 			<div class="container-fluid border-bottom px-4">
 				<button class="header-toggler" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()" style="margin-inline-start: -14px;">
@@ -128,7 +129,9 @@
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link py-0 pe-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-							<div class="avatar avatar-md"><img class="avatar-img" src="/assets/img/avatars/8.jpg" alt="user@email.com"></div>
+							<div class="avatar avatar-md">
+								<img class="avatar-img" src="@Url.Content("~/assets/img/avatars/1.jpg")" alt="user@email.com">
+							</div>
 						</a>
 						<div class="dropdown-menu dropdown-menu-end pt-0">
 							<div class="dropdown-header bg-body-tertiary text-body-secondary fw-semibold rounded-top mb-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hesap</font></font></div><a class="dropdown-item" href="#">
@@ -197,9 +200,12 @@
 		@* // todo: ilk 4 kutu *@
 
 		@* // todo: 1. MOR  kutu *@
+
+
 		<div class="body flex-grow-1">
 			<div class="container-lg px-4">
 				<div class="row g-4 mb-4">
+					@* Todo: 1. mor kutu   *@
 					<div class="col-sm-6 col-xl-3">
 						<div class="card text-white bg-primary">
 							<div class="card-body pb-0 d-flex justify-content-between align-items-start">
@@ -231,7 +237,7 @@
 						</div>
 					</div>
 
-					@* // todo: ilk 4 kutu *@
+
 					<!-- /.col-->
 					<div class="col-sm-6 col-xl-3">
 						<div class="card text-white bg-info">
@@ -329,7 +335,9 @@
 
 				@* //todo: TRAFFİC  *@
 				<!-- /.row-->
+				@* // trafik grafik ve alt 4 yüzde düzenleme *@
 				<div class="card mb-4">
+
 					<div class="card-body">
 						<div class="d-flex justify-content-between">
 							<div>
@@ -398,6 +406,8 @@
 						</div>
 					</div>
 				</div>
+
+				@* //trafik ve satış *@
 
 				<div class="col-md-12">
 					<div class="card mb-4">
@@ -540,7 +550,7 @@
 											<svg class="icon icon-lg me-2">
 												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-user-female"></use>
 											</svg>
-											<div><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dişi</font></font></div>
+											<div><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Kadın</font></font></div>
 											<div class="ms-auto fw-semibold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">%37</font></font></div>
 										</div>
 										<div class="progress-group-bars">
@@ -633,11 +643,14 @@
 									<tbody>
 										<tr class="align-middle">
 											<td class="text-center">
-												<div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/1.jpg" alt="kullanıcı@e-posta.com"><span class="avatar-status bg-success"></span></div>
+												<div class="avatar avatar-md">
+													<img class="avatar-img" src="@Url.Content("~/assets/img/avatars/1.jpg")" alt="kullanıcı@e-posta.com">
+													<span class="avatar-status bg-success"></span>
+												</div>
 											</td>
 											<td>
-												<div class="text-nowrap"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Kullanıcı 1</font></font></div>
-												<div class="small text-body-secondary text-nowrap"><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Yeni</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> | Kayıtlı: 1 Ocak 2023</font></font></div>
+												<div class="text-nowrap">Kullanıcı 1</div>
+												<div class="small text-body-secondary text-nowrap"><span>Yeni</span> | Kayıtlı: 1 Ocak 2023</div>
 											</td>
 											<td class="text-center">
 												<svg class="icon icon-xl">
@@ -646,8 +659,8 @@
 											</td>
 											<td>
 												<div class="d-flex justify-content-between align-items-baseline">
-													<div class="fw-semibold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">%50</font></font></div>
-													<div class="text-nowrap small text-body-secondary ms-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">11 Haz 2023 - 10 Tem 2023</font></font></div>
+													<div class="fw-semibold">%50</div>
+													<div class="text-nowrap small text-body-secondary ms-3">11 Haz 2023 - 10 Tem 2023</div>
 												</div>
 												<div class="progress progress-thin">
 													<div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
@@ -659,8 +672,8 @@
 												</svg>
 											</td>
 											<td>
-												<div class="small text-body-secondary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Son giriş</font></font></div>
-												<div class="fw-semibold text-nowrap"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">10 saniye önce</font></font></div>
+												<div class="small text-body-secondary">Son giriş</div>
+												<div class="fw-semibold text-nowrap">10 saniye önce</div>
 											</td>
 											<td>
 												<div class="dropdown">
@@ -669,17 +682,24 @@
 															<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-options"></use>
 														</svg>
 													</button>
-													<div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bilgi</font></font></a><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Düzenlemek</font></font></a><a class="dropdown-item text-danger" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Silmek</font></font></a></div>
+													<div class="dropdown-menu dropdown-menu-end">
+														<a class="dropdown-item" href="#">Bilgi</a>
+														<a class="dropdown-item" href="#">Düzenlemek</a>
+														<a class="dropdown-item text-danger" href="#">Silmek</a>
+													</div>
 												</div>
 											</td>
 										</tr>
 										<tr class="align-middle">
 											<td class="text-center">
-												<div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/2.jpg" alt="kullanıcı@e-posta.com"><span class="avatar-status bg-danger"></span></div>
+												<div class="avatar avatar-md">
+													<img class="avatar-img" src="@Url.Content("~/assets/img/avatars/2.jpg")" alt="kullanıcı@e-posta.com">
+													<span class="avatar-status bg-danger"></span>
+												</div>
 											</td>
 											<td>
-												<div class="text-nowrap"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Kullanıcı 2</font></font></div>
-												<div class="small text-body-secondary text-nowrap"><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tekrarlayan</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> | Kayıtlı: 1 Ocak 2023</font></font></div>
+												<div class="text-nowrap">Kullanıcı 2</div>
+												<div class="small text-body-secondary text-nowrap"><span>Tekrarlayan</span> | Kayıtlı: 1 Ocak 2023</div>
 											</td>
 											<td class="text-center">
 												<svg class="icon icon-xl">
@@ -688,8 +708,8 @@
 											</td>
 											<td>
 												<div class="d-flex justify-content-between align-items-baseline">
-													<div class="fw-semibold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">%10</font></font></div>
-													<div class="text-nowrap small text-body-secondary ms-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">11 Haz 2023 - 10 Tem 2023</font></font></div>
+													<div class="fw-semibold">%10</div>
+													<div class="text-nowrap small text-body-secondary ms-3">11 Haz 2023 - 10 Tem 2023</div>
 												</div>
 												<div class="progress progress-thin">
 													<div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
@@ -701,27 +721,34 @@
 												</svg>
 											</td>
 											<td>
-												<div class="small text-body-secondary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Son giriş</font></font></div>
-												<div class="fw-semibold text-nowrap"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">5 dakika önce</font></font></div>
+												<div class="small text-body-secondary">Son giriş</div>
+												<div class="fw-semibold text-nowrap">5 dakika önce</div>
 											</td>
 											<td>
 												<div class="dropdown">
 													<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 														<svg class="icon">
-															<use xlink:href=" @Url.Content("~/assets/icons/free.svg")#cil-options"></use>
+															<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-options"></use>
 														</svg>
 													</button>
-													<div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bilgi</font></font></a><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Düzenlemek</font></font></a><a class="dropdown-item text-danger" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Silmek</font></font></a></div>
+													<div class="dropdown-menu dropdown-menu-end">
+														<a class="dropdown-item" href="#">Bilgi</a>
+														<a class="dropdown-item" href="#">Düzenlemek</a>
+														<a class="dropdown-item text-danger" href="#">Silmek</a>
+													</div>
 												</div>
 											</td>
 										</tr>
 										<tr class="align-middle">
 											<td class="text-center">
-												<div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/3.jpg" alt="kullanıcı@e-posta.com"><span class="avatar-status bg-warning"></span></div>
+												<div class="avatar avatar-md">
+													<img class="avatar-img" src="@Url.Content("~/assets/img/avatars/3.jpg")" alt="kullanıcı@e-posta.com">
+													<span class="avatar-status bg-warning"></span>
+												</div>
 											</td>
 											<td>
-												<div class="text-nowrap"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Kullanıcı 3</font></font></div>
-												<div class="small text-body-secondary text-nowrap"><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Yeni</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> | Kayıtlı: 1 Ocak 2023</font></font></div>
+												<div class="text-nowrap">Kullanıcı 3</div>
+												<div class="small text-body-secondary text-nowrap"><span>Yeni</span> | Kayıtlı: 1 Ocak 2023</div>
 											</td>
 											<td class="text-center">
 												<svg class="icon icon-xl">
@@ -730,8 +757,8 @@
 											</td>
 											<td>
 												<div class="d-flex justify-content-between align-items-baseline">
-													<div class="fw-semibold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">%74</font></font></div>
-													<div class="text-nowrap small text-body-secondary ms-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">11 Haz 2023 - 10 Tem 2023</font></font></div>
+													<div class="fw-semibold">%74</div>
+													<div class="text-nowrap small text-body-secondary ms-3">11 Haz 2023 - 10 Tem 2023</div>
 												</div>
 												<div class="progress progress-thin">
 													<div class="progress-bar bg-warning" role="progressbar" style="width: 74%" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100"></div>
@@ -743,8 +770,8 @@
 												</svg>
 											</td>
 											<td>
-												<div class="small text-body-secondary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Son giriş</font></font></div>
-												<div class="fw-semibold text-nowrap"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1 saat önce</font></font></div>
+												<div class="small text-body-secondary">Son giriş</div>
+												<div class="fw-semibold text-nowrap">1 saat önce</div>
 											</td>
 											<td>
 												<div class="dropdown">
@@ -753,17 +780,24 @@
 															<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-options"></use>
 														</svg>
 													</button>
-													<div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bilgi</font></font></a><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Düzenlemek</font></font></a><a class="dropdown-item text-danger" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Silmek</font></font></a></div>
+													<div class="dropdown-menu dropdown-menu-end">
+														<a class="dropdown-item" href="#">Bilgi</a>
+														<a class="dropdown-item" href="#">Düzenlemek</a>
+														<a class="dropdown-item text-danger" href="#">Silmek</a>
+													</div>
 												</div>
 											</td>
 										</tr>
 										<tr class="align-middle">
 											<td class="text-center">
-												<div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/4.jpg" alt="kullanıcı@e-posta.com"><span class="avatar-status bg-secondary"></span></div>
+												<div class="avatar avatar-md">
+													<img class="avatar-img" src="@Url.Content("~/assets/img/avatars/4.jpg")" alt="kullanıcı@e-posta.com">
+													<span class="avatar-status bg-secondary"></span>
+												</div>
 											</td>
 											<td>
-												<div class="text-nowrap"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Kullanıcı 4</font></font></div>
-												<div class="small text-body-secondary text-nowrap"><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Yeni</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> | Kayıtlı: 1 Ocak 2023</font></font></div>
+												<div class="text-nowrap">Kullanıcı 4</div>
+												<div class="small text-body-secondary text-nowrap"><span>Yeni</span> | Kayıtlı: 1 Ocak 2023</div>
 											</td>
 											<td class="text-center">
 												<svg class="icon icon-xl">
@@ -772,8 +806,8 @@
 											</td>
 											<td>
 												<div class="d-flex justify-content-between align-items-baseline">
-													<div class="fw-semibold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">%98</font></font></div>
-													<div class="text-nowrap small text-body-secondary ms-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">11 Haz 2023 - 10 Tem 2023</font></font></div>
+													<div class="fw-semibold">%98</div>
+													<div class="text-nowrap small text-body-secondary ms-3">11 Haz 2023 - 10 Tem 2023</div>
 												</div>
 												<div class="progress progress-thin">
 													<div class="progress-bar bg-danger" role="progressbar" style="width: 98%" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100"></div>
@@ -781,12 +815,12 @@
 											</td>
 											<td class="text-center">
 												<svg class="icon icon-xl">
-													<use xlink:href=" @Url.Content("~/assets/icons/brand.svg")#cib-cc-paypal"></use>
+													<use xlink:href="@Url.Content("~/assets/icons/brand.svg")#cib-cc-paypal"></use>
 												</svg>
 											</td>
 											<td>
-												<div class="small text-body-secondary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Son giriş</font></font></div>
-												<div class="fw-semibold text-nowrap"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Geçen ay</font></font></div>
+												<div class="small text-body-secondary">Son giriş</div>
+												<div class="fw-semibold text-nowrap">Geçen ay</div>
 											</td>
 											<td>
 												<div class="dropdown">
@@ -795,17 +829,24 @@
 															<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-options"></use>
 														</svg>
 													</button>
-													<div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bilgi</font></font></a><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Düzenlemek</font></font></a><a class="dropdown-item text-danger" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Silmek</font></font></a></div>
+													<div class="dropdown-menu dropdown-menu-end">
+														<a class="dropdown-item" href="#">Bilgi</a>
+														<a class="dropdown-item" href="#">Düzenlemek</a>
+														<a class="dropdown-item text-danger" href="#">Silmek</a>
+													</div>
 												</div>
 											</td>
 										</tr>
 										<tr class="align-middle">
 											<td class="text-center">
-												<div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/5.jpg" alt="kullanıcı@e-posta.com"><span class="avatar-status bg-success"></span></div>
+												<div class="avatar avatar-md">
+													<img class="avatar-img" src="@Url.Content("~/assets/img/avatars/5.jpg")" alt="kullanıcı@e-posta.com">
+													<span class="avatar-status bg-success"></span>
+												</div>
 											</td>
 											<td>
-												<div class="text-nowrap"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">kullanıcı 6</font></font></div>
-												<div class="small text-body-secondary text-nowrap"><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Yeni</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> | Kayıtlı: 1 Ocak 2023</font></font></div>
+												<div class="text-nowrap">kullanıcı 6</div>
+												<div class="small text-body-secondary text-nowrap"><span>Yeni</span> | Kayıtlı: 1 Ocak 2023</div>
 											</td>
 											<td class="text-center">
 												<svg class="icon icon-xl">
@@ -814,8 +855,8 @@
 											</td>
 											<td>
 												<div class="d-flex justify-content-between align-items-baseline">
-													<div class="fw-semibold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">%22</font></font></div>
-													<div class="text-nowrap small text-body-secondary ms-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">11 Haz 2023 - 10 Tem 2023</font></font></div>
+													<div class="fw-semibold">%22</div>
+													<div class="text-nowrap small text-body-secondary ms-3">11 Haz 2023 - 10 Tem 2023</div>
 												</div>
 												<div class="progress progress-thin">
 													<div class="progress-bar bg-info" role="progressbar" style="width: 22%" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100"></div>
@@ -827,27 +868,34 @@
 												</svg>
 											</td>
 											<td>
-												<div class="small text-body-secondary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Son giriş</font></font></div>
-												<div class="fw-semibold text-nowrap"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Geçen hafta</font></font></div>
+												<div class="small text-body-secondary">Son giriş</div>
+												<div class="fw-semibold text-nowrap">Geçen hafta</div>
 											</td>
 											<td>
-												<div class="dropdown dropup">
+												<div class="dropdown">
 													<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 														<svg class="icon">
 															<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-options"></use>
 														</svg>
 													</button>
-													<div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bilgi</font></font></a><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Düzenlemek</font></font></a><a class="dropdown-item text-danger" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Silmek</font></font></a></div>
+													<div class="dropdown-menu dropdown-menu-end">
+														<a class="dropdown-item" href="#">Bilgi</a>
+														<a class="dropdown-item" href="#">Düzenlemek</a>
+														<a class="dropdown-item text-danger" href="#">Silmek</a>
+													</div>
 												</div>
 											</td>
 										</tr>
 										<tr class="align-middle">
 											<td class="text-center">
-												<div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/6.jpg" alt="kullanıcı@e-posta.com"><span class="avatar-status bg-danger"></span></div>
+												<div class="avatar avatar-md">
+													<img class="avatar-img" src="@Url.Content("~/assets/img/avatars/6.jpg")" alt="kullanıcı@e-posta.com">
+													<span class="avatar-status bg-danger"></span>
+												</div>
 											</td>
 											<td>
-												<div class="text-nowrap"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">kullanıcı 7</font></font></div>
-												<div class="small text-body-secondary text-nowrap"><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Yeni</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> | Kayıtlı: 1 Ocak 2023</font></font></div>
+												<div class="text-nowrap">kullanıcı 7</div>
+												<div class="small text-body-secondary text-nowrap"><span>Yeni</span> | Kayıtlı: 1 Ocak 2023</div>
 											</td>
 											<td class="text-center">
 												<svg class="icon icon-xl">
@@ -856,8 +904,8 @@
 											</td>
 											<td>
 												<div class="d-flex justify-content-between align-items-baseline">
-													<div class="fw-semibold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">%43</font></font></div>
-													<div class="text-nowrap small text-body-secondary ms-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">11 Haz 2023 - 10 Tem 2023</font></font></div>
+													<div class="fw-semibold">%43</div>
+													<div class="text-nowrap small text-body-secondary ms-3">11 Haz 2023 - 10 Tem 2023</div>
 												</div>
 												<div class="progress progress-thin">
 													<div class="progress-bar bg-success" role="progressbar" style="width: 43%" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"></div>
@@ -869,17 +917,21 @@
 												</svg>
 											</td>
 											<td>
-												<div class="small text-body-secondary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Son giriş</font></font></div>
-												<div class="fw-semibold text-nowrap"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dün</font></font></div>
+												<div class="small text-body-secondary">Son giriş</div>
+												<div class="fw-semibold text-nowrap">Dün</div>
 											</td>
 											<td>
-												<div class="dropdown dropup">
+												<div class="dropdown">
 													<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 														<svg class="icon">
 															<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-options"></use>
 														</svg>
 													</button>
-													<div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bilgi</font></font></a><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Düzenlemek</font></font></a><a class="dropdown-item text-danger" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Silmek</font></font></a></div>
+													<div class="dropdown-menu dropdown-menu-end">
+														<a class="dropdown-item" href="#">Bilgi</a>
+														<a class="dropdown-item" href="#">Düzenlemek</a>
+														<a class="dropdown-item text-danger" href="#">Silmek</a>
+													</div>
 												</div>
 											</td>
 										</tr>
@@ -896,17 +948,7 @@
 		</div>
 	</div>
 
-	<footer class="footer px-4">
-		<div>
-			<font style="vertical-align: inherit;">
-				<font style="vertical-align: inherit;">CMS Panel  </font>
-			</font>
-			<font style="vertical-align: inherit;">
-			</font><font style="vertical-align: inherit;">
-				<font style="vertical-align: inherit;"> © 2025 </font>
-			</font>
-		</div>
-	</footer>
+
 
 
 	<!-- JavaScript -->
@@ -917,6 +959,7 @@
 	<script src="~/js/coreui-chartjs.js"></script>
 	<script src="~/js/index.js"></script>
 	<script src="~/js/main.js"></script>
+
 
 
 </body>
