@@ -339,11 +339,10 @@
 				<!-- /.row-->
 				@* // trafik grafik ve alt 4 yüzde düzenleme *@
 				<div class="card mb-4">
-
 					<div class="card-body">
 						<div class="d-flex justify-content-between">
 							<div>
-								<h4 class="card-title mb-0">Trafik </h4>
+								<h4 class="card-title mb-0">Kullanıcı Trafiği ve Giriş İstatistikleri</h4>
 								<div class="small text-body-secondary">Ocak-Temmuz 2023</div>
 							</div>
 							<div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar buton">
@@ -357,7 +356,7 @@
 								</div>
 								<button class="btn btn-primary" type="button">
 									<svg class="icon">
-										<use xlink:href="node_modules/@@coreui/icons/sprites/free.svg#cil-cloud-download"></use>
+										<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-cloud-download"></use>
 									</svg>
 								</button>
 							</div>
@@ -367,42 +366,41 @@
 						</div>
 					</div>
 
-					@* //Todo: TRAFFİC alt yüzdeler  *@
 					<div class="card-footer">
 						<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 row-cols-xl-5 g-4 mb-2 text-center">
 							<div class="col">
-								<div class="text-body-secondary">Ziyaretçiler</div>
-								<div class="fw-semibold text-truncate">29.703 Kullanıcılar (40%)</div>
+								<div class="text-body-secondary">Aktif Kullanıcılar</div>
+								<div class="fw-semibold text-truncate">1,234 Kullanıcı (75%)</div>
 								<div class="progress progress-thin mt-2">
-									<div class="progress-bar bg-success" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+									<div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
 							</div>
 							<div class="col">
-								<div class="text-body-secondary">Unique</div>
-								<div class="fw-semibold text-truncate">24.093 Kullanıcılar (20%)</div>
+								<div class="text-body-secondary">Eğitmen Oturumları</div>
+								<div class="fw-semibold text-truncate">234 Oturum (45%)</div>
 								<div class="progress progress-thin mt-2">
-									<div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+									<div class="progress-bar bg-info" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
 							</div>
 							<div class="col">
-								<div class="text-body-secondary">Pageviews</div>
-								<div class="fw-semibold text-truncate">78.706 Views (60%)</div>
+								<div class="text-body-secondary">Öğrenci Oturumları</div>
+								<div class="fw-semibold text-truncate">986 Oturum (85%)</div>
 								<div class="progress progress-thin mt-2">
-									<div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+									<div class="progress-bar bg-warning" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
 							</div>
 							<div class="col">
-								<div class="text-body-secondary">Yeni Kullanıcılar</div>
-								<div class="fw-semibold text-truncate">22.123 Kullanıcı (80%)</div>
+								<div class="text-body-secondary">Yeni Kayıtlar</div>
+								<div class="fw-semibold text-truncate">156 Kullanıcı (25%)</div>
 								<div class="progress progress-thin mt-2">
-									<div class="progress-bar bg-danger" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+									<div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
 							</div>
 							<div class="col d-none d-xl-block">
-								<div class="text-body-secondary">Bounce Rate</div>
-								<div class="fw-semibold text-truncate">40.15%</div>
+								<div class="text-body-secondary">Başarılı Giriş Oranı</div>
+								<div class="fw-semibold text-truncate">95.8%</div>
 								<div class="progress progress-thin mt-2">
-									<div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+									<div class="progress-bar" role="progressbar" style="width: 95.8%" aria-valuenow="95.8" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
 							</div>
 						</div>
@@ -423,13 +421,13 @@
 										<div class="col-6">
 											<div class="border-start border-start-4 border-start-info px-3 mb-3">
 												<div class="small text-body-secondary text-truncate">Aktif Kullanıcılar</div>
-												<div class="fs-5 fw-semibold">2,345</div>
+												<div class="fs-5 fw-semibold">1,234</div>
 											</div>
 										</div>
 										<div class="col-6">
 											<div class="border-start border-start-4 border-start-danger px-3 mb-3">
-												<div class="small text-body-secondary text-truncate">Yeni Kayıtlar</div>
-												<div class="fs-5 fw-semibold">156</div>
+												<div class="small text-body-secondary text-truncate">Forum Gönderileri</div>
+												<div class="fs-5 fw-semibold">856</div>
 											</div>
 										</div>
 									</div>
@@ -438,10 +436,10 @@
 										<div class="progress-group-prepend"><span class="text-body-secondary small">Pazartesi</span></div>
 										<div class="progress-group-bars">
 											<div class="progress progress-thin">
-												<div class="progress-bar bg-info" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+												<div class="progress-bar bg-info" role="progressbar" style="width: 34%" aria-valuenow="34" aria-valuemin="0" aria-valuemax="100"></div>
 											</div>
 											<div class="progress progress-thin">
-												<div class="progress-bar bg-danger" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
 											</div>
 										</div>
 									</div>
@@ -449,10 +447,10 @@
 										<div class="progress-group-prepend"><span class="text-body-secondary small">Salı</span></div>
 										<div class="progress-group-bars">
 											<div class="progress progress-thin">
-												<div class="progress-bar bg-info" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+												<div class="progress-bar bg-info" role="progressbar" style="width: 56%" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100"></div>
 											</div>
 											<div class="progress progress-thin">
-												<div class="progress-bar bg-danger" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 94%" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100"></div>
 											</div>
 										</div>
 									</div>
@@ -460,10 +458,54 @@
 										<div class="progress-group-prepend"><span class="text-body-secondary small">Çarşamba</span></div>
 										<div class="progress-group-bars">
 											<div class="progress progress-thin">
-												<div class="progress-bar bg-info" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+												<div class="progress-bar bg-info" role="progressbar" style="width: 12%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
 											</div>
 											<div class="progress progress-thin">
-												<div class="progress-bar bg-danger" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 67%" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group mb-4">
+										<div class="progress-group-prepend"><span class="text-body-secondary small">Perşembe</span></div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-info" role="progressbar" style="width: 43%" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 91%" aria-valuenow="91" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group mb-4">
+										<div class="progress-group-prepend"><span class="text-body-secondary small">Cuma</span></div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-info" role="progressbar" style="width: 22%" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 73%" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group mb-4">
+										<div class="progress-group-prepend"><span class="text-body-secondary small">Cumartesi</span></div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-info" role="progressbar" style="width: 53%" aria-valuenow="53" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group mb-4">
+										<div class="progress-group-prepend"><span class="text-body-secondary small">Pazar</span></div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-info" role="progressbar" style="width: 9%" aria-valuenow="9" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 69%" aria-valuenow="69" aria-valuemin="0" aria-valuemax="100"></div>
 											</div>
 										</div>
 									</div>
@@ -472,14 +514,14 @@
 									<div class="row">
 										<div class="col-6">
 											<div class="border-start border-start-4 border-start-warning px-3 mb-3">
-												<div class="small text-body-secondary text-truncate">Toplam Kurs</div>
-												<div class="fs-5 fw-semibold">45</div>
+												<div class="small text-body-secondary text-truncate">Toplam Ders İzleme</div>
+												<div class="fs-5 fw-semibold">45,678</div>
 											</div>
 										</div>
 										<div class="col-6">
 											<div class="border-start border-start-4 border-start-success px-3 mb-3">
-												<div class="small text-body-secondary text-truncate">Aktif Kurs</div>
-												<div class="fs-5 fw-semibold">38</div>
+												<div class="small text-body-secondary text-truncate">Tamamlanan Ödevler</div>
+												<div class="fs-5 fw-semibold">23,456</div>
 											</div>
 										</div>
 									</div>
@@ -487,28 +529,42 @@
 									<div class="progress-group">
 										<div class="progress-group-header">
 											<svg class="icon icon-lg me-2">
-												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-user"></use>
+												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-education"></use>
 											</svg>
-											<div>Admin Kullanıcıları</div>
-											<div class="ms-auto fw-semibold">%15</div>
+											<div>Ders İzleme Oranı</div>
+											<div class="ms-auto fw-semibold">75%</div>
 										</div>
 										<div class="progress-group-bars">
 											<div class="progress progress-thin">
-												<div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+												<div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
 											</div>
 										</div>
 									</div>
 									<div class="progress-group mb-5">
 										<div class="progress-group-header">
 											<svg class="icon icon-lg me-2">
-												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-user-female"></use>
+												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-task"></use>
 											</svg>
-											<div>Eğitmenler</div>
-											<div class="ms-auto fw-semibold">%25</div>
+											<div>Ödev Tamamlama Oranı</div>
+											<div class="ms-auto fw-semibold">68%</div>
 										</div>
 										<div class="progress-group-bars">
 											<div class="progress progress-thin">
-												<div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+												<div class="progress-bar bg-warning" role="progressbar" style="width: 68%" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group">
+										<div class="progress-group-header">
+											<svg class="icon icon-lg me-2">
+												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-star"></use>
+											</svg>
+											<div>Sınav Başarı Oranı</div>
+											<div class="ms-auto fw-semibold">82%</div>
+										</div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-success" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
 											</div>
 										</div>
 									</div>
@@ -517,12 +573,12 @@
 											<svg class="icon icon-lg me-2">
 												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-people"></use>
 											</svg>
-											<div>Öğrenciler</div>
-											<div class="ms-auto fw-semibold">%60</div>
+											<div>Forum Katılım Oranı</div>
+											<div class="ms-auto fw-semibold">45%</div>
 										</div>
 										<div class="progress-group-bars">
 											<div class="progress progress-thin">
-												<div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+												<div class="progress-bar bg-success" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
 											</div>
 										</div>
 									</div>
@@ -531,19 +587,31 @@
 						</div>
 					</div>
 				</div>
-				
 
 				<!-- Giriş İstatistikleri -->
 				<div class="card mb-4">
 					<div class="card-header">
-						<h5 class="card-title mb-0">Giriş İstatistikleri</h5>
+						<div class="d-flex justify-content-between">
+							<h5 class="card-title mb-0">Giriş İstatistikleri</h5>
+							<div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar buton">
+								<div class="btn-group btn-group-toggle mx-3" data-coreui-toggle="buttons">
+									<input class="btn-check" id="loginOption1" type="radio" name="loginOptions" autocomplete="off">
+									<label class="btn btn-outline-secondary"> Gün</label>
+									<input class="btn-check" id="loginOption2" type="radio" name="loginOptions" autocomplete="off" checked="">
+									<label class="btn btn-outline-secondary active"> Hafta</label>
+									<input class="btn-check" id="loginOption3" type="radio" name="loginOptions" autocomplete="off">
+									<label class="btn btn-outline-secondary"> Ay</label>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="card-body">
-						<canvas class="chart" id="main-chart" height="450" width="1060" style="display: block; box-sizing: border-box; height: 300px; width: 707px;"></canvas>
+						<div class="c-chart-wrapper" style="height: 300px;">
+							<canvas class="chart" id="login-statistics-chart" height="300"></canvas>
+						</div>
 
-						<div class="row">
+						<div class="row mt-4">
 							<div class="col-md-4">
-
 								<div class="border-start border-start-4 border-start-primary px-3 mb-3">
 									<div class="text-body-secondary text-truncate">Admin Girişleri</div>
 									<div class="fs-5 fw-semibold">156</div>
@@ -580,7 +648,6 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
 
@@ -593,10 +660,61 @@
 						<div class="table-responsive">
 							<table class="table table-hover">
 								<thead>
+								<tr>
+									<th>Tarih</th>
+									<th>Tip</th>
+									<th>Mesaj</th>
+									<th>Durum</th>
+									<th>İşlem</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<td>20-03-2024</td>
+									<td><span class="badge bg-danger">Kritik</span></td>
+									<td>Sunucu yükü yüksek</td>
+									<td><span class="badge bg-warning">İşleniyor</span></td>
+									<td>
+										<button class="btn btn-sm btn-primary">İncele</button>
+									</td>
+								</tr>
+								<tr>
+									<td>19-03-2024</td>
+									<td><span class="badge bg-warning">Uyarı</span></td>
+									<td>Yedekleme gecikmesi</td>
+									<td><span class="badge bg-success">Tamamlandı</span></td>
+									<td>
+										<button class="btn btn-sm btn-primary">Detay</button>
+									</td>
+								</tr>
+								<tr>
+									<td>18-03-2024</td>
+									<td><span class="badge bg-info">Bilgi</span></td>
+									<td>Yeni güncelleme mevcut</td>
+									<td><span class="badge bg-warning">Beklemede</span></td>
+									<td>
+										<button class="btn btn-sm btn-primary">Güncelle</button>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<!-- Teknik Destek Talepleri -->
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title mb-0">Teknik Destek Talepleri</h5>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-hover">
+								<thead>
 									<tr>
 										<th>Tarih</th>
-										<th>Tip</th>
-										<th>Mesaj</th>
+										<th>Öğrenci</th>
+										<th>Konu</th>
 										<th>Durum</th>
 										<th>İşlem</th>
 									</tr>
@@ -604,29 +722,29 @@
 								<tbody>
 									<tr>
 										<td>20-03-2024</td>
-										<td><span class="badge bg-danger">Kritik</span></td>
-										<td>Sunucu yükü yüksek</td>
-										<td><span class="badge bg-warning">İşleniyor</span></td>
+										<td>Ahmet Yılmaz</td>
+										<td>Kurulum Sorunu</td>
+										<td><span class="badge bg-warning">Beklemede</span></td>
 										<td>
-											<button class="btn btn-sm btn-primary">İncele</button>
+											<button class="btn btn-sm btn-primary">Yanıtla</button>
 										</td>
 									</tr>
 									<tr>
 										<td>19-03-2024</td>
-										<td><span class="badge bg-warning">Uyarı</span></td>
-										<td>Yedekleme gecikmesi</td>
-										<td><span class="badge bg-success">Tamamlandı</span></td>
+										<td>Ayşe Demir</td>
+										<td>Video Erişim</td>
+										<td><span class="badge bg-info">İnceleniyor</span></td>
 										<td>
-											<button class="btn btn-sm btn-primary">Detay</button>
+											<button class="btn btn-sm btn-primary">Görüş</button>
 										</td>
 									</tr>
 									<tr>
 										<td>18-03-2024</td>
-										<td><span class="badge bg-info">Bilgi</span></td>
-										<td>Yeni güncelleme mevcut</td>
-										<td><span class="badge bg-warning">Beklemede</span></td>
+										<td>Mehmet Kaya</td>
+										<td>Ödev Teslimi</td>
+										<td><span class="badge bg-success">Tamamlandı</span></td>
 										<td>
-											<button class="btn btn-sm btn-primary">Güncelle</button>
+											<button class="btn btn-sm btn-primary">Detay</button>
 										</td>
 									</tr>
 								</tbody>
@@ -634,6 +752,7 @@
 						</div>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -652,7 +771,7 @@
 
 	<script>
 		// Giriş İstatistikleri Grafiği
-		const loginChart = new Chart(document.getElementById('main-chart'), {
+		const loginChart = new Chart(document.getElementById('login-statistics-chart'), {
 			type: 'line',
 			data: {
 				labels: ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'],
@@ -686,11 +805,25 @@
 				plugins: {
 					legend: {
 						position: 'top',
+					},
+					title: {
+						display: true,
+						text: 'Haftalık Giriş İstatistikleri'
 					}
 				},
 				scales: {
 					y: {
-						beginAtZero: true
+						beginAtZero: true,
+						title: {
+							display: true,
+							text: 'Giriş Sayısı'
+						}
+					},
+					x: {
+						title: {
+							display: true,
+							text: 'Günler'
+						}
 					}
 				}
 			}
