@@ -1,0 +1,836 @@
+﻿<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<meta name="description" content="Eğitim Yönetim Sistemi - Dashboard">
+	<meta name="author" content="Admin">
+	<meta name="keyword" content="Eğitim, Dashboard, Yönetim Paneli">
+	<title>Eğitim Yönetim Sistemi - Dashboard</title>
+
+	<!-- Favicon -->
+	<link rel="apple-touch-icon" sizes="57x57" href="assets/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="assets/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="assets/favicon/apple-icon-72x72.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+	<link rel="manifest" href="assets/favicon/manifest.json">
+	<meta name="theme-color" content="#ffffff">
+
+	<!-- CSS Dosyaları -->
+	<link rel="stylesheet" href="css/vendors/simplebar.css">
+	<link rel="stylesheet" href="css/simplebar.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/site.css">
+	<link rel="stylesheet" href="css/examples.css">
+
+	<!-- JavaScript Dosyaları -->
+	<script src="js/config.js"></script>
+	<script src="js/color-modes.js"></script>
+	<style>
+		body, .main-container {
+			padding-top: 0 !important;
+			margin-top: 0 !important;
+		}
+	</style>
+</head>
+<body>
+
+	@* //todo:  header *@
+
+	<div class="wrapper d-flex flex-column min-vh-100">
+		<header class="header header-sticky p-0 mb-4">
+			<div class="container-fluid border-bottom px-4">
+				<button class="header-toggler" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()" style="margin-inline-start: -14px;">
+					<svg class="icon icon-lg">
+						<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-menu"></use>
+					</svg>
+				</button>
+
+				@* // Todo: sayfa url  *@
+				<ul class="header-nav d-none d-lg-flex">
+					<li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Eğitimler</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Kullanıcılar</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Ayarlar</a></li>
+				</ul>
+				<ul class="header-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<svg class="icon icon-lg">
+								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-bell"></use>
+							</svg>
+							<span class="badge badge-sm bg-danger">3</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<svg class="icon icon-lg">
+								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-list-rich"></use>
+							</svg>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<svg class="icon icon-lg">
+								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-envelope-open"></use>
+							</svg>
+						</a>
+					</li>
+				</ul>
+				<ul class="header-nav">
+					<li class="nav-item py-1">
+						<div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+					</li>
+					<li class="nav-item dropdown">
+						<button class="btn btn-link nav-link py-2 px-2 d-flex align-items-center" type="button" aria-expanded="false" data-coreui-toggle="dropdown">
+							<svg class="icon icon-lg theme-icon-active">
+								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-sun"></use>
+							</svg>
+						</button>
+						<ul class="dropdown-menu dropdown-menu-end" style="--cui-dropdown-min-width: 8rem;">
+							<li>
+								<button class="dropdown-item d-flex align-items-center" type="button" data-coreui-theme-value="light">
+									<svg class="icon icon-lg me-3">
+										<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-sun"></use>
+									</svg><font style="vertical-align: inherit;">
+										<font style="vertical-align: inherit;">
+											Açık
+										</font>
+									</font>
+								</button>
+							</li>
+							<li>
+								<button class="dropdown-item d-flex align-items-center" type="button" data-coreui-theme-value="dark">
+									<svg class="icon icon-lg me-3">
+										<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-moon"></use>
+									</svg><font style="vertical-align: inherit;">
+										<font style="vertical-align: inherit;">
+											Koyu
+										</font>
+									</font>
+								</button>
+							</li>
+							<li>
+								<button class="dropdown-item d-flex align-items-center active" type="button" data-coreui-theme-value="auto">
+									<svg class="icon icon-lg me-3">
+										<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-contrast"></use>
+									</svg><font style="vertical-align: inherit;">
+										<font style="vertical-align: inherit;">
+											Otomatik
+										</font>
+									</font>
+								</button>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item py-1">
+						<div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link py-0 pe-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+							<div class="avatar avatar-md">
+								<img class="avatar-img" src="@Url.Content("~/assets/img/avatars/1.jpg")" alt="user@email.com">
+							</div>
+						</a>
+						<div class="dropdown-menu dropdown-menu-end pt-0">
+							<div class="dropdown-header bg-body-tertiary text-body-secondary fw-semibold rounded-top mb-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hesap</font></font></div><a class="dropdown-item" href="#">
+								<svg class="icon me-2">
+									<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-bell"></use>
+								</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Güncellemeler</font></font><span class="badge badge-sm bg-info ms-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">42</font></font></span>
+							</a><a class="dropdown-item" href="#">
+								<svg class="icon me-2">
+									<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-envelope-open"></use>
+								</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mesajlar</font></font><span class="badge badge-sm bg-success ms-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">42</font></font></span>
+							</a><a class="dropdown-item" href="#">
+								<svg class="icon me-2">
+									<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-task"></use>
+								</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Görevler</font></font><span class="badge badge-sm bg-danger ms-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">42</font></font></span>
+							</a><a class="dropdown-item" href="#">
+								<svg class="icon me-2">
+									<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-comment-square"></use>
+								</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Yorumlar</font></font><span class="badge badge-sm bg-warning ms-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">42</font></font></span>
+							</a>
+							<div class="dropdown-header bg-body-tertiary text-body-secondary fw-semibold my-2">
+								<div class="fw-semibold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ayarlar</font></font></div>
+							</div><a class="dropdown-item" href="#">
+								<svg class="icon me-2">
+									<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-user"></use>
+								</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Profil</font></font>
+							</a><a class="dropdown-item" href="#">
+								<svg class="icon me-2">
+									<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-settings"></use>
+								</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ayarlar</font></font>
+							</a><a class="dropdown-item" href="#">
+								<svg class="icon me-2">
+									<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-credit-card"></use>
+								</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ödemeler</font></font><span class="badge badge-sm bg-secondary ms-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">42</font></font></span>
+							</a><a class="dropdown-item" href="#">
+								<svg class="icon me-2">
+									<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-file"></use>
+								</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Projeler</font></font><span class="badge badge-sm bg-primary ms-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">42</font></font></span>
+							</a>
+							<div class="dropdown-divider"></div><a class="dropdown-item" href="#">
+								<svg class="icon me-2">
+									<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-lock-locked"></use>
+								</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hesabı Kilitle</font></font>
+							</a><a class="dropdown-item" href="#">
+								<svg class="icon me-2">
+									<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-account-logout"></use>
+								</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Çıkış Yap</font></font>
+							</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="container-fluid px-4">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb my-0">
+						<li class="breadcrumb-item">
+							<a href="#">Ana Sayfa</a>
+						</li>
+						<li class="breadcrumb-item active">
+							<span>Dashboard</span>
+						</li>
+					</ol>
+				</nav>
+			</div>
+		</header>
+
+		@* // todo: ilk 4 kutu *@
+
+		@* // todo: 1. MOR  kutu *@
+
+
+		<div class="body flex-grow-1">
+			<div class="container-lg px-4">
+				<div class="row g-4 mb-4">
+					@* Todo: 1. mor kutu   *@
+					<div class="col-sm-6 col-xl-3">
+						<div class="card text-white bg-primary">
+							<div class="card-body pb-0 d-flex justify-content-between align-items-start">
+								<div>
+									<div class="fs-4 fw-semibold">
+										1,234
+										<span class="fs-6 fw-normal">
+											(+12.4%
+											<svg class="icon">
+												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-arrow-top"></use>
+											</svg>)
+										</span>
+									</div>
+									<div>Toplam Öğrenci</div>
+								</div>
+								<div class="dropdown">
+									<button class="btn btn-transparent text-white p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<svg class="icon">
+											<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-options"></use>
+										</svg>
+									</button>
+									<div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Detaylar</a><a class="dropdown-item" href="#">Rapor</a></div>
+								</div>
+							</div>
+							<div class="c-chart-wrapper mt-3 mx-3" style="height: 70px;">
+								<canvas class="chart" id="card-chart1" height="105" style="display: block; box-sizing: border-box; height: 70px; width: 325px;" width="487"></canvas>
+
+							</div>
+						</div>
+					</div>
+
+
+					<!-- /.col-->
+					<div class="col-sm-6 col-xl-3">
+						<div class="card text-white bg-info">
+							<div class="card-body pb-0 d-flex justify-content-between align-items-start">
+								<div>
+
+									<div class="fs-4 fw-semibold">
+										45
+										<span class="fs-6 fw-normal">
+											(+8.2%
+											<svg class="icon">
+												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-arrow-top"></use>
+											</svg>)
+										</span>
+									</div>
+									<div>Aktif Eğitimler</div>
+								</div>
+								<div class="dropdown">
+									<button class="btn btn-transparent text-white p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<svg class="icon">
+											<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-options"></use>
+										</svg>
+									</button>
+									<div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Detaylar</a><a class="dropdown-item" href="#">Rapor</a></div>
+								</div>
+							</div>
+
+							<div class="c-chart-wrapper mt-3 mx-3" style="height: 70px;">
+								<canvas class="chart" id="card-chart2" height="105" style="display: block; box-sizing: border-box; height: 70px; width: 325px;" width="487"></canvas>
+							</div>
+						</div>
+					</div>
+					<!-- /.col-->
+					<div class="col-sm-6 col-xl-3">
+						<div class="card text-white bg-warning">
+							<div class="card-body pb-0 d-flex justify-content-between align-items-start">
+								<div>
+									<div class="fs-4 fw-semibold">
+										89%
+										<span class="fs-6 fw-normal">
+											(+4.3%
+											<svg class="icon">
+												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-arrow-top"></use>
+											</svg>)
+										</span>
+									</div>
+									<div>Memnuniyet Oranı</div>
+								</div>
+								<div class="dropdown">
+									<button class="btn btn-transparent text-white p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<svg class="icon">
+											<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-options"></use>
+										</svg>
+									</button>
+									<div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Detaylar</a><a class="dropdown-item" href="#">Rapor</a></div>
+								</div>
+							</div>
+							<div class="c-chart-wrapper mt-3" style="height: 70px;">
+								<canvas class="chart" id="card-chart3" height="105" style="display: block; box-sizing: border-box; height: 70px; width: 357px;" width="535"></canvas>
+							</div>
+						</div>
+					</div>
+					<!-- /.col-->
+					<div class="col-sm-6 col-xl-3">
+						<div class="card text-white bg-danger">
+							<div class="card-body pb-0 d-flex justify-content-between align-items-start">
+								<div>
+									<div class="fs-4 fw-semibold">
+										12
+										<span class="fs-6 fw-normal">
+											(-2.1%
+											<svg class="icon">
+												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-arrow-bottom"></use>
+											</svg>)
+										</span>
+									</div>
+									<div>Bekleyen Talepler</div>
+								</div>
+								<div class="dropdown">
+									<button class="btn btn-transparent text-white p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<svg class="icon">
+											<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-options"></use>
+										</svg>
+									</button>
+									<div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Detaylar</a><a class="dropdown-item" href="#">Rapor</a></div>
+								</div>
+							</div>
+							<div class="c-chart-wrapper mt-3 mx-3" style="height: 70px;">
+								<canvas class="chart" id="card-chart4" height="105" style="display: block; box-sizing: border-box; height: 70px; width: 325px;" width="487"></canvas>
+							</div>
+						</div>
+					</div>
+					<!-- /.col-->
+				</div>
+
+				@* //todo: TRAFFİC  *@
+				<!-- /.row-->
+				@* // trafik grafik ve alt 4 yüzde düzenleme *@
+				<div class="card mb-4">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<div>
+								<h4 class="card-title mb-0">Kullanıcı Trafiği ve Giriş İstatistikleri</h4>
+								<div class="small text-body-secondary">Ocak-Temmuz 2023</div>
+							</div>
+							<div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar buton">
+								<div class="btn-group btn-group-toggle mx-3" data-coreui-toggle="buttons">
+									<input class="btn-check" id="option1" type="radio" name="options" autocomplete="off">
+									<label class="btn btn-outline-secondary"> Gün</label>
+									<input class="btn-check" id="option2" type="radio" name="options" autocomplete="off" checked="">
+									<label class="btn btn-outline-secondary active"> Ay</label>
+									<input class="btn-check" id="option3" type="radio" name="options" autocomplete="off">
+									<label class="btn btn-outline-secondary"> Yıl</label>
+								</div>
+								<button class="btn btn-primary" type="button">
+									<svg class="icon">
+										<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-cloud-download"></use>
+									</svg>
+								</button>
+							</div>
+						</div>
+						<div class="c-chart-wrapper" style="height: 300px; margin-top: 40px;">
+							<canvas class="chart" id="main-chart" height="450" width="1060" style="display: block; box-sizing: border-box; height: 300px; width: 707px;"></canvas>
+						</div>
+					</div>
+
+					<div class="card-footer">
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 row-cols-xl-5 g-4 mb-2 text-center">
+							<div class="col">
+								<div class="text-body-secondary">Aktif Kullanıcılar</div>
+								<div class="fw-semibold text-truncate">1,234 Kullanıcı (75%)</div>
+								<div class="progress progress-thin mt-2">
+									<div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+							<div class="col">
+								<div class="text-body-secondary">Eğitmen Oturumları</div>
+								<div class="fw-semibold text-truncate">234 Oturum (45%)</div>
+								<div class="progress progress-thin mt-2">
+									<div class="progress-bar bg-info" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+							<div class="col">
+								<div class="text-body-secondary">Öğrenci Oturumları</div>
+								<div class="fw-semibold text-truncate">986 Oturum (85%)</div>
+								<div class="progress progress-thin mt-2">
+									<div class="progress-bar bg-warning" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+							<div class="col">
+								<div class="text-body-secondary">Yeni Kayıtlar</div>
+								<div class="fw-semibold text-truncate">156 Kullanıcı (25%)</div>
+								<div class="progress progress-thin mt-2">
+									<div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+							<div class="col d-none d-xl-block">
+								<div class="text-body-secondary">Başarılı Giriş Oranı</div>
+								<div class="fw-semibold text-truncate">95.8%</div>
+								<div class="progress progress-thin mt-2">
+									<div class="progress-bar" role="progressbar" style="width: 95.8%" aria-valuenow="95.8" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				@* //trafik ve satış *@
+
+				<div class="col-md-12">
+					<div class="card mb-4">
+						<div class="card-header">
+							<h5 class="card-title mb-0">Sistem Kullanım İstatistikleri</h5>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-6">
+											<div class="border-start border-start-4 border-start-info px-3 mb-3">
+												<div class="small text-body-secondary text-truncate">Aktif Kullanıcılar</div>
+												<div class="fs-5 fw-semibold">1,234</div>
+											</div>
+										</div>
+										<div class="col-6">
+											<div class="border-start border-start-4 border-start-danger px-3 mb-3">
+												<div class="small text-body-secondary text-truncate">Forum Gönderileri</div>
+												<div class="fs-5 fw-semibold">856</div>
+											</div>
+										</div>
+									</div>
+									<hr class="mt-0">
+									<div class="progress-group mb-4">
+										<div class="progress-group-prepend"><span class="text-body-secondary small">Pazartesi</span></div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-info" role="progressbar" style="width: 34%" aria-valuenow="34" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group mb-4">
+										<div class="progress-group-prepend"><span class="text-body-secondary small">Salı</span></div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-info" role="progressbar" style="width: 56%" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 94%" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group mb-4">
+										<div class="progress-group-prepend"><span class="text-body-secondary small">Çarşamba</span></div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-info" role="progressbar" style="width: 12%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 67%" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group mb-4">
+										<div class="progress-group-prepend"><span class="text-body-secondary small">Perşembe</span></div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-info" role="progressbar" style="width: 43%" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 91%" aria-valuenow="91" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group mb-4">
+										<div class="progress-group-prepend"><span class="text-body-secondary small">Cuma</span></div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-info" role="progressbar" style="width: 22%" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 73%" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group mb-4">
+										<div class="progress-group-prepend"><span class="text-body-secondary small">Cumartesi</span></div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-info" role="progressbar" style="width: 53%" aria-valuenow="53" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group mb-4">
+										<div class="progress-group-prepend"><span class="text-body-secondary small">Pazar</span></div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-info" role="progressbar" style="width: 9%" aria-valuenow="9" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-danger" role="progressbar" style="width: 69%" aria-valuenow="69" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-6">
+											<div class="border-start border-start-4 border-start-warning px-3 mb-3">
+												<div class="small text-body-secondary text-truncate">Toplam Ders İzleme</div>
+												<div class="fs-5 fw-semibold">45,678</div>
+											</div>
+										</div>
+										<div class="col-6">
+											<div class="border-start border-start-4 border-start-success px-3 mb-3">
+												<div class="small text-body-secondary text-truncate">Tamamlanan Ödevler</div>
+												<div class="fs-5 fw-semibold">23,456</div>
+											</div>
+										</div>
+									</div>
+									<hr class="mt-0">
+									<div class="progress-group">
+										<div class="progress-group-header">
+											<svg class="icon icon-lg me-2">
+												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-education"></use>
+											</svg>
+											<div>Ders İzleme Oranı</div>
+											<div class="ms-auto fw-semibold">75%</div>
+										</div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group mb-5">
+										<div class="progress-group-header">
+											<svg class="icon icon-lg me-2">
+												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-task"></use>
+											</svg>
+											<div>Ödev Tamamlama Oranı</div>
+											<div class="ms-auto fw-semibold">68%</div>
+										</div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-warning" role="progressbar" style="width: 68%" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group">
+										<div class="progress-group-header">
+											<svg class="icon icon-lg me-2">
+												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-star"></use>
+											</svg>
+											<div>Sınav Başarı Oranı</div>
+											<div class="ms-auto fw-semibold">82%</div>
+										</div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-success" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+									<div class="progress-group">
+										<div class="progress-group-header">
+											<svg class="icon icon-lg me-2">
+												<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-people"></use>
+											</svg>
+											<div>Forum Katılım Oranı</div>
+											<div class="ms-auto fw-semibold">45%</div>
+										</div>
+										<div class="progress-group-bars">
+											<div class="progress progress-thin">
+												<div class="progress-bar bg-success" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Giriş İstatistikleri -->
+				<div class="card mb-4">
+					<div class="card-header">
+						<div class="d-flex justify-content-between">
+							<h5 class="card-title mb-0">Giriş İstatistikleri</h5>
+							<div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar buton">
+								<div class="btn-group btn-group-toggle mx-3" data-coreui-toggle="buttons">
+									<input class="btn-check" id="loginOption1" type="radio" name="loginOptions" autocomplete="off">
+									<label class="btn btn-outline-secondary"> Gün</label>
+									<input class="btn-check" id="loginOption2" type="radio" name="loginOptions" autocomplete="off" checked="">
+									<label class="btn btn-outline-secondary active"> Hafta</label>
+									<input class="btn-check" id="loginOption3" type="radio" name="loginOptions" autocomplete="off">
+									<label class="btn btn-outline-secondary"> Ay</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="c-chart-wrapper" style="height: 300px;">
+							<canvas class="chart" id="login-statistics-chart" height="300"></canvas>
+						</div>
+
+						<div class="row mt-4">
+							<div class="col-md-4">
+								<div class="border-start border-start-4 border-start-primary px-3 mb-3">
+									<div class="text-body-secondary text-truncate">Admin Girişleri</div>
+									<div class="fs-5 fw-semibold">156</div>
+									<div class="small text-success">
+										<svg class="icon">
+											<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-arrow-top"></use>
+										</svg>
+										+12% geçen haftaya göre
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="border-start border-start-4 border-start-info px-3 mb-3">
+									<div class="text-body-secondary text-truncate">Eğitmen Girişleri</div>
+									<div class="fs-5 fw-semibold">234</div>
+									<div class="small text-success">
+										<svg class="icon">
+											<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-arrow-top"></use>
+										</svg>
+										+8% geçen haftaya göre
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="border-start border-start-4 border-start-success px-3 mb-3">
+									<div class="text-body-secondary text-truncate">Öğrenci Girişleri</div>
+									<div class="fs-5 fw-semibold">1,234</div>
+									<div class="small text-success">
+										<svg class="icon">
+											<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-arrow-top"></use>
+										</svg>
+										+15% geçen haftaya göre
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Sistem Uyarıları ve Bildirimler -->
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title mb-0">Sistem Uyarıları ve Bildirimler</h5>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-hover">
+								<thead>
+								<tr>
+									<th>Tarih</th>
+									<th>Tip</th>
+									<th>Mesaj</th>
+									<th>Durum</th>
+									<th>İşlem</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<td>20-03-2024</td>
+									<td><span class="badge bg-danger">Kritik</span></td>
+									<td>Sunucu yükü yüksek</td>
+									<td><span class="badge bg-warning">İşleniyor</span></td>
+									<td>
+										<button class="btn btn-sm btn-primary">İncele</button>
+									</td>
+								</tr>
+								<tr>
+									<td>19-03-2024</td>
+									<td><span class="badge bg-warning">Uyarı</span></td>
+									<td>Yedekleme gecikmesi</td>
+									<td><span class="badge bg-success">Tamamlandı</span></td>
+									<td>
+										<button class="btn btn-sm btn-primary">Detay</button>
+									</td>
+								</tr>
+								<tr>
+									<td>18-03-2024</td>
+									<td><span class="badge bg-info">Bilgi</span></td>
+									<td>Yeni güncelleme mevcut</td>
+									<td><span class="badge bg-warning">Beklemede</span></td>
+									<td>
+										<button class="btn btn-sm btn-primary">Güncelle</button>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<!-- Teknik Destek Talepleri -->
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title mb-0">Teknik Destek Talepleri</h5>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>Tarih</th>
+										<th>Öğrenci</th>
+										<th>Konu</th>
+										<th>Durum</th>
+										<th>İşlem</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>20-03-2024</td>
+										<td>Ahmet Yılmaz</td>
+										<td>Kurulum Sorunu</td>
+										<td><span class="badge bg-warning">Beklemede</span></td>
+										<td>
+											<button class="btn btn-sm btn-primary">Yanıtla</button>
+										</td>
+									</tr>
+									<tr>
+										<td>19-03-2024</td>
+										<td>Ayşe Demir</td>
+										<td>Video Erişim</td>
+										<td><span class="badge bg-info">İnceleniyor</span></td>
+										<td>
+											<button class="btn btn-sm btn-primary">Görüş</button>
+										</td>
+									</tr>
+									<tr>
+										<td>18-03-2024</td>
+										<td>Mehmet Kaya</td>
+										<td>Ödev Teslimi</td>
+										<td><span class="badge bg-success">Tamamlandı</span></td>
+										<td>
+											<button class="btn btn-sm btn-primary">Detay</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<!-- JavaScript -->
+	<!-- CoreUI JS -->
+	<script src="~/js/coreui.bundle.min.js"></script>
+	<script src="~/js/simplebar.min.js"></script>
+	<script src="~/js/chart.umd.js"></script>
+	<script src="~/js/coreui-chartjs.js"></script>
+	<script src="~/js/index.js"></script>
+	<script src="~/js/main.js"></script>
+
+	<script>
+		// Giriş İstatistikleri Grafiği
+		const loginChart = new Chart(document.getElementById('login-statistics-chart'), {
+			type: 'line',
+			data: {
+				labels: ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'],
+				datasets: [
+					{
+						label: 'Admin Girişleri',
+						data: [25, 30, 28, 35, 40, 32, 28],
+						borderColor: '#4e73df',
+						backgroundColor: 'rgba(78, 115, 223, 0.1)',
+						tension: 0.3
+					},
+					{
+						label: 'Eğitmen Girişleri',
+						data: [45, 50, 48, 55, 60, 52, 48],
+						borderColor: '#36b9cc',
+						backgroundColor: 'rgba(54, 185, 204, 0.1)',
+						tension: 0.3
+					},
+					{
+						label: 'Öğrenci Girişleri',
+						data: [150, 180, 170, 190, 200, 175, 165],
+						borderColor: '#1cc88a',
+						backgroundColor: 'rgba(28, 200, 138, 0.1)',
+						tension: 0.3
+					}
+				]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				plugins: {
+					legend: {
+						position: 'top',
+					},
+					title: {
+						display: true,
+						text: 'Haftalık Giriş İstatistikleri'
+					}
+				},
+				scales: {
+					y: {
+						beginAtZero: true,
+						title: {
+							display: true,
+							text: 'Giriş Sayısı'
+						}
+					},
+					x: {
+						title: {
+							display: true,
+							text: 'Günler'
+						}
+					}
+				}
+			}
+		});
+	</script>
+
+
+
+</body>
+</html>

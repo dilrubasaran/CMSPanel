@@ -7,7 +7,7 @@ namespace identity_singup.Areas.Instructor.Controllers
     [Authorize(Roles = "instructor")] 
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Dashboard()
         {
             return View();
         }
