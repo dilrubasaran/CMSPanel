@@ -8,12 +8,14 @@ using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using identity_signup.Areas.Instructor.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using identity_signup.Attribute;
 
 
 namespace identity_signup.Areas.Instructor.Controllers
 {
     [Area("Instructor")]
     [Authorize(Roles = "instructor,admin")]
+    [PhoneNumber]
     public class EduController : Controller
     {
         private readonly IEducationServices _educationService;

@@ -115,6 +115,13 @@ namespace identity_signup.Controllers
             await _signInManager.SignOutAsync();
             await _signInManager.SignInAsync(currentUser, true);
 
+            var claims = new List<Claim>
+            {
+                new Claim("PhoneNumber", currentUser.PhoneNumber ?? "")
+            };
+            await _signInManager.SignOutAsync();
+            await _signInManager.SignInWithClaimsAsync(currentUser, isPersistent: true, claims);
+
             TempData["SuccessMessage"] = "Üye bilgileri başarıyla değiştirilmiştir";
 
             var userEditViewModel = new UserEditViewModel()

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Security.Claims;
 using identity_signup.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using identity_singup.Models;
@@ -26,10 +27,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+
 
     public IActionResult SignUp()
     {
@@ -68,33 +66,48 @@ public class HomeController : Controller
     {
         return View();
     }
-     
+
     [HttpPost]
+
     public async Task<IActionResult> SignIn(SignInViewModel model)
     {
         if (!ModelState.IsValid)
+            return View(model);
+
+        var user = await _userManager.FindByNameAsync(model.UserName);
+
+        if (user == null)
         {
+            ModelState.AddModelError(string.Empty, "Sistemde kayıtlı kullanıcı bulunamadı, önce kayıt olmalısınız");
             return View(model);
         }
 
-        var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, true);
-
+        var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, true);
         if (result.Succeeded)
         {
+            var claims = new List<Claim>();
+
+            if (!string.IsNullOrEmpty(user.PhoneNumber))
+            {
+                claims.Add(new Claim("PhoneNumber", user.PhoneNumber));
+            }
+
+            await _signInManager.SignInWithClaimsAsync(user, model.RememberMe, claims);
+
             return RedirectToAction("Index", "Home");
         }
-        else if (result.IsNotAllowed)
+
+
+        if (result.IsNotAllowed)
         {
-            ModelState.AddModelError("", "Hesabınız pasif durumdadır. Lütfen yönetici ile iletişime geçin.");
+            ModelState.AddModelError(string.Empty, "Hesabınız pasif durumdadır. Lütfen yönetici ile iletişime geçin.");
             return View(model);
         }
+
 
         ModelState.AddModelError(string.Empty, "Kullanıcı adı veya şifre yanlış");
         return View(model);
     }
-     
-
-
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

@@ -7,11 +7,13 @@ using identity_singup.Areas.Admin.ViewModels;
 using identity_singup.Models;
 using System.Collections.Generic;
 using identity_signup.Areas.Instructor.Services;
+using identity_signup.Attribute;
 
 namespace identity_singup.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "admin")]
+    [PhoneNumber]
     public class PermissionController : Controller
     {
         private readonly IPermissionRequestService _permissionService;
