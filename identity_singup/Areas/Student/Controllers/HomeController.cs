@@ -7,7 +7,7 @@ namespace identity_singup.Areas.Student.Controllers
     [Area("Student")]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Dashboard()
         {
             return View();
         }

@@ -22,78 +22,77 @@
 
 
 
-<div class="sidebar position-fixed top-0 start-0 vh-100 d-flex flex-column text-white @sidebarClass" style="width: 250px;">
+<div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar" @sidebarClass >
+	<div class="sidebar-header border-bottom">
+		<div class="sidebar-brand  ">
+			<h5 class=" align-content-center pt-2">
+			
+				@(
+				userRole switch
+				{
+					"admin" => "Yönetim Paneli",
+					"instructor" => "Eğitmen Paneli",
+					"student" => "Öğrenci Paneli",
+					"Root Admin" => "Root Admin Paneli",
+					_ => "Panel"
+				}
+				)
+			</h5>
+
+		</div>
+
+	</div>
 	
-	<div class="sidebar-header p-3 border-bottom">
-		<h5 class="mb-0">
-			@(
-			userRole switch
-			{
-				"admin" => "Yönetim Paneli",
-				"instructor" => "Eğitmen Paneli",
-				"student" => "Öğrenci Paneli",
-				"Root Admin" => "Root Admin Paneli",
-				_ => "Panel"
-			}
-			)
-		</h5>
-	</div>
-	<div class="sidebar-container @userRole-sidebar">
-		<h5 class="mx-1 my-3 p-2 text-white">
-			@(userRole switch
-			{
-				"admin" => "Yönetim Paneli",
-				"instructor" => "Eğitmen Paneli",
-				"student" => "Öğrenci Paneli",
-				"Root Admin" => "Root Admin Paneli",
-				_ => "Panel"
-			})
-		</h5>
-	</div>
 
 
     <div class="flex-grow-1 overflow-auto">
-        <ul class="nav flex-column">
-            @foreach (var item in Model)
-            {
-                if (item.SubMenuItems.Any())
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-white-50 position-relative py-3 px-3 @(item.IsSelected ? "active bg-primary" : "")"
-                           data-bs-toggle="collapse" href="#@item.Name.Replace(" ", "")" role="button">
-                            <i class="@item.Icon me-2"></i> @item.Name
-                            <i class="bi bi-chevron-down position-absolute end-0 me-3 transition-transform"></i>
-                        </a>
-                        <div class="collapse @(item.IsSelected || item.SubMenuItems.Any(sm => sm.IsSelected) ? "show" : "")" id="@item.Name.Replace(" ", "")">
-                            <ul class="nav flex-column ms-3">
-                                @foreach (var subItem in item.SubMenuItems)
-                                {
-                                    <li class="nav-item">
-                                        <a class="nav-link text-white-50 py-3 px-3 @(subItem.IsSelected ? "active bg-primary" : "")" href="@_menuService.GetMenuUrl(subItem)">
-                                            <i class="@subItem.Icon me-2"></i> @subItem.Name
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-white-50 py-3 px-3 @(item.IsSelected ? "active bg-primary" : "")" href="@_menuService.GetMenuUrl(item)">
-                            <i class="@item.Icon me-2"></i> @item.Name
-                        </a>
-                    </li>
-                }
-            }
-        </ul>
+	    <ul class="sidebar-nav" data-coreui="navigation" data-simplebar>
+			 @* //Ana Menü (Model) *@
+		    @foreach (var item in Model)
+		    {
+
+				//	Eğer alt menü varsa, menü grubu (nav-group) oluşturulur ve içeriği aç/kapat mekaniği eklenir.
+			    if (item.SubMenuItems.Any())
+			    {
+				    <li class="nav-item ">
+					    <a class="nav-link  text-white-50 position-relative py-3 px-3 @(item.IsSelected ? "active bg-primary" : "")"
+					       data-bs-toggle="collapse" href="#@item.Name.Replace(" ", "")" role="button">
+						    <i class="nav-icon  @item.Icon"></i> @item.Name
+						    <i class="bi bi-chevron-down position-absolute end-0 me-3 transition-transform"></i>
+					    </a>
+					    <div class="collapse @(item.IsSelected || item.SubMenuItems.Any(sm => sm.IsSelected) ? "show" : "")" id="@item.Name.Replace(" ", "")">
+						    <ul class="nav-item">
+
+							    @* //Ana menünün içindeki alt menü öğeleri burada işlenir. *@
+							    @foreach (var subItem in item.SubMenuItems)
+							    {
+								    <li class="nav-item">
+									    <a class="nav-link text-white-50 py-3 px-3 @(subItem.IsSelected ? "active bg-primary" : "")" href="@_menuService.GetMenuUrl(subItem)">
+										    <i class="nav-icon @subItem.Icon"></i> @subItem.Name
+									    </a>
+								    </li>
+							    }
+						    </ul>
+					    </div>
+				    </li>
+			    }
+			    else
+			    {
+					//Eğer alt menü yoksa, direkt menü öğesi oluşturulur.
+					<li class="nav-item">
+					    <a class="nav-link  @(item.IsSelected ? "active bg-primary" : "")" href="@_menuService.GetMenuUrl(item)">
+						    <i class="nav-icon @item.Icon "></i> @item.Name
+					    </a>
+				    </li>
+			    }
+		    }
+	    </ul>
     </div>
 	
 	
 	<div class="sidebar-footer p-3 border-top border-light-subtle mt-auto">
         <div class="btn-group dropup w-100">
-            <a class="btn btn-danger w-100" asp-controller="Member" asp-action="Logout">
+			<a class="btn btn-danger w-100" asp-area="" asp-controller="Member" asp-action="Logout">
                 <i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap
             </a>
 
