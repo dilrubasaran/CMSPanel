@@ -1,4 +1,4 @@
-namespace identity_signup.Areas.Admin.Models
+namespace identity_signup.Areas.Admin.ViewModels
 {
     public class AssignRoleToUserViewModel
     {

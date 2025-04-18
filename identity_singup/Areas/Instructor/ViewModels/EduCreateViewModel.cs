@@ -9,7 +9,6 @@ namespace identity_signup.Areas.Instructor.ViewModels
         [Display(Name = "Eğitim Adı")]
         public string EduName { get; set; }
 
-        [Required(ErrorMessage = "Eğitimci adı zorunludur.")]
         [Display(Name = "Eğitimci Adı")]
         public string CreatedBy {get; set;}
 
@@ -21,10 +20,12 @@ namespace identity_signup.Areas.Instructor.ViewModels
         public EduType EduType { get; set; }
 
         [Required(ErrorMessage = "Eğitim süresi zorunludur.")]
+        [RegularExpression(@"^\d+\s(?:Saat|Hafta)$", ErrorMessage = "Geçerli bir eğitim süresi girin. Örn: '2 Saat' veya '4 Hafta'")]
         [Display(Name = "Eğitim Süresi")]
         public string EduDuration { get; set; }
 
         [Required(ErrorMessage = "Fiyat zorunludur.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Fiyat 0'dan büyük olmalıdır.")]
         [Display(Name = "Fiyat")]
         public decimal EduPrice { get; set; }
     }

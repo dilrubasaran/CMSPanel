@@ -12,30 +12,30 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="mb-3">
-                <label asp-for="Name" class="form-label">Menü Adı</label>
+                <label asp-for="Name" class="form-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Icon" class="form-label">İcon</label>
+                <label asp-for="Icon" class="form-label"></label>
                 <input asp-for="Icon" class="form-control" />
                 <span asp-validation-for="Icon" class="text-danger"></span>
                 <small class="text-muted">Örnek: bi bi-house</small>
             </div>
             <div class="mb-3">
-	            <label asp-for="AreaName" class="form-label">Area Name</label>
+	            <label asp-for="AreaName" class="form-label"></label>
 	            <input asp-for="AreaName" class="form-control" />
             </div>
 
             <div class="mb-3">
-                <label asp-for="ControllerName" class="form-label">Controller Name</label>
+                <label asp-for="ControllerName" class="form-label"></label>
                 <input asp-for="ControllerName" class="form-control" />
                 <span asp-validation-for="ControllerName" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="ActionName" class="form-label">Action Name</label>
+                <label asp-for="ActionName" class="form-label"></label>
                 <input asp-for="ActionName" class="form-control" />
                 <span asp-validation-for="ActionName" class="text-danger"></span>
             </div>
@@ -49,7 +49,7 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="Role" class="form-label">Rol</label>
+                <label asp-for="Role" class="form-label"></label>
                 <select asp-for="Role" class="form-select" asp-items="@(new SelectList(Model.Roles))">
 	                <option value=""> Role seçin </option>
                    
@@ -58,7 +58,7 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="SortNumber" class="form-label">Sıra No</label>
+                <label asp-for="SortNumber" class="form-label"></label>
                 <input asp-for="SortNumber" class="form-control" type="number" />
             </div>
 

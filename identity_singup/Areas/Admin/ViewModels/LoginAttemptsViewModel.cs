@@ -1,5 +1,6 @@
 using identity_singup.Models;
 
+//data annation gerekli deðil tabloda göstermek için kullanýlýyor 
 public class LoginAttemptsViewModel
 {
     public List<LoginAudit> LoginAttempts { get; set; }

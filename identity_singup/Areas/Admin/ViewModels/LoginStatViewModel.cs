@@ -1,4 +1,6 @@
 
+//data annation gerekli değil tabloda göstermek için kullanılıyor 
+
 // Tekil istatistik verilerini temsil eder
 public class LoginStatViewModel
 {

@@ -1,6 +1,7 @@
 ﻿namespace identity_signup.ViewModels
 {
-        public class UserViewModel
+    //data annation gerekli değil tabloda göstermek için kullanılıyor 
+    public class UserViewModel
         {
             public string UserName { get; set; }
             public string Email { get; set; }

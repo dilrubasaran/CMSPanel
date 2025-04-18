@@ -3,6 +3,7 @@ using identity_signup.Areas.Instructor.Models;
 
 namespace identity_signup.Areas.Instructor.ViewModels
 {
+    //data annation gerekli deðil card yapýsýnda  göstermek için kullanýlýyor 
     public class EduListViewModel
     {
         public int Id { get; set; }
