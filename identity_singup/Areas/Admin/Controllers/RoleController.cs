@@ -59,6 +59,7 @@ namespace identity_signup.Areas
             if (currentUser == null)
                 return Unauthorized();
 
+
             // Root Admin kontrolü
             if (!await _roleService.IsRootAdmin(currentUser))
             {
@@ -86,7 +87,8 @@ namespace identity_signup.Areas
 
             if (roleToUpdate == null)
             {
-                throw new Exception("Güncellenecek rol bulunamamıştır.");
+                TempData["ErrorMessage"] = "Güncellenecek rol bulunamadı.";
+                return RedirectToAction(nameof(Index));
             }
 
 
@@ -102,17 +104,23 @@ namespace identity_signup.Areas
 
             if (roleToUpdate == null)
             {
-                throw new Exception("Güncellenecek rol bulunamamıştır.");
+                ModelState.AddModelError(string.Empty, "Güncellenecek rol bulunamadı.");
+                return View(request);
             }
 
             roleToUpdate.Name = request.Name;
 
-            await _roleManager.UpdateAsync(roleToUpdate);
+           var result = await _roleManager.UpdateAsync(roleToUpdate);
 
 
-            ViewData["SuccessMessage"] = "Rol bilgisi güncellenmiştir";
+            if (!result.Succeeded)
+    {
+        ModelState.AddModelErrorList(result.Errors);
+        return View(request);
+    }
 
-            return View();
+    TempData["SuccessMessage"] = "Rol bilgisi güncellenmiştir.";
+    return RedirectToAction(nameof(Index));
         }
 
       
@@ -122,21 +130,20 @@ namespace identity_signup.Areas
 
             if (roleToDelete == null)
             {
-                throw new Exception("Silinecek rol bulunamamıştır.");
+                TempData["ErrorMessage"] = "Silinecek rol bulunamamıştır.";
+                return RedirectToAction(nameof(Index));
             }
 
             var result = await _roleManager.DeleteAsync(roleToDelete);
 
             if (!result.Succeeded)
             {
-                throw new Exception(result.Errors.Select(x => x.Description).First());
+                TempData["ErrorMessage"] = result.Errors.First().Description;
+                return RedirectToAction(nameof(Index));
             }
 
             TempData["SuccessMessage"] = "Rol silinmiştir";
             return RedirectToAction(nameof(RoleController.Index));
-
-
-
 
         }
 

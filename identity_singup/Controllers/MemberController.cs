@@ -28,9 +28,6 @@ namespace identity_signup.Controllers
 
         public async Task<IActionResult> Index()
         {
-
-
-
             var currentUser = (await _userManager.FindByNameAsync(User.Identity!.Name!))!;
 
             var userViewModel = new UserViewModel
@@ -65,8 +62,6 @@ namespace identity_signup.Controllers
                 BirthDate = currentUser.BirthDate,
                 City = currentUser.City,
                 Gender = currentUser.Gender,
-
-
             };
             return View(userEditViewModel);
         }
@@ -76,12 +71,25 @@ namespace identity_signup.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(request);
             }
 
             var currentUser = await _userManager.FindByNameAsync(User.Identity!.Name!);
 
-           
+            // Değişiklik var mı kontrolü
+            bool isChanged =
+                currentUser.Email != request.Email ||
+                currentUser.PhoneNumber != request.Phone ||
+                currentUser.BirthDate != request.BirthDate ||
+                currentUser.City != request.City ||
+                currentUser.Gender != request.Gender;
+
+            if (!isChanged)
+            {
+                TempData["InfoMessage"] = "Herhangi bir değişiklik yapılmadı.";
+                return View(request);
+            }
+
             currentUser.Email = request.Email;
             currentUser.PhoneNumber = request.Phone;
             currentUser.BirthDate = request.BirthDate;
