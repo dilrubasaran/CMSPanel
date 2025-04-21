@@ -36,194 +36,132 @@
      <script src="js/config.js"></script>
      <script src="js/color-modes.js"></script>
      <style>
-	     body, .main-container {
+	     body {
 		     padding-top: 0 !important;
 		     margin-top: 0 !important;
 	     }
 
+        .navbar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: @(User.Identity.IsAuthenticated ? "250px" : "0");
+            z-index: 1030;
+            background-color: #fff !important;
+            height: 70px;
+            padding: 0.8rem 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            transition: left 0.3s ease;
+        }
+
         .page-container {
 		      display: flex;
-		      margin-top: 56px;
-		      min-height: calc(100vh - 56px);
+		      margin-top: 70px;
+		      min-height: calc(100vh - 70px);
 	      }
 
 	     .main-content {
 		     flex: 1;
-		     margin-left: 250px;
+		     margin-left: @(User.Identity.IsAuthenticated ? "250px" : "0");
 		     padding: 20px;
-		     width: calc(100% - 250px);
+		     width: @(User.Identity.IsAuthenticated ? "calc(100% - 250px)" : "100%");
 		     transition: margin-left 0.3s ease, width 0.3s ease;
+		     margin-top: 70px;
 	     }
 
-	     .main-content-full {
-		     margin-left: 0;
-		     width: 100%;
-	     }
+        .main-content-full {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .navbar-brand {
+            color: #3c4b64 !important;
+            font-weight: 600;
+            margin-right: 2rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-link {
+            color: #3c4b64 !important;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-nav .nav-item {
+            padding: 0 15px;
+        }
+
+        .breadcrumb {
+            margin: 1rem 0;
+            background: transparent;
+        }
+
+        @@media (max-width: 768px) {
+            .navbar {
+                left: 0;
+            }
+
+            #sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            #sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
      </style>
 
 </head>
 <body>
-
-	<header class="header header-sticky p-0 mb-4">
-		<div class="container-fluid border-bottom px-4">
-			<button class="header-toggler" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()" style="margin-inline-start: -14px;">
-				<svg class="icon icon-lg">
-					<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-menu"></use>
-				</svg>
-			</button>
-
-			@* // Todo: sayfa url  *@
-			<ul class="header-nav d-none d-lg-flex">
-				<li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Kullanıcı</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Ayarlar</a></li>
-			</ul>
-			<ul class="header-nav ms-auto">
-				<li class="nav-item">
-					<a class="nav-link" href="#">
-						<svg class="icon icon-lg">
-							<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-bell"></use>
-						</svg>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">
-						<svg class="icon icon-lg">
-							<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-list-rich"></use>
-						</svg>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">
-						<svg class="icon icon-lg">
-							<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-envelope-open"></use>
-						</svg>
-					</a>
-				</li>
-			</ul>
-			<ul class="header-nav">
-				<li class="nav-item py-1">
-					<div class="vr h-100 mx-2 text-body text-opacity-75"></div>
-				</li>
-				<li class="nav-item dropdown">
-					<button class="btn btn-link nav-link py-2 px-2 d-flex align-items-center" type="button" aria-expanded="false" data-coreui-toggle="dropdown">
-						<svg class="icon icon-lg theme-icon-active">
-							<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-sun"></use>
-						</svg>
-					</button>
-					<ul class="dropdown-menu dropdown-menu-end" style="--cui-dropdown-min-width: 8rem;">
-						<li>
-							<button class="dropdown-item d-flex align-items-center" type="button" data-coreui-theme-value="light">
-								<svg class="icon icon-lg me-3">
-									<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-sun"></use>
-								</svg><font style="vertical-align: inherit;">
-									<font style="vertical-align: inherit;">
-										Açık
-									</font>
-								</font>
-							</button>
-						</li>
-						<li>
-							<button class="dropdown-item d-flex align-items-center" type="button" data-coreui-theme-value="dark">
-								<svg class="icon icon-lg me-3">
-									<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-moon"></use>
-								</svg><font style="vertical-align: inherit;">
-									<font style="vertical-align: inherit;">
-										Koyu
-									</font>
-								</font>
-							</button>
-						</li>
-						<li>
-							<button class="dropdown-item d-flex align-items-center active" type="button" data-coreui-theme-value="auto">
-								<svg class="icon icon-lg me-3">
-									<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-contrast"></use>
-								</svg><font style="vertical-align: inherit;">
-									<font style="vertical-align: inherit;">
-										Otomatik
-									</font>
-								</font>
-							</button>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item py-1">
-					<div class="vr h-100 mx-2 text-body text-opacity-75"></div>
-				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link py-0 pe-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-						<div class="avatar avatar-md">
-							<img class="avatar-img" src="@Url.Content("~/assets/img/avatars/1.jpg")" alt="user@email.com">
-						</div>
-					</a>
-					<div class="dropdown-menu dropdown-menu-end pt-0">
-						<div class="dropdown-header bg-body-tertiary text-body-secondary fw-semibold rounded-top mb-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hesap</font></font></div><a class="dropdown-item" href="#">
-							<svg class="icon me-2">
-								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-bell"></use>
-							</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Güncellemeler</font></font><span class="badge badge-sm bg-info ms-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">42</font></font></span>
-						</a><a class="dropdown-item" href="#">
-							<svg class="icon me-2">
-								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-envelope-open"></use>
-							</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mesajlar</font></font><span class="badge badge-sm bg-success ms-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">42</font></font></span>
-						</a><a class="dropdown-item" href="#">
-							<svg class="icon me-2">
-								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-task"></use>
-							</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Görevler</font></font><span class="badge badge-sm bg-danger ms-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">42</font></font></span>
-						</a><a class="dropdown-item" href="#">
-							<svg class="icon me-2">
-								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-comment-square"></use>
-							</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Yorumlar</font></font><span class="badge badge-sm bg-warning ms-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">42</font></font></span>
-						</a>
-						<div class="dropdown-header bg-body-tertiary text-body-secondary fw-semibold my-2">
-							<div class="fw-semibold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ayarlar</font></font></div>
-						</div><a class="dropdown-item" href="#">
-							<svg class="icon me-2">
-								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-user"></use>
-							</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Profil</font></font>
-						</a><a class="dropdown-item" href="#">
-							<svg class="icon me-2">
-								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-settings"></use>
-							</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ayarlar</font></font>
-						</a><a class="dropdown-item" href="#">
-							<svg class="icon me-2">
-								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-credit-card"></use>
-							</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ödemeler</font></font><span class="badge badge-sm bg-secondary ms-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">42</font></font></span>
-						</a><a class="dropdown-item" href="#">
-							<svg class="icon me-2">
-								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-file"></use>
-							</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Projeler</font></font><span class="badge badge-sm bg-primary ms-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">42</font></font></span>
-						</a>
-						<div class="dropdown-divider"></div><a class="dropdown-item" href="#">
-							<svg class="icon me-2">
-								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-lock-locked"></use>
-							</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hesabı Kilitle</font></font>
-						</a><a class="dropdown-item" href="#">
-							<svg class="icon me-2">
-								<use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-account-logout"></use>
-							</svg><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Çıkış Yap</font></font>
-						</a>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<div class="container-fluid px-4">
-			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb my-0">
-					<li class="breadcrumb-item">
-						<a href="#">Ana Sayfa</a>
-					</li>
-					<li class="breadcrumb-item active">
-						<span>Dashboard</span>
-					</li>
-				</ol>
-			</nav>
-		</div>
-	</header>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow">
+            <div class="container-fluid">
+                <button class="header-toggler" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
+                    <svg class="icon icon-lg">
+                        <use xlink:href="@Url.Content("~/assets/icons/free.svg")#cil-menu"></use>
+                    </svg>
+                </button>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                    <ul class="navbar-nav header-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-bell"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-list"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-envelope"></i>
+                            </a>
+                        </li>
+                        @await Html.PartialAsync("_NavbarLogin")
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
 <div class="page-container">
 	@if (User.Identity.IsAuthenticated)
 	{
-		<div id="sidebar" class="bg-light border-end position-fixed h-100 d-none d-md-block" style="width: 250px;">
+		<div id="sidebar" class="bg-light border-end d-none d-md-block">
 			@await Component.InvokeAsync("Sidebar")
 		</div>
 	}
@@ -238,19 +176,13 @@
 		}
 		@RenderBody()
 
-		<footer class="footer text-center px-4 ">
-			<div>
-				<font style="vertical-align: inherit;">
-					<font style="vertical-align: inherit;">CMS Panel  </font>
-				</font>
-				<font style="vertical-align: inherit;">
-				</font><font style="vertical-align: inherit;">
-					<font style="vertical-align: inherit;"> © 2025 </font>
-				</font>
-			</div>
-		</footer>
-	</div>
-</div>
+            <footer class="footer text-center px-4">
+                <div>
+                    <span>CMS Panel © 2025</span>
+                </div>
+            </footer>
+        </div>
+    </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

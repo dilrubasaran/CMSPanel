@@ -94,6 +94,24 @@ public class HomeController : Controller
 
             await _signInManager.SignInWithClaimsAsync(user, model.RememberMe, claims);
 
+            // Kullanıcının rollerini al
+            var roles = await _userManager.GetRolesAsync(user);
+            
+            // Rol bazlı yönlendirme
+            if (roles.Contains("Admin"))
+            {
+                return Redirect("/Admin/Home/Dashboard");
+            }
+            else if (roles.Contains("Instructor"))
+            {
+                return Redirect("/Instructor/Home/Dashboard");
+            }
+            else if (roles.Contains("Student"))
+            {
+                return Redirect("/Student/Home/Dashboard");
+            }
+
+            // Eğer hiçbir rol bulunamazsa ana sayfaya yönlendir
             return RedirectToAction("Index", "Home");
         }
 
