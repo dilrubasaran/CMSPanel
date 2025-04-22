@@ -1,5 +1,6 @@
 ﻿﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+
 @if (User.Identity.IsAuthenticated)
 {
 	<li class="nav-item dropdown">
@@ -7,27 +8,31 @@
 			<i class="bi bi-person-circle me-1"></i>
 			@User.Identity.Name
 		</a>
-		<ul class="dropdown-menu bg-dark text-white" aria-labelledby="navbarDropdown">
+		<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 			<li>
-				<a class="dropdown-item text-white" asp-controller="Member" asp-action="UserEdit">
+				<a class="dropdown-item" asp-controller="Member" asp-action="UserEdit">
 					<i class="bi bi-person-gear me-2"></i>Profil Düzenle
 				</a>
 			</li>
+			<li><hr class="dropdown-divider"></li>
 			<li>
-
-			<li>
-				<a class="dropdown-item text-white" asp-controller="Member" asp-action="LogOut">
+				<a class="dropdown-item text-danger" asp-controller="Member" asp-action="LogOut">
 					<i class="bi bi-box-arrow-right me-2"></i>Çıkış Yap
 				</a>
-
 			</li>
 		</ul>
 	</li>
 }
 else
 {
-	<div class="navbar-nav">
-		<a class="btn btn-outline-success mx-1" asp-controller="Home" asp-action="SignIn">Üye Giriş</a>
-		<a class="btn btn-outline-success" asp-controller="Home" asp-action="SignUp">Üye Kayıt</a>
+	<div class="d-flex gap-2">
+		<a class="btn btn-outline-primary" asp-controller="Home" asp-action="SignIn">
+			<i class="bi bi-box-arrow-in-right me-1"></i>
+			Giriş Yap
+		</a>
+		<a class="btn btn-primary" asp-controller="Home" asp-action="SignUp">
+			<i class="bi bi-person-plus me-1"></i>
+			Kayıt Ol
+		</a>
 	</div>
 }
