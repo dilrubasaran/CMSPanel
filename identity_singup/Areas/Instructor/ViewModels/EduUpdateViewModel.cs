@@ -12,7 +12,7 @@ namespace identity_signup.Areas.Instructor.ViewModels
         public string EduName { get; set; }
 
         [Display(Name = "Açıklama")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required(ErrorMessage = "Eğitim tipi zorunludur.")]
         [Display(Name = "Eğitim Tipi")]

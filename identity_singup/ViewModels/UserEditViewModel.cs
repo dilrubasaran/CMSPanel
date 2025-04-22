@@ -15,7 +15,7 @@ namespace identity_signup.ViewModels
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Telefon Numarası Boş Bırakılamaz!")]
-        [RegularExpression(@"^(\+90|0)?\d{10}$", ErrorMessage = "Geçerli bir telefon numarası girin.")]
+        [RegularExpression(@"^(05\d{9})$", ErrorMessage = "Geçerli bir telefon numarası girin.Örn: 05XX XXX XX XX")]
         [Display(Name = "Telefon Numarası")]
         public string Phone { get; set; }
 

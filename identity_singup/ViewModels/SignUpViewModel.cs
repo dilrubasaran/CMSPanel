@@ -18,7 +18,7 @@ namespace identity_singup.ViewModels
        
         [Required(ErrorMessage = "Telefon alanı boş bırakılamaz.")]
         [Phone(ErrorMessage = "Geçerli bir telefon numarası giriniz.")]
-        [RegularExpression(@"^(05\d{9})$", ErrorMessage = "Geçerli bir telefon numarası giriniz. Örnek: 05XXXXXXXXX")]
+        [RegularExpression(@"^(05\d{9})$", ErrorMessage = "Geçerli bir telefon numarası giriniz. Örn: 05XX XXX XX XX")]
         [Display(Name = "Telefon :")]
         public string Phone { get; set;}
 
