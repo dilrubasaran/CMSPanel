@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.HttpOverrides;
 using identity_signup.Areas.Admin.Services;
 using identity_singup.Areas.Admin.Repositories;
 using identity_singup.Areas.Admin.Data;
+using identity_signup.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +51,8 @@ builder.Services.AddScoped<IEducationServices, EducationService>();
 builder.Services.AddScoped<IPermissionRequestService, PermissionRequestService>();
 builder.Services.AddScoped<SignInManager<AppUser>, CustomSignInManager>();
 
+
+
 // Authorization policy'sini ekle
 builder.Services.AddAuthorization(options =>
 {
@@ -72,6 +77,23 @@ builder.Services.ConfigureApplicationCookie(opt =>
     opt.Cookie = cookieBuilder;
     opt.ExpireTimeSpan = TimeSpan.FromDays(60); // Cookie 60 gün geçerli olacak.
     opt.SlidingExpiration = true; // Kullanıcı aktif oldukça süre uzayacak.
+
+    //todo:  cep telefon claims işlemi kontrol 
+    //
+    // opt.Events.OnValidatePrincipal = async context =>
+    // {
+    //     var userManager = context.HttpContext.RequestServices.GetRequiredService<UserManager<AppUser>>();
+    //     var user = await userManager.GetUserAsync(context.Principal);
+        
+    //     if (user != null && !string.IsNullOrEmpty(user.PhoneNumber))
+    //     {
+    //         var identity = (ClaimsIdentity)context.Principal.Identity;
+    //         if (identity.FindFirst("PhoneNumber") == null)
+    //         {
+    //             identity.AddClaim(new Claim("PhoneNumber", user.PhoneNumber));
+    //         }
+    //     }
+    // };
 });
 
 // Proxy ve forwarded headers ayarları
@@ -91,12 +113,13 @@ builder.Services.AddLogging(logging =>
 });
 
 builder.Services.AddScoped<IRoleService, RoleService>();
-
+builder.Services.AddScoped<UserServices>();
 // Menü ve Claims servislerini kaydet
 builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddScoped<IMenuService, MenuService>();
 builder.Services.AddScoped<IClaimsService, ClaimsService>();
 builder.Services.AddHttpContextAccessor();
+
 
 var app = builder.Build();
 

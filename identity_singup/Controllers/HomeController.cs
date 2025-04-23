@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using identity_singup.Models;
 using identity_singup.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using identity_signup.Services;
+
 
 
 namespace identity_singup.Controllers;
@@ -14,12 +16,18 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
+    private readonly  UserServices _userServices;
 
-    public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+
+
+
+    public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager,
+        SignInManager<AppUser> signInManager, UserServices userServices)
     {
         _logger = logger;
         _userManager = userManager;
         _signInManager = signInManager;
+        _userServices = userServices;
     }
 
     public IActionResult Index()
@@ -42,6 +50,12 @@ public class HomeController : Controller
             return View();
         }
 
+        var validationResult = await _userServices.ValidateUserAsync<SignUpViewModel>(request);
+        if (!validationResult.IsSuccessful)
+        {
+            ModelState.AddModelError(string.Empty, validationResult.ErrorMessages.First());
+            return View(request);
+        }
         var identityResult = await _userManager.CreateAsync(new() 
         { 
             UserName = request.UserName, 
@@ -92,6 +106,10 @@ public class HomeController : Controller
                 claims.Add(new Claim("PhoneNumber", user.PhoneNumber));
             }
 
+            // Önce mevcut claims'leri temizle
+            await _signInManager.SignOutAsync();
+            
+            // Yeni claims'lerle sign in yap
             await _signInManager.SignInWithClaimsAsync(user, model.RememberMe, claims);
 
             // Kullanıcının rollerini al
