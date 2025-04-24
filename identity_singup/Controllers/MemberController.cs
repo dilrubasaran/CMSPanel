@@ -1,7 +1,9 @@
 ﻿using identity_signup.Extensions;
+using identity_signup.Services;
 using identity_signup.ViewModels;
 using identity_singup.Controllers;
 using identity_singup.Models;
+using identity_singup.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,13 +19,15 @@ namespace identity_signup.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IFileProvider _fileProvider;
+        private readonly UserServices _userServices;
 
         public MemberController(ILogger<MemberController> logger, UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager, IFileProvider fileProvider)
+            SignInManager<AppUser> signInManager, IFileProvider fileProvider, UserServices userServices)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _fileProvider = fileProvider;
+            _userServices = userServices;
         }
 
         public async Task<IActionResult> Index()
@@ -75,44 +79,34 @@ namespace identity_signup.Controllers
             }
 
             var currentUser = await _userManager.FindByNameAsync(User.Identity!.Name!);
+            if (currentUser == null)
+            {
+                return View("Error");
+            }
 
-            // Değişiklik var mı kontrolü
-            bool isChanged =
-                currentUser.Email != request.Email ||
-                currentUser.PhoneNumber != request.Phone ||
-                currentUser.BirthDate != request.BirthDate ||
-                currentUser.City != request.City ||
-                currentUser.Gender != request.Gender;
-
-            if (!isChanged)
+            var validationResult = await _userServices.CheckUserProfileUpdateAsync(request, currentUser);
+            
+            if (validationResult.IsSuccessful && !validationResult.Data)
             {
                 TempData["InfoMessage"] = "Herhangi bir değişiklik yapılmadı.";
                 return View(request);
             }
 
+            if (!validationResult.IsSuccessful)
+            {
+                ModelState.AddModelError(string.Empty, validationResult.ErrorMessages.First());
+                return View(request);
+            }
+
+            // Update işlemleri
+            currentUser.UserName = request.UserName;
             currentUser.Email = request.Email;
             currentUser.PhoneNumber = request.Phone;
             currentUser.BirthDate = request.BirthDate;
             currentUser.City = request.City;
             currentUser.Gender = request.Gender;
 
-            //if (request.Picture != null && request.Picture.Length > 0)
-            //{
-            //    var wwwrootFolder = _fileProvider.GetDirectoryContents("wwwroot");
-
-            //    string randomFileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(request.Picture.FileName)}";
-
-            //    var newPicturePath = Path.Combine(wwwrootFolder!.First(x => x.Name == "userpictures").PhysicalPath!, randomFileName);
-
-            //    using var stream = new FileStream(newPicturePath, FileMode.Create);
-
-            //    await request.Picture.CopyToAsync(stream);
-
-            //    currentUser.Picture = randomFileName;
-            //}
-
             var updateToUserResult = await _userManager.UpdateAsync(currentUser);
-
             if (!updateToUserResult.Succeeded)
             {
                 ModelState.AddModelErrorList(updateToUserResult.Errors);
@@ -128,7 +122,7 @@ namespace identity_signup.Controllers
                 new Claim("PhoneNumber", currentUser.PhoneNumber ?? "")
             };
             await _signInManager.SignOutAsync();
-            await _signInManager.SignInWithClaimsAsync(currentUser, isPersistent: true, claims);
+            await _signInManager.SignInWithClaimsAsync(currentUser, true, claims);
 
             TempData["SuccessMessage"] = "Üye bilgileri başarıyla değiştirilmiştir";
 

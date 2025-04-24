@@ -3,6 +3,7 @@ using TS.Result;
 using identity_singup.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using identity_singup.Models;
+using identity_signup.ViewModels;
 
 namespace identity_signup.Services
 {
@@ -19,23 +20,20 @@ namespace identity_signup.Services
         {
             var errors = new List<string>();
 
-            
-            var existingUser = await _userManager.FindByNameAsync(model.UserName);
-            if (existingUser != null)
+            // Kullanıcı adı kontrolü
+            if (await _userManager.FindByNameAsync(model.UserName) != null)
             {
                 errors.Add("Bu kullanıcı adı zaten alınmış.");
             }
 
-         
-            existingUser = await _userManager.FindByEmailAsync(model.Email);
-            if (existingUser != null)
+            // Email kontrolü
+            if (await _userManager.FindByEmailAsync(model.Email) != null)
             {
                 errors.Add("Bu email adresi zaten kullanılıyor.");
             }
 
-          
-            existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == model.Phone);
-            if (existingUser != null)
+            // Telefon kontrolü
+            if (await _userManager.Users.AnyAsync(u => u.PhoneNumber == model.Phone))
             {
                 errors.Add("Bu telefon numarası zaten kayıtlı.");
             }
@@ -46,6 +44,52 @@ namespace identity_signup.Services
             }
 
             return Result<T>.Succeed(successData);
+        }
+
+        public async Task<Result<bool>> CheckUserProfileUpdateAsync(UserEditViewModel request, AppUser currentUser)
+        {
+            var failures = new List<string>();
+
+            // 1. Değişiklik var mı kontrolü
+            bool isChanged =
+                currentUser.UserName != request.UserName ||
+                currentUser.Email != request.Email ||
+                currentUser.PhoneNumber != request.Phone ||
+                currentUser.BirthDate != request.BirthDate ||
+                currentUser.City != request.City ||
+                currentUser.Gender != request.Gender;
+
+            if (!isChanged)
+            {
+                return Result<bool>.Succeed(false); // Değişiklik yok
+            }
+
+            // 2. Uniqueness kontrolleri
+
+            if (currentUser.UserName != request.UserName)
+            {
+                var usernameExists = await _userManager.FindByNameAsync(request.UserName);
+                if (usernameExists != null && usernameExists.Id !=currentUser.Id)
+                {
+                    failures.Add("Bu kullanıcı adı başka bir kullanıcı tarafından kullanılıyor.");
+                }
+            }
+
+            if (currentUser.Email != request.Email)
+            {
+                var emailOwner = await _userManager.FindByEmailAsync(request.Email);
+                if (emailOwner != null && emailOwner.Id != currentUser.Id)
+                    failures.Add("Bu e-posta adresi kullanımda.");
+            }
+
+            if (currentUser.PhoneNumber != request.Phone)
+            {
+                var phoneExists = await _userManager.Users.AnyAsync(u => u.PhoneNumber == request.Phone && u.Id != currentUser.Id);
+                if (phoneExists)
+                    failures.Add("Bu telefon numarası kullanımda.");
+            }
+
+            return failures.Count == 0 ? Result<bool>.Succeed(true) : Result<bool>.Failure(failures);
         }
     }
 }
