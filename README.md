@@ -28,7 +28,6 @@ Bu proje, özellikle **eğitim yönetimi** için geliştirilmiş olup; **Root Ad
 - 📄 Instructor güncelleme talepleri ve form onay süreci
 - 📱 Telefon numarası olmayan kullanıcıların belirli sayfalara erişimini engelleyen filtre yapısı
 - 🔐 Giriş loglarının kaydı
-- 🧪 Katmanlı mimari ve servis bazlı yapı
 - 🗂 Entity Framework ile veritabanı yönetimi
 - 📊 Ortak Dashboard yapısı (CoreUI temasıyla geliştirildi)
 - 🧷 Unobtrusive Validation ile kullanıcı dostu formlar ve anlık uyarılar
