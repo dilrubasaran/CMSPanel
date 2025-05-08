@@ -42,6 +42,13 @@ Bu proje, özellikle **eğitim yönetimi** için geliştirilmiş olup; **Root Ad
 - Yetkisiz bir kullanıcı bu tür işlemleri denediğinde, sistem **“Access Denied”** yanıtı verir ve işlem **loglanır**.
 
 ---
+## 🧾 Identity & Claims Tabanlı Yapı
+
+- ASP.NET Identity altyapısı kullanıldı.
+- Kullanıcılara rol ve ek bilgiler (telefon onayı, aktiflik vb.) claim olarak atandı.
+- Policy-based authorization ile erişim kontrolleri yapıldı (örneğin, sadece telefonu doğrulanmış kullanıcılar bazı sayfalara erişebilir).
+- Gelişmiş kontroller için custom filter’lar ve middleware yapıları kullanıldı.
+---
 
 ## 📊 Loglama ve Güvenlik
 
