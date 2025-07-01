@@ -112,13 +112,12 @@ builder.Services.AddLogging(logging =>
     logging.AddDebug();
 });
 
-builder.Services.AddScoped<IRoleService, RoleService>();
-builder.Services.AddScoped<UserServices>();
-// Menü ve Claims servislerini kaydet
-builder.Services.AddScoped<IMenuRepository, MenuRepository>();
-builder.Services.AddScoped<IMenuService, MenuService>();
-builder.Services.AddScoped<IClaimsService, ClaimsService>();
-builder.Services.AddHttpContextAccessor();
+builder.Services.Scan(scan => scan
+    .FromAssemblyOf<Program>() // veya bir class tipini vererek bulunduğu assembly'yi hedefle
+    .AddClasses()              // tüm sınıfları dahil et
+    .AsMatchingInterface()     // interface ismiyle eşleşeni bul (IUserService vs)
+    .WithScopedLifetime());    // Scoped olarak ekle
+
 
 
 var app = builder.Build();

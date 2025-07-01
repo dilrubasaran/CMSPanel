@@ -19,15 +19,15 @@ namespace identity_signup.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IFileProvider _fileProvider;
-        private readonly UserServices _userServices;
+        private readonly IUserService _userService;
 
         public MemberController(ILogger<MemberController> logger, UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager, IFileProvider fileProvider, UserServices userServices)
+            SignInManager<AppUser> signInManager, IFileProvider fileProvider, IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _fileProvider = fileProvider;
-            _userServices = userServices;
+            _userService = userService;
         }
 
         public async Task<IActionResult> Index()
@@ -84,7 +84,7 @@ namespace identity_signup.Controllers
                 return View("Error");
             }
 
-            var validationResult = await _userServices.CheckUserProfileUpdateAsync(request, currentUser);
+            var validationResult = await _userService.CheckUserProfileUpdateAsync(request, currentUser);
             
             if (validationResult.IsSuccessful && !validationResult.Data)
             {

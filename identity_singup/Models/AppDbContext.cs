@@ -33,6 +33,15 @@ namespace identity_singup.Models
                 .HasOne(m => m.Parent)
                 .WithMany(m => m.Children)
                 .HasForeignKey(m => m.ParentId);
+
+            //Todo: email ve phonenumber db de uniq olması için şuan phonemunber de aynı olanlar migration patlayacağı için yorum satırır
+            //modelBuilder.Entity<AppUser>()
+            //    .HasIndex(u => u.Email)
+            //    .IsUnique();
+
+            //modelBuilder.Entity<AppUser>()
+            //    .HasIndex(u => u.PhoneNumber)
+            //    .IsUnique();
         }
 
     }

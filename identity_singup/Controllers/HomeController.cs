@@ -16,18 +16,18 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
-    private readonly  UserServices _userServices;
+    private readonly  IUserService _userService;
 
 
 
 
     public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager,
-        SignInManager<AppUser> signInManager, UserServices userServices)
+        SignInManager<AppUser> signInManager,IUserService  userService)
     {
         _logger = logger;
         _userManager = userManager;
         _signInManager = signInManager;
-        _userServices = userServices;
+        _userService = userService;
     }
 
     public IActionResult Index()
@@ -50,12 +50,13 @@ public class HomeController : Controller
             return View();
         }
 
-        var validationResult = await _userServices.ValidateUserAsync<SignUpViewModel>(request);
+        var validationResult = await _userService.ValidateUserAsync<SignUpViewModel>(request);
         if (!validationResult.IsSuccessful)
         {
             ModelState.AddModelError(string.Empty, validationResult.ErrorMessages.First());
             return View(request);
         }
+
         var identityResult = await _userManager.CreateAsync(new() 
         { 
             UserName = request.UserName, 
@@ -118,15 +119,15 @@ public class HomeController : Controller
             // Rol bazlı yönlendirme
             if (roles.Contains("Admin"))
             {
-                return Redirect("/Admin/Home/Dashboard");
+                return RedirectToAction("Dashboard", "Home", new { area = "Admin" });
             }
             else if (roles.Contains("Instructor"))
             {
-                return Redirect("/Instructor/Home/Dashboard");
+                return RedirectToAction("Dashboard", "Home", new{area = "Instructor"});
             }
             else if (roles.Contains("Student"))
             {
-                return Redirect("/Student/Home/Dashboard");
+                return RedirectToAction("Dashboard", "Home", new{area = "Student"});
             }
 
             // Eğer hiçbir rol bulunamazsa ana sayfaya yönlendir

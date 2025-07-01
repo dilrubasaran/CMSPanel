@@ -7,11 +7,14 @@ using identity_signup.ViewModels;
 
 namespace identity_signup.Services
 {
-    public class UserServices
+   
+    
+
+    public class UserService : IUserService
     {
         private readonly UserManager<AppUser> _userManager;
 
-        public UserServices(UserManager<AppUser> userManager)
+        public UserService(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
         }
